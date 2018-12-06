@@ -180,10 +180,10 @@ export default {
             date2: '',
             date3: '',
             data: {
-                status: '',
-                mch_order_id: '',
-                sys_order_id: '',
-                pay_type: '',
+                status: null,
+                mch_order_id: null,
+                sys_order_id: null,
+                pay_type: null,
                 user_id: localStorage.id,
                 offset: 0,
                 limit: 5

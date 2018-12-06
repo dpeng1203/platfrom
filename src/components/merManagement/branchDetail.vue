@@ -6,35 +6,35 @@
         <div class="box-wrapper">
             <div class="box">
                 <div class="box-title">今日成功收款（元）</div>
-                <ul><li>1234</li></ul>
+                <ul class="scss"><li>1234</li></ul>
             </div>
             <div class="box">
                 <div class="box-title">今日成功订单量</div>
-                <ul><li>1234</li></ul>
+                <ul class="scss"><li>1234</li></ul>
             </div>
         </div>
         <div class="box-wrapper">
             <div class="box">
                 <div class="box-title">今日未成功收款（元）</div>
-                <ul><li>1234</li></ul>
+                <ul class="fail"><li>1234</li></ul>
             </div>
             <div class="box">
                 <div class="box-title">今日未成功订单量</div>
-                <ul><li>1234</li></ul>
+                <ul class="fail"><li>1234</li></ul>
             </div>
         </div>
         <div class="box-wrapper small-box-wrapper">
             <div class="box small-box">
                 <div class="box-title">总收款（元）</div>
-                <ul><li>1234</li></ul>
+                <ul class="money"><li>1234</li></ul>
             </div>
             <div class="box small-box">
                 <div class="box-title">已出款（元）</div>
-                <ul><li>1234</li></ul>
+                <ul class="money"><li>1234</li></ul>
             </div>
             <div class="box small-box">
                 <div class="box-title">未出款（元）</div>
-                <ul><li>1234</li></ul>
+                <ul class="money"><li>1234</li></ul>
             </div>
         </div>
         <div class="chart-title">每小时交易数</div>
@@ -217,6 +217,11 @@ export default {
                 margin-top: 10px
                 list-style: disc
                 margin-left: 25px
+            .scss
+                color: #3ccd3f
+            .money 
+                color: #1E90FF
+            
     .small-box-wrapper
         margin-left: -10px
         .small-box

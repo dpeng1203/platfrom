@@ -5,7 +5,7 @@ export const login = p => myPost('/login/phone', p);
 //  账户明细
 export const merInfo = p => myGet('/wallet',{params: p})
 //  提现
-export const deposit = p => myPost('/user/settlement/cash', p);
+export const deposit = p => myPost('/cash', p);
 //  今日账单数据
 export const todayNum = p => myGet('/bill/today',{params: p})
 //  账单明细

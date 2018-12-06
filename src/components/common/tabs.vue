@@ -21,7 +21,7 @@
                             <span>账户管理</span>
                         </template>
                         <el-menu-item index="/merList">账户查询</el-menu-item>
-                        <!-- <el-menu-item index="2-2">账户明细</el-menu-item> -->
+                        <el-menu-item index="/merInfo">基本信息</el-menu-item>
                         <el-menu-item index="merCloseInfo">基础信息</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="/billDetail">

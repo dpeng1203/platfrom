@@ -8,7 +8,7 @@ const merList = resolve => require(['../components/merManagement/merList'], reso
 const billDetail = resolve => require(['../components/merManagement/billDetail'], resolve);
 const branchDetail = resolve => require(['../components/merManagement/branchDetail'], resolve);
 const merCloseInfo = resolve => require(['../components/merManagement/merCloseInfo'], resolve);
-
+const merInfo = resolve => require(['../components/merManagement/merInfo'], resolve);
 // 密钥管理
 const keyManage = resolve => require(['../components/keyManage/keyManage'], resolve);
 const resetKey = resolve => require(['../components/keyManage/resetKey'], resolve);
@@ -28,6 +28,7 @@ export default new Router({
         {path: 'branchDetail', name: 'branchDetail', component: branchDetail},
         {path: 'billDetail', name: 'billDetail', component: billDetail},
         {path: 'merCloseInfo', name: 'merCloseInfo', component: merCloseInfo},
+        {path: 'merInfo', name: 'merInfo', component: merInfo},
         //密钥管理
         {path: 'keyManage', name: 'keyManage', component: keyManage},
         {path: 'resetKey', name: 'resetKey', component: resetKey},
