@@ -21,7 +21,7 @@
                             <span>账户管理</span>
                         </template>
                         <el-menu-item index="/home/merList">账户查询</el-menu-item>
-                        <el-menu-item index="/home/merInfo">基本信息</el-menu-item>
+                        <!-- <el-menu-item index="/home/merInfo">基本信息</el-menu-item> -->
                         <el-menu-item index="/home/merCloseInfo">基础信息</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="/home/billDetail">
@@ -35,7 +35,7 @@
                         </template>
                         <el-menu-item index="/home/keyManage">密钥管理</el-menu-item>
                         <el-menu-item index="/home/resetKey">登录密码</el-menu-item>
-                        <el-menu-item index="4-3">交易密码</el-menu-item>
+                        <!-- <el-menu-item index="4-3">交易密码</el-menu-item> -->
                     </el-submenu>
                 </el-menu>
             </el-col>

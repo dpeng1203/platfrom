@@ -43,7 +43,8 @@ export default {
             login(data).then((res) => {
                 localStorage.id = res.data.id
                 localStorage.nickname = res.data.nickname
-                this.$router.push('/merAudit')
+                
+                this.$router.push('/home')
             })
         },
         out() {

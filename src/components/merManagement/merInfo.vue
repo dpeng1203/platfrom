@@ -173,7 +173,6 @@ export default {
 .mer-audit
     color: #3D4060
     padding-top: 50px
-    // padding: 50px 250px 
     background: #eee
     .mer-ct 
         width: 850px
