@@ -9,6 +9,8 @@ const billDetail = resolve => require(['../components/merManagement/billDetail']
 const branchDetail = resolve => require(['../components/merManagement/branchDetail'], resolve);
 const merCloseInfo = resolve => require(['../components/merManagement/merCloseInfo'], resolve);
 const merInfo = resolve => require(['../components/merManagement/merInfo'], resolve);
+const merAudit = resolve => require(['../components/merManagement/merAudit'], resolve);
+
 // 密钥管理
 const keyManage = resolve => require(['../components/keyManage/keyManage'], resolve);
 const resetKey = resolve => require(['../components/keyManage/resetKey'], resolve);
@@ -18,9 +20,9 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
-      redirect: '/branchDetail',
+      redirect: '/home/branchDetail',
       component: home,
       children:[
         //商家管理
@@ -36,9 +38,14 @@ export default new Router({
       ]
     },
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: login
+    },
+    {
+      path: '/merAudit',
+      name: 'merAudit',
+      component: merAudit
     }
   ]
 })

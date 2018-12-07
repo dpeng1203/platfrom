@@ -1,30 +1,32 @@
 <template>
-    <div class="top">
-        <div class="name">
-            <span class="line">-</span>
-            <span>AlianPAY</span>
-            <span class="line">-</span>
-        </div>
-        <div class="head-title">后台管理系统</div>
-        <div class="userInfo">
-            <div class="user-name">{{accound}}</div>
-            <div class="user-code">商户号：<span>{{code}}</span> </div>
-        </div>
-        <div class="btn-wrapper">
-               <span class="btn-out" @click="out">退出</span> 
-        </div>
+    <div>
+        <div class="top">
+            <div class="head-title">AlianPAY后台管理系统</div>
+            <div class="userInfo">
+                <div class="user-name">{{accound}}</div>
+                <div class="user-code">商户号：<span>{{code}}</span> </div>
+            </div>
+            <div class="btn-wrapper">
+                <span class="btn-out" @click="out">退出</span> 
+            </div>
+        </div>  
+        <merInfo />  
     </div>    
 </template>
 
 <script>
 import { loginOut } from '../../config/api'
+import merInfo from './merInfo'
 export default {
-    name: 'top',
+    name: 'merAudit',
     data() {
         return{
             accound: localStorage.nickname,
             code: localStorage.id
         }
+    },
+    components: {
+        merInfo
     },
     methods: {
         out() {
@@ -41,24 +43,15 @@ export default {
             })
         }
     },
-    
 
 }
 </script>
 
+
 <style lang="sass" scoped>
     .top
         display: flex
-        .name
-            width: 286px
-            flex-shrink: 0
-            text-align: center
-            padding: 40px 0 
-            background: #34395D
-            color: #fff
-            font-size: 24px
-            .line
-                color: #F64866
+        background: #34395D
         .head-title
             flex: 1
             color: #7E8196
@@ -93,6 +86,5 @@ export default {
                 font-size: 13px
                 text-align: center
                 margin: 25px 30px 0 10px 
-
 
 </style>

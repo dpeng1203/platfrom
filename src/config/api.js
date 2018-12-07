@@ -33,5 +33,8 @@ export const loginOut = () => myDelete('/own')
 //  重设密码
 export const resetKey = p => myPost('/pwd/forget', p);
 
+//  上传图片
+export const imgUp = p => myPost('/files', p);
+
 
 
