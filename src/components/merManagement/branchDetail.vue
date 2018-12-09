@@ -195,8 +195,8 @@ export default {
     color: #3D4060;
     padding-left: 30px
     .title 
-        font-size: 24px
-        font-weight: bold
+        font-size: 15px
+        // font-weight: bold
     .box-wrapper
         padding-top: 10px
         display: flex
@@ -228,8 +228,8 @@ export default {
             width: 200px
             margin-left: 10px
     .chart-title
-        font-size: 24px
-        font-weight: bold
+        font-size: 15px
+        // font-weight: bold
         padding: 30px 0 10px 0
     .chart-ct
         background: #eee

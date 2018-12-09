@@ -22,7 +22,7 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      // redirect: '/home/branchDetail',
+      redirect: '/home/branchDetail',
       component: home,
       children:[
         //商家管理

@@ -88,48 +88,107 @@
             
             <div class="mer-info">
                 <h2>商户资质</h2>
-                <div class="item">
-                    <span class="name">营业执照</span>
-                    <div class="wrapper">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="http://47.99.180.135:8088/files"
-                            multiple
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
+                <div class="photo-wrapper">
+                    <div class="item">
+                        <span class="name">营业执照</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="name">开户许可证</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="name">手持营业执照</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
                     </div>
                 </div>
-                <div class="item">
-                    <span class="name">负责人身份证（正反面）</span>
-                    <div class="wrapper">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="http://47.99.180.135:8088/files"
-                            multiple
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
+                
+
+                <div class="photo-wrapper">
+                    <div class="item">
+                        <span class="name">身份证（正面）</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="name">身份证（反面）</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="name">手持身份证（正面）</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
                     </div>
                 </div>
-                <div class="item">
-                    <span class="name">其他资质照片</span>
-                    <div class="wrapper">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="http://47.99.180.135:8088/files"
-                            multiple
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
+                <div class="photo-wrapper">
+                    <div class="item">
+                        <span class="name">其他资质照片</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                multiple
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
                     </div>
                 </div>
+                
             </div>
             <div class="btn" @click="save">提交</div>
         </div>
@@ -142,6 +201,7 @@ export default {
     data() {
         return{
             list: {},
+            input10: '',
             textarea3: '',
             imageUrl: '',
         }
@@ -208,41 +268,44 @@ export default {
                         width: 220px
                     .textarea-wrapper
                         margin-top: 10px
+        
         .mer-info
             margin: 30px 0 0 30px
             h2
                 font-size: 18px
                 font-weight: bold
                 margin-bottom: 10px
-            .item 
-                margin-top: 20px
-                font-size: 16px
-                .name
-                    color: #7E8196
-                    display: inline-block
-                .avatar-uploader, .el-upload 
-                    border: 1px dashed #d9d9d9;
-                    margin: 20px 30px 0 0
-                    border-radius: 6px;
-                    cursor: pointer;
-                    position: relative;
-                    overflow: hidden;
-                
-                .avatar-uploader, .el-upload:hover 
-                    border-color: #409EFF;
-                    display: inline-block
-                
-                .avatar-uploader-icon 
-                    font-size: 28px;
-                    color: #8c939d;
-                    width: 186px
-                    height: 120px
-                    line-height: 120px;
-                    text-align: center;
+            .photo-wrapper
+                display: flex
+                .item 
+                    margin-top: 20px
+                    font-size: 16px
+                    .name
+                        color: #7E8196
+                        display: inline-block
+                    .avatar-uploader, .el-upload 
+                        border: 1px dashed #d9d9d9;
+                        margin: 20px 30px 0 0
+                        border-radius: 6px;
+                        cursor: pointer;
+                        position: relative;
+                        overflow: hidden;
                     
-                .avatar 
-                    width: 186px
-                    height: 120px
+                    .avatar-uploader, .el-upload:hover 
+                        border-color: #409EFF;
+                        display: inline-block
+                    
+                    .avatar-uploader-icon 
+                        font-size: 28px;
+                        color: #8c939d;
+                        width: 186px
+                        height: 120px
+                        line-height: 120px;
+                        text-align: center;
+                        
+                    .avatar 
+                        width: 186px
+                        height: 120px
                 
         .btn 
             display: inline-block
