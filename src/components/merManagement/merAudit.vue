@@ -13,41 +13,41 @@
                 </el-steps>
             </div> 
         </div> 
-                
+        <div v-if="state == 2">审核失败，请重新登记资料审核</div>
         <div v-if="active == 1">
             <div class="basic-info">
                 <h2>资料登记</h2>
                 <div class="item">
                     <span class="name"><span class="tip"> * </span>商户名称：</span>
-                    <el-input placeholder="请输入内容" v-model="input10" clearable> </el-input>
+                    <el-input placeholder="请输入内容" v-model="list.mch_name" clearable> </el-input>
                 </div>
                 <div class="item">
                     <span class="name">商户简称：</span>
-                    <el-input placeholder="请输入内容" v-model="input10" clearable> </el-input>
+                    <el-input placeholder="请输入内容" v-model="list.nick_name" clearable> </el-input>
                 </div>
                 <div class="item">
                     <span class="name"> <span class="tip"> * </span> 法人姓名：</span>
-                    <el-input placeholder="请输入内容" v-model="input10" clearable> </el-input>
+                    <el-input placeholder="请输入内容" v-model="list.legal_name" clearable> </el-input>
                 </div>
                 <div class="item">
                     <span class="name"><span class="tip"> * </span>法人手机号：</span>
-                    <el-input placeholder="请输入内容" v-model="input10" clearable> </el-input>
+                    <el-input placeholder="请输入内容" v-model="list.legal_phone" clearable> </el-input>
                 </div>
                 <div class="item">
                     <span class="name"><span class="tip"> * </span>邮箱地址：</span>
-                    <el-input placeholder="请输入内容" v-model="input10" clearable> </el-input>
+                    <el-input placeholder="请输入内容" v-model="list.email" clearable> </el-input>
                 </div>
                 <div class="item">
                     <span class="name">备选联系人姓名：</span>
-                    <el-input placeholder="请输入内容" v-model="input10" clearable> </el-input>
+                    <el-input placeholder="请输入内容" v-model="list.link_name" clearable> </el-input>
                 </div>
                 <div class="item">
                     <span class="name">备选联系人手机号：</span>
-                    <el-input placeholder="请输入内容" v-model="input10" clearable> </el-input>
+                    <el-input placeholder="请输入内容" v-model="list.link_phone" clearable> </el-input>
                 </div>
                 <div class="item">
                     <span class="name"><span class="tip"> * </span>统一社会信用代码：</span>
-                    <el-input placeholder="请输入内容" v-model="input10" clearable> </el-input>
+                    <el-input placeholder="请输入内容" v-model="list.org_code" clearable> </el-input>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                             class="avatar-uploader"
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
+                            :before-upload="beforeAvatarUpload1">
                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
@@ -74,8 +74,8 @@
                             class="avatar-uploader"
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            :before-upload="beforeAvatarUpload2">
+                            <img v-if="imageUrl" :src="imageUrl" class="avatar"  >
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </div>
@@ -87,7 +87,7 @@
                             class="avatar-uploader"
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
+                            :before-upload="beforeAvatarUpload3">
                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
@@ -102,7 +102,7 @@
                             class="avatar-uploader"
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
+                            :before-upload="beforeAvatarUpload4">
                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
@@ -115,7 +115,7 @@
                             class="avatar-uploader"
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
+                            :before-upload="beforeAvatarUpload5">
                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
@@ -128,7 +128,7 @@
                             class="avatar-uploader"
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
+                            :before-upload="beforeAvatarUpload6">
                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
@@ -144,8 +144,8 @@
                             action="http://47.99.180.135:8088/files"
                             multiple
                             :show-file-list="false"
-                            :before-upload="beforeAvatarUpload">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            :before-upload="beforeAvatarUpload7">
+                            <img v-if="imageUrl" :src="imageUrl1" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </div>
@@ -159,24 +159,44 @@
                 <p class="creat-state">请等待审核</p>
             </div>
         </div>
-        <div class="btn" @click="next" v-if="active == 1">下一步</div>
-        <div class="btn" @click="next" v-if="active == 2">提交</div>
-        <div class="btn" @click="out" v-if="active == 3">退出</div>
+        <div class="btn-wrapper">
+            <div class="btn" @click="pre" v-if="active == 2">上一步</div>
+            <div class="btn" @click="next1" v-if="active == 1">下一步</div>
+            <div class="btn" @click="next2" v-if="active == 2">提交</div>
+            <div class="btn" @click="out" v-if="active == 3">退出</div>
+        </div>
+        
     </div>    
 </template>
 
 <script>
-import { loginOut } from '../../config/api'
+import { loginOut,imgUp,getImg,submitAudit } from '../../config/api'
 import merInfo from './merInfo'
 export default {
     name: 'merAudit',
     data() {
         return{
+            state: localStorage.state,
             active: 1,
             accound: localStorage.nickname,
             code: localStorage.id,
-            input10: '',
             imageUrl: '',
+            card_images: [],
+            license_images: [],
+            list: {
+                mch_id: localStorage.id,
+                mch_name: null,
+                nick_name: null,
+                legal_name: null,
+                legal_phone: null,
+                email: null,
+                link_name: null,
+                link_phone: null,
+                org_code: null,
+                card_images: [0,0,0],
+                license_images: [0,0,0],
+                other_images: []
+            }
         }
     },
     components: {
@@ -196,21 +216,120 @@ export default {
                 this.$router.push('/')
             })
         },
-        next() {
-             if (this.active++ > 2) this.active = 1;
+        pre() {
+            document.documentElement.scrollTop = 0
+            this.active--
         },
-        beforeAvatarUpload(file) {
+        next1() {
+            document.documentElement.scrollTop = 0
+            this.active++ 
+        },
+        next2() {
+            document.documentElement.scrollTop = 0
+            submitAudit(this.list).then( res => {
+                this.active++ 
+            })
+        },
+        beforeAvatarUpload1(file) {
             let fd = new FormData();//通过form数据格式来传
             fd.append("upload_file", file); //上传文件
             imgUp(fd).then((res) => {
+                console.log(res)
+                this.list.license_images[0] = res.data.id 
+                // this.imageUrl1 = 'http://47.99.180.135:8088/files/' + res.data.id
+                // getImg(res.data.id).then( res => {
+                //     console.log(res)
+                //     var x=document.getElementById("img1")
+                //     x.innerHTML = res
+                //     alert(x.innerHTML)
+                // })
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
                 });
-
             })
             return false
-        }
+        },
+        beforeAvatarUpload2(file) {
+            let fd = new FormData();//通过form数据格式来传
+            fd.append("upload_file", file); //上传文件
+            imgUp(fd).then((res) => {
+                console.log(res)
+                this.list.license_images[1] = res.data.id 
+                this.$message({
+                    message: '上传成功！',
+                    type: 'success'
+                });
+            })
+            return false
+        },
+        beforeAvatarUpload3(file) {
+            let fd = new FormData();//通过form数据格式来传
+            fd.append("upload_file", file); //上传文件
+            imgUp(fd).then((res) => {
+                console.log(res)
+                this.list.license_images[2] = res.data.id 
+                this.$message({
+                    message: '上传成功！',
+                    type: 'success'
+                });
+            })
+            return false
+        },
+        beforeAvatarUpload4(file) {
+            let fd = new FormData();//通过form数据格式来传
+            fd.append("upload_file", file); //上传文件
+            imgUp(fd).then((res) => {
+                console.log(res)
+                this.list.card_images[0] = res.data.id 
+                this.$message({
+                    message: '上传成功！',
+                    type: 'success'
+                });
+            })
+            return false
+        },
+
+        beforeAvatarUpload5(file) {
+            let fd = new FormData();//通过form数据格式来传
+            fd.append("upload_file", file); //上传文件
+            imgUp(fd).then((res) => {
+                console.log(res)
+                this.list.card_images[1] = res.data.id 
+                this.$message({
+                    message: '上传成功！',
+                    type: 'success'
+                });
+            })
+            return false
+        },
+
+        beforeAvatarUpload6(file) {
+            let fd = new FormData();//通过form数据格式来传
+            fd.append("upload_file", file); //上传文件
+            imgUp(fd).then((res) => {
+                console.log(res)
+                this.list.card_images[2] = res.data.id 
+                this.$message({
+                    message: '上传成功！',
+                    type: 'success'
+                });
+            })
+            return false
+        },
+        beforeAvatarUpload7(file) {
+            let fd = new FormData();//通过form数据格式来传
+            fd.append("upload_file", file); //上传文件
+            imgUp(fd).then((res) => {
+                console.log(res)
+                this.list.other_images.push(res.data.id)
+                this.$message({
+                    message: '上传成功！',
+                    type: 'success'
+                });
+            })
+            return false
+        },
     },
 
 }
@@ -255,9 +374,9 @@ export default {
         h2
             font-size: 18px
             font-weight: bold
-            margin-bottom: 10px
+            margin-bottom: 20px
         .item 
-            margin-top: 20px
+            margin-top: 15px
             font-size: 16px
             .name
                 color: #7E8196
@@ -331,16 +450,19 @@ export default {
                 font-size: 15px
             .success
                 margin-top: 30px
-    .btn
-        padding: 0 40px
-        width: 160px
-        height: 45px
-        line-height: 45px
-        background: #00BFA6;
-        border-radius: 25px;
-        color: #fff
-        font-weight: bold
-        font-size: 16px
+    .btn-wrapper
         text-align: center
-        margin: 100px auto
+        .btn
+            display: inline-block
+            padding: 0 40px
+            width: 160px
+            height: 45px
+            line-height: 45px
+            background: #00BFA6;
+            border-radius: 25px;
+            color: #fff
+            font-weight: bold
+            font-size: 16px
+            text-align: center
+            margin: 50px 20px 
 </style>

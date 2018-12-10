@@ -8,9 +8,9 @@
             <div><input type="text" placeholder="手机号" v-model="account"></div>
             <div><input type="text" placeholder="密码" v-model="pw"></div>
             <div class="btn-wrapper">
-                <div class="btn" @click="login" >登录</div>
-                <div class="btn" @click="out">注册</div>
+                <div class="btn" @click="login" >登 <span>入</span> </div>
             </div>
+            <div  @click="out" class="sign">立即注册</div>
         </div>
         <div class="wrapper" v-if="show">
             <div class="title">Alian后台管理系统</div>
@@ -41,10 +41,16 @@ export default {
                 password: this.pw
             }
             login(data).then((res) => {
+                console.log(res)
                 localStorage.id = res.data.id
                 localStorage.nickname = res.data.nickname
-                
-                this.$router.push('/merAudit')
+                localStorage.state = res.data.audit_state
+                if(res.data.audit_state == 1) {
+                    this.$router.push('/home')
+                }else {
+                    this.$router.push('/merAudit')
+                }
+               
             })
         },
         out() {
@@ -76,7 +82,7 @@ export default {
         text-align: center
     .wrapper
         width: 350px
-        height: 350px
+        height: 38  0px
         background: #fff
         margin-right: 250px
         border-radius: 5px
@@ -100,8 +106,8 @@ export default {
             align-items: center
             justify-content: center
             .btn
-                width: 100px
-                margin: 50px 20px 0 20px
+                width: 100%
+                margin-top: 50px
                 background: #00BFA6
                 border: 1px solid #B1B3C1;
                 border-radius: 2px;
@@ -109,6 +115,12 @@ export default {
                 height: 40px
                 font-size: 16px
                 line-height: 40px
+            span
+                margin-left: 80px
             .btn-zhuce
                 width: 300px
+        .sign
+            font-size: 13px
+            color: #00BFA6
+            margin-top: 5px
 </style>

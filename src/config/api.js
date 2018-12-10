@@ -36,5 +36,11 @@ export const resetKey = p => myPost('/pwd/forget', p);
 //  上传图片
 export const imgUp = p => myPost('/files', p);
 
+//  获取图片
+export const getImg = p => myGet('/files/' + p)
+
+//  提交审核
+export const submitAudit = p => myPost('/user/base', p);
+ 
 
 

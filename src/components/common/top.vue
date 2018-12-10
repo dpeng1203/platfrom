@@ -7,12 +7,11 @@
         </div>
         <div class="head-title">后台管理系统</div>
         <div class="userInfo">
-            <div class="user-name">{{accound}}</div>
-            <div class="user-code">商户号：<span>{{code}}</span> </div>
+            <div class="user-name">您好，{{accound}} | <span class="btn-out" @click="out">退出</span></div>
         </div>
-        <div class="btn-wrapper">
+        <!-- <div class="btn-wrapper">
                <span class="btn-out" @click="out">退出</span> 
-        </div>
+        </div> -->
     </div>    
 </template>
 
@@ -70,29 +69,30 @@ export default {
             font-size: 16px
             color: #B9BAC8
             height: 80px
+            line-height: 80px
             padding-right: 30px
             border-bottom: 1px solid #EEE
-            .user-name
-               margin-top: 16px
-            .user-code
-                margin-top: 5px
-                font-size: 13px
-                margin-left: 2px
-        .btn-wrapper
-            height: 80px
-            border-bottom: 1px solid #EEE
-            .btn-out
-                display: inline-block
-                width: 80px
-                height: 30px
-                line-height: 30px
-                background: #00BFA6;
-                border-radius: 5px;
-                color: #fff
-                font-weight: bold
-                font-size: 13px
-                text-align: center
-                margin: 25px 30px 0 10px 
+            // .user-name
+            //    margin-top: 16px
+            // .user-code
+            //     margin-top: 5px
+            //     font-size: 13px
+            //     margin-left: 2px
+        // .btn-wrapper
+        //     height: 80px
+        //     border-bottom: 1px solid #EEE
+        //     .btn-out
+        //         display: inline-block
+        //         width: 80px
+        //         height: 30px
+        //         line-height: 30px
+        //         background: #00BFA6;
+        //         border-radius: 5px;
+        //         color: #fff
+        //         font-weight: bold
+        //         font-size: 13px
+        //         text-align: center
+        //         margin: 25px 30px 0 10px 
 
 
 </style>
