@@ -62,7 +62,7 @@
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
                             :before-upload="beforeAvatarUpload1">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            <img v-if="imageUrl1" :src="imageUrl1" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </div>
@@ -75,7 +75,7 @@
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
                             :before-upload="beforeAvatarUpload2">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar"  >
+                            <img v-if="imageUrl2" :src="imageUrl2" class="avatar"  >
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </div>
@@ -88,7 +88,7 @@
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
                             :before-upload="beforeAvatarUpload3">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            <img v-if="imageUrl3" :src="imageUrl3" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </div>
@@ -103,7 +103,7 @@
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
                             :before-upload="beforeAvatarUpload4">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            <img v-if="imageUrl4" :src="imageUrl4" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </div>
@@ -116,7 +116,7 @@
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
                             :before-upload="beforeAvatarUpload5">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            <img v-if="imageUrl5" :src="imageUrl5" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </div>
@@ -129,7 +129,7 @@
                             action="http://47.99.180.135:8088/files"
                             :show-file-list="false"
                             :before-upload="beforeAvatarUpload6">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            <img v-if="imageUrl6" :src="imageUrl6" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </div>
@@ -138,16 +138,21 @@
             <div class="photo-wrapper">
                 <div class="item">
                     <span class="name">其他资质照片</span>
-                    <div class="wrapper">
+                    <div class="wrapper wrapper-other">
+                        <div class="img-wrapper" v-if="imageUrl7" v-for="(imgItem,index) in imageUrl7" :key="imgItem">
+                            <img  :src='"http://47.99.180.135:8088/files/" + imgItem' class="avatar">
+                            <i class="el-icon-circle-close" @click="handleDel(index)"></i>
+                        </div>
                         <el-upload
-                            class="avatar-uploader"
+                            class="avatar-uploader el-right"
                             action="http://47.99.180.135:8088/files"
                             multiple
                             :show-file-list="false"
                             :before-upload="beforeAvatarUpload7">
-                            <img v-if="imageUrl" :src="imageUrl1" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            
+                            <i class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
+
                     </div>
                 </div>
             </div>
@@ -180,9 +185,13 @@ export default {
             active: 1,
             accound: localStorage.nickname,
             code: localStorage.id,
-            imageUrl: '',
-            card_images: [],
-            license_images: [],
+            imageUrl1: '',
+            imageUrl2: '',
+            imageUrl3: '',
+            imageUrl4: '',
+            imageUrl5: '',
+            imageUrl6: '',
+            imageUrl7: [],
             list: {
                 mch_id: localStorage.id,
                 mch_name: null,
@@ -236,13 +245,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.license_images[0] = res.data.id 
-                // this.imageUrl1 = 'http://47.99.180.135:8088/files/' + res.data.id
-                // getImg(res.data.id).then( res => {
-                //     console.log(res)
-                //     var x=document.getElementById("img1")
-                //     x.innerHTML = res
-                //     alert(x.innerHTML)
-                // })
+                this.imageUrl1 = 'http://47.99.180.135:8088/files/' + res.data.id
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -256,6 +259,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.license_images[1] = res.data.id 
+                this.imageUrl2 = 'http://47.99.180.135:8088/files/' + res.data.id
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -269,6 +273,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.license_images[2] = res.data.id 
+                this.imageUrl3 = 'http://47.99.180.135:8088/files/' + res.data.id
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -282,6 +287,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.card_images[0] = res.data.id 
+                this.imageUrl4 = 'http://47.99.180.135:8088/files/' + res.data.id
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -296,6 +302,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.card_images[1] = res.data.id 
+                this.imageUrl5 = 'http://47.99.180.135:8088/files/' + res.data.id
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -310,6 +317,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.card_images[2] = res.data.id 
+                this.imageUrl6 = 'http://47.99.180.135:8088/files/' + res.data.id
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -323,6 +331,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.other_images.push(res.data.id)
+                this.imageUrl7 = this.list.other_images
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -330,6 +339,10 @@ export default {
             })
             return false
         },
+        handleDel(index) {
+            this.list.other_images.splice(index,1)
+            this.imageUrl7 = this.list.other_images
+        }
     },
 
 }
@@ -409,30 +422,47 @@ export default {
                     color: #7E8196
                     // margin: 0 30px 0 0
                     display: inline-block
-                .avatar-uploader, .el-upload 
-                    border: 1px dashed #d9d9d9;
-                    margin-top: 10px
-                    // margin: 20px 30px 0 0
-                    border-radius: 6px;
-                    cursor: pointer;
-                    position: relative;
-                    overflow: hidden;
-                
-                .avatar-uploader, .el-upload:hover 
-                    border-color: #409EFF;
-                    display: inline-block
-                
-                .avatar-uploader-icon 
-                    font-size: 28px;
-                    color: #8c939d;
-                    width: 186px
-                    height: 120px
-                    line-height: 120px;
-                    text-align: center;
+                .wrapper
+                    flex-wrap: wrap
+                    display: flex
+                    justify-content: center
+                    .img-wrapper
+                        position: relative
+                        .el-icon-circle-close
+                            position: absolute
+                            right: 35px
+                            top: 15px
+                    img
+                        margin-top: 10px
+                        margin-right: 30px
+                        border: 1px dashed #409EFF
+                        border-radius: 6px;
+                    .avatar-uploader, .el-upload 
+                        border: 1px dashed #d9d9d9;
+                        margin-top: 10px
+                        border-radius: 6px;
+                        cursor: pointer;
+                        position: relative;
+                        overflow: hidden;
+                    .el-right
+                        margin-right: 30px
+                    .avatar-uploader, .el-upload:hover 
+                        border-color: #409EFF;
+                        display: inline-block
                     
-                .avatar 
-                    width: 186px
-                    height: 120px
+                    .avatar-uploader-icon 
+                        font-size: 28px;
+                        color: #8c939d;
+                        width: 186px
+                        height: 120px
+                        line-height: 120px;
+                        text-align: center;
+                        
+                    .avatar 
+                        width: 186px
+                        height: 120px
+                .wrapper-other
+                    margin-right: -30px
     .audit
         text-align: center
         padding: 30px
