@@ -116,7 +116,7 @@ export default {
                 font-size: 16px
                 line-height: 40px
             span
-                margin-left: 80px
+                margin-left: 20px
             .btn-zhuce
                 width: 300px
         .sign

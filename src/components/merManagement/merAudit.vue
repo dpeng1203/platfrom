@@ -140,7 +140,7 @@
                     <span class="name">其他资质照片</span>
                     <div class="wrapper wrapper-other">
                         <div class="img-wrapper" v-if="imageUrl7" v-for="(imgItem,index) in imageUrl7" :key="imgItem">
-                            <img  :src='"http://47.99.180.135:8088/files/" + imgItem' class="avatar">
+                            <img  :src='"http://47.99.180.135:8088/files/" + imgItem' class="avatar other-img">
                             <i class="el-icon-circle-close" @click="handleDel(index)"></i>
                         </div>
                         <el-upload
@@ -433,10 +433,7 @@ export default {
                             right: 35px
                             top: 15px
                     img
-                        margin-top: 10px
-                        margin-right: 30px
-                        border: 1px dashed #409EFF
-                        border-radius: 6px;
+                        
                     .avatar-uploader, .el-upload 
                         border: 1px dashed #d9d9d9;
                         margin-top: 10px
@@ -461,8 +458,14 @@ export default {
                     .avatar 
                         width: 186px
                         height: 120px
+                        
                 .wrapper-other
                     margin-right: -30px
+                    .other-img
+                        margin-top: 10px
+                        margin-right: 30px
+                        border: 1px dashed #409EFF
+                        border-radius: 6px;
     .audit
         text-align: center
         padding: 30px
