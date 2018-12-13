@@ -6,16 +6,24 @@
         </div>
         <div class="wrapper">
             <div class="item">
-                <span class="name">交易金额（元）</span>
-                <input type="text"  v-model="list.recharge" disabled>
+                <span class="name">交易金额（元）:</span>
+                <span>{{list.recharge}}</span>
+                <!-- <input type="text"  v-model="list.recharge" disabled> -->
             </div>
             <div class="item">
-                <span class="name">分润金额（元）</span>
-                <input type="text"  v-model="list.bonus" disabled>
+                <span class="name">分润金额（元）:</span>
+                <span>{{list.bonus}}</span>
+                <!-- <input type="text"  v-model="list.bonus" disabled> -->
             </div>
             <div class="item">
-                <span class="name">账户余额（元）</span>
-                <input type="text" v-model="list.total" disabled>
+                <span class="name">在途金额（元）:</span>
+                <span>{{list.pending}}</span>
+                <!-- <input type="text"  v-model="list.pending" disabled> -->
+            </div>
+            <div class="item">
+                <span class="name">账户余额（元）:</span>
+                <span>{{list.total}}</span>
+                <!-- <input type="text" v-model="list.total" disabled> -->
             </div>
         </div>
 
@@ -24,8 +32,14 @@
         <div class="box">
             <div class="box-wrapper" v-if="showBox">
                 <div class="box-title">提现金额（元）</div>
-                <div><input type="text" placeholder="提现金额（元）" v-model="money"></div>
-                <div><input type="text" placeholder="账号密码" v-model="pw"></div>
+                <div><input type="text" placeholder="提现金额（元）" v-model="money" class="add_color" ></div>
+                <div><input type="text" placeholder="账户密码" v-model="data.password" class="add_color"></div>
+                <div><input type="text" placeholder="开户行（**银行）" v-model="data.open_bank" class="add_color"></div>
+                <div><input type="text" placeholder="开户支行（**省**市**支行）" v-model="data.sub_bank" class="add_color"></div>
+                <div><input type="text" placeholder="银行卡号" v-model="data.bankcard_number" class="add_color"></div>
+                <div><input type="text" placeholder="姓名" v-model="data.name" class="add_color"></div>
+                <div><input type="text" placeholder="身份证（选填）" v-model="data.identity_card"></div>
+                <div><input type="text" placeholder="预留手机（选填）" v-model="data.reserve_phone"></div>
                 <div class="btn-wrapper" >
                     <div class="box-btn" @click="getDeposit" >确定</div>
                     <div class="box-btn" @click="out">取消</div>
@@ -41,17 +55,24 @@ export default {
     name: 'merList',
     data() {
         return{
-            rePw: '',
             list: {},
             money: '',
-            pw: '',
-            showBox: false
+            showBox: false,
+            data: {
+                password: '',
+                open_bank: '',
+                sub_bank: '',
+                bankcard_number: '',
+                name: '',
+                identity_card: '',
+                reserve_phone: ''
+            }
         }
     },
     methods: {
         getMerInfo() {
             let data = {
-                user_id: localStorage.id
+                mch_id: localStorage.id
             }
             merInfo(data).then((res) => {
                 console.log(res)
@@ -59,6 +80,7 @@ export default {
                 this.list.recharge = this.list.recharge/100
                 this.list.bonus = this.list.bonus/100
                 this.list.total = this.list.total/100
+                this.list.pending = this.list.pending/100
             })
         },
         save() {
@@ -68,12 +90,34 @@ export default {
             this.showBox =false
         },
         getDeposit() {
-            let data = {
-                "user_id": localStorage.id,
-                "money": this.money * 100,
-                "password": this.pw
+            if(this.money == '') {
+                this.$message.error('请输入提现金额')
+                return false
             }
-            deposit(data).then((res) => {
+            if(this.data.password == '') {
+                this.$message.error('请输入密码')
+                return false
+            }
+            if(this.data.open_bank == '') {
+                this.$message.error('请输入开户行')
+                return false
+            }
+            if(this.data.sub_bank == '') {
+                this.$message.error('请输入开户支行')
+                return false
+            }
+            if(this.data.bankcard_number == '') {
+                this.$message.error('请输入银行卡号')
+                return false
+            }
+            if(this.data.name == '') {
+                this.$message.error('请输入姓名')
+                return false
+            }
+            this.data.money = this.money * 100
+            this.data.mch_id = localStorage.id
+            deposit(this.data).then((res) => {
+                this.getMerInfo()
                 this.$message({
                     message: '请求成功，请等待审核',
                     type: 'success'
@@ -114,7 +158,7 @@ export default {
             font-size: 14px
             .name
                 display: inline-block
-                width: 180px
+                width: 120px
                 font-size: 14px
                 font-weight: bold
             input
@@ -141,13 +185,13 @@ export default {
         background:  #B1B3C1
     .box-wrapper
         position: fixed
-        top: 50%
+        top: 30%
         left: 50%
         margin-top: -175px
         margin-left: -150px
         z-index: 2
-        width: 350px
-        height: 350px
+        width: 500px
+        // height: 350px
         background: #fff
         // margin-right: 250px
         border-radius: 5px
@@ -164,8 +208,10 @@ export default {
             width: 100%
             height: 40px
             line-height: 40px
-            margin-top: 20px
+            margin-top: 10px
             padding-left: 20px
+        .add_color
+            border: 1px solid #00BFA6;
         .btn-wrapper
             display: flex
             align-items: center

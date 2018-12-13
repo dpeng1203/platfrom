@@ -1,12 +1,12 @@
 <template>
     <div class="bill-detail">
         <div class="title">
-            <span>账户明细</span>
+            <span>交易明细</span>
         </div>
-        <div class="num-wrapper">
+        <!-- <div class="num-wrapper">
             <div class="num">今日成交金额：<span>{{ total }}</span> 元</div>
             <div class="num">今日成交笔数：<span>{{ count }}</span> 笔</div>
-        </div>
+        </div> -->
         <div class="search">
             <div class="search-ct">
                 <div class="search-name">状态</div>
@@ -77,59 +77,49 @@
                     type="index"
                     width="50">
                 </el-table-column>
-                <!-- <el-table-column
-                    prop="mch_id"
-                    label="序号"
-                    width="100">
-                </el-table-column> -->
                 <el-table-column
-                    prop="trade_time"
-                    label="交易时间"
-                    width="160">
+                    prop="mch_name"
+                    label="商户名称"
+                    width="180">
                 </el-table-column>
-                <el-table-column
-                    prop="create_time"
-                    label="创建时间"
-                    width="160">
-                </el-table-column>
+                
                 <el-table-column
                     prop="sys_order_id"
                     label="系统订单号"
-                    width="180">
-                </el-table-column>
-                <el-table-column
-                    prop="money"
-                    label="金额"
-                    width="80">
+                    width="280">
                 </el-table-column>
                 <el-table-column
                     prop="pay_type"
                     label="支付类型"
-                    width="120">
+                    width="100">
                 </el-table-column>
                 <el-table-column
-                    prop="state"
-                    label="状态"
-                    width="80">
+                    prop="money"
+                    label="金额"
+                    width="100">
                 </el-table-column>
                 <el-table-column
                     prop="mch_charge"
                     label="手续费"
-                    width="80">
+                    width="100">
                 </el-table-column>
                 <el-table-column
-                    prop="mch_order_id"
-                    label="商户订单号"
-                >
+                    prop="trade_time"
+                    label="交易时间"
+                    width="180">
                 </el-table-column>
-                
+                <el-table-column
+                    prop="state"
+                    label="状态"
+                    >
+                </el-table-column>
             </el-table>
             <div class="block">
                 <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="currentPage"
-                    :page-sizes="[5,20,50,100, 200, 300, 400]"
+                    :page-sizes="[10,20,50,100, 200, 300, 400]"
                     :page-size="data.limit"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total_count">
@@ -184,9 +174,9 @@ export default {
                 mch_order_id: null,
                 sys_order_id: null,
                 pay_type: null,
-                user_id: localStorage.id,
+                mch_id: localStorage.id,
                 offset: 0,
-                limit: 5
+                limit: 10
             },
             tableData: []
         }
@@ -194,7 +184,7 @@ export default {
     methods: {
         getTodayNum() {
             let data = {
-                user_id: localStorage.id
+                mch_id: localStorage.id
             }
             todayNum(data).then((res) => {
                 console.log(res)
@@ -245,7 +235,7 @@ export default {
     },
     mounted() {
         console.log(this.currentPage)
-        this.getTodayNum()
+        // this.getTodayNum()
         this.getBillList()
     }
 

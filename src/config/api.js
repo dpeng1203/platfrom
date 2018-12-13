@@ -41,6 +41,12 @@ export const getImg = p => myGet('/files/' + p)
 
 //  提交审核
 export const submitAudit = p => myPost('/user/base', p);
+
+// 商户基本信息
+export const merList = p => myGet('/user/base',{params: p})
+
+// 提现列表
+export const auditList = p => myGet('/cash/list',{params: p})
  
 
 

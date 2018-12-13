@@ -6,7 +6,7 @@
         <div class="wrapper" v-if="!show">
             <div class="title">Alian后台管理系统</div>
             <div><input type="text" placeholder="手机号" v-model="account"></div>
-            <div><input type="text" placeholder="密码" v-model="pw"></div>
+            <div><input type="password" placeholder="密码" v-model="pw"></div>
             <div class="btn-wrapper">
                 <div class="btn" @click="login" >登 <span>入</span> </div>
             </div>
@@ -44,11 +44,14 @@ export default {
                 console.log(res)
                 localStorage.id = res.data.id
                 localStorage.nickname = res.data.nickname
-                localStorage.state = res.data.audit_state
-                if(res.data.audit_state == 1) {
+                // localStorage.state = res.data.audit_state
+                if(res.data.audit_state === 1) {
                     this.$router.push('/home')
-                }else {
-                    this.$router.push('/merAudit')
+                    localStorage.name = res.data.base.mch_name
+                }else if( res.data.audit_state === 0 ){
+                    this.$router.push({ path: '/merAudit', query: {list: res.data.base}})
+                }else{
+                    this.$router.push({ path: '/merAudit', query: {state: 2}})
                 }
                
             })

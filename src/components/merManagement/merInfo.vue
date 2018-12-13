@@ -9,35 +9,35 @@
                     <h2>基本信息</h2>
                     <div class="item">
                         <span class="name">商户名称：</span>
-                        <span>dnkdfksdjf</span>
+                        <span>{{list.mch_name}}</span>
                     </div>
                     <div class="item">
                         <span class="name">商户简称：</span>
-                        <span>dnkdfksdjf</span>
+                        <span>{{list.nick_name}}</span>
                     </div>
                     <div class="item">
                         <span class="name">法人姓名：</span>
-                        <span>dnkdfksdjf</span>
+                        <span>{{list.legal_name}}</span>
                     </div>
                     <div class="item">
                         <span class="name">法人手机号：</span>
-                        <span>dnkdfksdjf</span>
+                        <span>{{list.legal_phone}}</span>
                     </div>
                     <div class="item">
                         <span class="name">邮箱地址：</span>
-                        <span>dnkdfksdjf</span>
+                        <span>{{list.email}}</span>
                     </div>
                     <div class="item">
                         <span class="name">其他联系人姓名：</span>
-                        <span>dnkdfksdjf</span>
+                        <span>{{list.link_name}}</span>
                     </div>
                     <div class="item">
                         <span class="name">其他联系人手机号：</span>
-                        <span>dnkdfksdjf</span>
+                        <span>{{list.link_phone}}</span>
                     </div>
                     <div class="item">
                         <span class="name">统一社会信用代码：</span>
-                        <span>dnkdfksdjf</span>
+                        <span>{{list.org_code}}</span>
                     </div>
                 </div>
                 
@@ -45,53 +45,53 @@
             
             <div class="mer-info">
                 <h2>商户资质</h2>
-                <div class="photo-wrapper">
+                <div class="photo-wrapper" v-if="list.license_images">
                     <div class="item">
                         <span class="name">营业执照</span>
                         <div class="img-ct">
-                            <img src="../../assets/img/img_my_idcard.png" alt="">
+                            <img :src='`${hostName}/files/` + list.license_images[0]' alt="">
                         </div>
                     </div>
                     <div class="item">
                         <span class="name">开户许可证</span>
                         <div class="img-ct">
-                            <img src="../../assets/img/img_my_idcard.png" alt="">
+                            <img :src='`${hostName}/files/` + list.license_images[1]' alt="">
                         </div>
                     </div>
                     <div class="item">
                         <span class="name">手持营业执照</span>
                         <div class="img-ct">
-                            <img src="../../assets/img/img_my_idcard.png" alt="">
+                            <img :src='`${hostName}/files/` + list.license_images[2]' alt="">
                         </div>
                     </div>
                 </div>
                 
 
-                <div class="photo-wrapper">
+                <div class="photo-wrapper" v-if="list.card_images">
                     <div class="item">
                         <span class="name">身份证（正面）</span>
                         <div class="img-ct">
-                            <img src="../../assets/img/img_my_idcard.png" alt="">
+                            <img :src='`${hostName}/files/` + list.card_images[0]' alt="">
                         </div>
                     </div>
                     <div class="item">
                         <span class="name">身份证（反面）</span>
                         <div class="img-ct">
-                            <img src="../../assets/img/img_my_idcard.png" alt="">
+                            <img :src='`${hostName}/files/` + list.card_images[1]' alt="">
                         </div>
                     </div>
                     <div class="item">
                         <span class="name">手持身份证（正面）</span>
                         <div class="img-ct">
-                            <img src="../../assets/img/img_my_idcard.png" alt="">
+                            <img :src='`${hostName}/files/` + list.card_images[2]' alt="">
                         </div>
                     </div>
                 </div>
-                <div class="photo-wrapper">
+                <div class="photo-wrapper" v-if="list.other_images && list.other_images.length != 0">
                     <div class="item">
                         <span class="name">其他资质照片</span>
                         <div class="img-ct">
-                            <img src="../../assets/img/img_my_idcard.png" alt="">
+                           <img alt="" v-for="imgItem in list.other_images" :key="imgItem" :src='`${hostName}/files/` + imgItem' >
                         </div>
                     </div>
                 </div>
@@ -103,33 +103,29 @@
 </template>
 
 <script>
-import { imgUp } from '../../config/api'
+import hostName from '../../config/hostName'
+import { merList } from '../../config/api'
 export default {
     data() {
         return{
+            hostName: hostName,
             list: {},
             imageUrl: '',
         }
     },
     methods: {
-        save() {
-            
-        },
-        beforeAvatarUpload(file) {
-            let fd = new FormData();//通过form数据格式来传
-            fd.append("upload_file", file); //上传文件
-            imgUp(fd).then((res) => {
-                this.$message({
-                    message: '上传成功！',
-                    type: 'success'
-                });
-
+        getMerInfo() {
+            let data = {
+                mch_id: localStorage.id
+            }
+            merList(data).then( res => {
+                console.log(res)
+                this.list = res.data.data_list[0]
             })
-            return false
         }
     },
     mounted() {
-
+        this.getMerInfo()
     }
 }
 </script>
@@ -137,6 +133,7 @@ export default {
 <style lang="sass" scoped>
 .mer-audit
     color: #3D4060
+    padding-bottom: 100px
     .mer-ct 
         width: 850px
         .title 
@@ -181,9 +178,10 @@ export default {
                         color: #7E8196
                         display: inline-block
                     .img-ct    
-                        margin: 10px 30px 0 0
-                        width: 186px
-                        height: 120px
+                        img
+                            margin: 10px 30px 0 0
+                            width: 186px
+                            height: 120px
                 
         .btn 
             display: inline-block

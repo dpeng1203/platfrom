@@ -6,15 +6,15 @@
         <div class="wrapper">
             <div class="item">
                 <span class="name">原密码:</span>
-                <input type="text"  v-model="key1" >
+                <input type="password"  v-model="key1" >
             </div>
             <div class="item">
                 <span class="name">新密码:</span>
-                <input type="text"  v-model="key2" >
+                <input type="password"  v-model="key2" >
             </div>
             <div class="item">
                 <span class="name">确认新密码:</span>
-                <input type="text"  v-model="key3" >
+                <input type="password"  v-model="key3" >
             </div>
         </div>
         <div class="btn" @click="save">确认</div>

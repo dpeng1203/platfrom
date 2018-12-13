@@ -1,47 +1,52 @@
 <template>
     <div class="data-detail">
-        <div class="title">
-            <span>最新数据</span>
+        <div class="data-wrapper">
+            <div class="title">
+                <span>最新数据</span>
+            </div>
+            <div class="box-wrapper">
+                <div class="box">
+                    <div class="box-title">今日成功收款（元）</div>
+                    <ul class="scss"><li>0</li></ul>
+                </div>
+                <div class="box">
+                    <div class="box-title">今日成功订单量</div>
+                    <ul class="scss"><li>0</li></ul>
+                </div>
+            </div>
+            <div class="box-wrapper">
+                <div class="box">
+                    <div class="box-title">今日未成功收款（元）</div>
+                    <ul class="fail"><li>0</li></ul>
+                </div>
+                <div class="box">
+                    <div class="box-title">今日未成功订单量</div>
+                    <ul class="fail"><li>0</li></ul>
+                </div>
+            </div>
+            <div class="box-wrapper small-box-wrapper">
+                <div class="box small-box">
+                    <div class="box-title">总收款（元）</div>
+                    <ul class="money"><li>0</li></ul>
+                </div>
+                <div class="box small-box">
+                    <div class="box-title">已出款（元）</div>
+                    <ul class="money"><li>0</li></ul>
+                </div>
+                <div class="box small-box">
+                    <div class="box-title">未出款（元）</div>
+                    <ul class="money"><li>0</li></ul>
+                </div>
+            </div>
         </div>
-        <div class="box-wrapper">
-            <div class="box">
-                <div class="box-title">今日成功收款（元）</div>
-                <ul class="scss"><li>1234</li></ul>
-            </div>
-            <div class="box">
-                <div class="box-title">今日成功订单量</div>
-                <ul class="scss"><li>1234</li></ul>
+        <div class="chart-wrapper">
+            <div class="chart-title">每小时交易数</div>
+            <div class="chart-ct">
+                
+                <div id="c2"></div>
             </div>
         </div>
-        <div class="box-wrapper">
-            <div class="box">
-                <div class="box-title">今日未成功收款（元）</div>
-                <ul class="fail"><li>1234</li></ul>
-            </div>
-            <div class="box">
-                <div class="box-title">今日未成功订单量</div>
-                <ul class="fail"><li>1234</li></ul>
-            </div>
-        </div>
-        <div class="box-wrapper small-box-wrapper">
-            <div class="box small-box">
-                <div class="box-title">总收款（元）</div>
-                <ul class="money"><li>1234</li></ul>
-            </div>
-            <div class="box small-box">
-                <div class="box-title">已出款（元）</div>
-                <ul class="money"><li>1234</li></ul>
-            </div>
-            <div class="box small-box">
-                <div class="box-title">未出款（元）</div>
-                <ul class="money"><li>1234</li></ul>
-            </div>
-        </div>
-        <div class="chart-title">每小时交易数</div>
-        <div class="chart-ct">
-            
-            <div id="c2"></div>
-        </div>
+        
         
     </div>
        
@@ -171,9 +176,9 @@ export default {
             });
             chart.axis('temperature', {
                 label: {
-                    formatter: function formatter(val) {
-                        return val + '°C';
-                    }
+                    // formatter: function formatter(val) {
+                    //     return val + '°C';
+                    // }
                 }
             });
             chart.line().position('month*temperature').color('city');
@@ -194,48 +199,62 @@ export default {
 .data-detail
     color: #3D4060;
     padding-left: 30px
-    .title 
-        font-size: 15px
-        // font-weight: bold
-    .box-wrapper
-        padding-top: 10px
-        display: flex
-        margin-left: -20px
-        .box
-            width: 300px
-            background: #eee
-            margin-left: 20px
-            border-radius: 10px
-            padding: 15px 30px
-            .box-title
-                font-size: 13px
-                color: #999
-            ul
-                font-size: 24px
-                line-height: 24px
-                color: #ff5722
-                margin-top: 10px
-                list-style: disc
-                margin-left: 25px
-            .scss
-                color: #3ccd3f
-            .money 
-                color: #1E90FF
-            
-    .small-box-wrapper
-        margin-left: -10px
-        .small-box
-            width: 200px
-            margin-left: 10px
-    .chart-title
-        font-size: 15px
-        // font-weight: bold
-        padding: 30px 0 10px 0
-    .chart-ct
+    .data-wrapper
+        padding: 30px
+        display: inline-block
         background: #eee
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.05)
         border-radius: 10px
-        width: 800px
-        padding-top: 30px
-        padding-right: 35px
+        .title 
+            font-size: 15px
+            // font-weight: bold
+        .box-wrapper
+            padding-top: 10px
+            display: flex
+            margin-left: -20px
+            .box
+                width: 300px
+                background: #fff
+                margin-left: 20px
+                border-radius: 10px
+                padding: 15px 30px
+                .box-title
+                    font-size: 13px
+                    color: #999
+                ul
+                    font-size: 24px
+                    line-height: 24px
+                    color: #ff5722
+                    margin-top: 10px
+                    list-style: disc
+                    margin-left: 25px
+                .scss
+                    color: #3ccd3f
+                .money 
+                    color: #1E90FF
+        .small-box-wrapper
+            margin-left: -10px
+            .small-box
+                width: 200px
+                margin-left: 10px
+
+    .chart-wrapper
+        padding: 30px   
+        margin-top: 10px
+        display: inline-block
+        background: #eee
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.05)
+        border-radius: 10px
         margin-bottom: 100px
+        .chart-title
+            font-size: 15px
+            // font-weight: bold
+            padding: 0 0 10px 0
+        .chart-ct
+            background: #fff
+            border-radius: 10px
+            width: 800px
+            padding-top: 30px
+            padding-right: 35px
+            
 </style>

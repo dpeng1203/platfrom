@@ -17,12 +17,13 @@
                     </el-menu-item>
                     <el-submenu index="2">
                         <template slot="title">
-                            <i class="el-icon-location"></i>
+                            <i class="el-icon-printer"></i>
                             <span>账户管理</span>
                         </template>
                         <el-menu-item index="/home/merList">账户查询</el-menu-item>
                         <el-menu-item index="/home/merInfo">基本信息</el-menu-item>
-                        <el-menu-item index="/home/merCloseInfo">基础信息</el-menu-item>
+                        <el-menu-item index="/home/cashList">提现列表</el-menu-item>
+                        <!-- <el-menu-item index="/home/merCloseInfo">基础信息</el-menu-item> -->
                     </el-submenu>
                     <el-menu-item index="/home/billDetail">
                         <i class="el-icon-document"></i>

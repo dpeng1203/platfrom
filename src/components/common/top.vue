@@ -7,7 +7,7 @@
         </div>
         <div class="head-title">后台管理系统</div>
         <div class="userInfo">
-            <div class="user-name">您好，{{accound}} | <span class="btn-out" @click="out">退出</span></div>
+            <div class="user-name">您好，{{name}} | <span class="btn-out" @click="out">退出</span></div>
         </div>
         <!-- <div class="btn-wrapper">
                <span class="btn-out" @click="out">退出</span> 
@@ -21,6 +21,7 @@ export default {
     name: 'top',
     data() {
         return{
+            name: localStorage.name,
             accound: localStorage.nickname,
             code: localStorage.id
         }
@@ -72,6 +73,8 @@ export default {
             line-height: 80px
             padding-right: 30px
             border-bottom: 1px solid #EEE
+            span
+                cursor: pointer
             // .user-name
             //    margin-top: 16px
             // .user-code

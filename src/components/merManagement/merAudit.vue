@@ -13,8 +13,9 @@
                 </el-steps>
             </div> 
         </div> 
-        <div v-if="state == 2">审核失败，请重新登记资料审核</div>
-        <div v-if="active == 1">
+        
+        <div v-if="active == 1" class="step-wrapper">
+            <div v-if="state == 2" class="state">审核失败，请重新登记资料审核</div>
             <div class="basic-info">
                 <h2>资料登记</h2>
                 <div class="item">
@@ -51,108 +52,116 @@
                 </div>
             </div>
         </div>
-        <div class="mer-info" v-if="active == 2">
-            <h2>上传照片</h2>
-            <div class="photo-wrapper">
-                <div class="item">
-                    <span class="name">营业执照</span>
-                    <div class="wrapper">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="http://47.99.180.135:8088/files"
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload1">
-                            <img v-if="imageUrl1" :src="imageUrl1" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="name">开户许可证</span>
-                    <div class="wrapper">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="http://47.99.180.135:8088/files"
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload2">
-                            <img v-if="imageUrl2" :src="imageUrl2" class="avatar"  >
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="name">手持营业执照</span>
-                    <div class="wrapper">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="http://47.99.180.135:8088/files"
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload3">
-                            <img v-if="imageUrl3" :src="imageUrl3" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                    </div>
-                </div>
-            </div>
-            <div class="photo-wrapper">
-                <div class="item">
-                    <span class="name">身份证（正面）</span>
-                    <div class="wrapper">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="http://47.99.180.135:8088/files"
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload4">
-                            <img v-if="imageUrl4" :src="imageUrl4" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="name">身份证（反面）</span>
-                    <div class="wrapper">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="http://47.99.180.135:8088/files"
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload5">
-                            <img v-if="imageUrl5" :src="imageUrl5" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="name">手持身份证（正面）</span>
-                    <div class="wrapper">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="http://47.99.180.135:8088/files"
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload6">
-                            <img v-if="imageUrl6" :src="imageUrl6" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                    </div>
-                </div>
-            </div>
-            <div class="photo-wrapper">
-                <div class="item">
-                    <span class="name">其他资质照片</span>
-                    <div class="wrapper wrapper-other">
-                        <div class="img-wrapper" v-if="imageUrl7" v-for="(imgItem,index) in imageUrl7" :key="imgItem">
-                            <img  :src='"http://47.99.180.135:8088/files/" + imgItem' class="avatar other-img">
-                            <i class="el-icon-circle-close" @click="handleDel(index)"></i>
+        <div class="step-wrapper" v-if="active == 2">
+            <div v-if="state == 2" class="state">审核失败，请重新登记资料审核</div>
+            <div class="mer-info" >
+                <h2>上传照片</h2>
+                <div class="photo-wrapper">
+                    <div class="item">
+                        <span class="name">营业执照</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload1">
+                                <img v-if="img1" :src='img1' class="avatar">
+                                <!-- <img v-if="list.license_images[1] != 0" :src='"http://47.99.180.135:8088/files/" + list.license_images[1]' class="avatar"> -->
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
                         </div>
-                        <el-upload
-                            class="avatar-uploader el-right"
-                            action="http://47.99.180.135:8088/files"
-                            multiple
-                            :show-file-list="false"
-                            :before-upload="beforeAvatarUpload7">
-                            
-                            <i class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-
+                    </div>
+                    <div class="item">
+                        <span class="name">开户许可证</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload2">
+                                <img v-if="img2" :src='img2' class="avatar">
+                                <!-- <img v-if="list.license_images[1] != 0" :src='"http://47.99.180.135:8088/files/" + list.license_images[1]' class="avatar"> -->
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="name">手持营业执照</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload3">
+                                <img v-if="img3" :src='img3' class="avatar">
+                                <!-- <img v-if="list.license_images[2] != 0" :src='"http://47.99.180.135:8088/files/" + list.license_images[2]' class="avatar"> -->
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="item">
+                        <span class="name">身份证（正面）</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload4">
+                                <img v-if="img4" :src='img4' class="avatar">
+                                <!-- <img v-if="list.card_images[0] != 0" :src='"http://47.99.180.135:8088/files/" + list.card_images[0]' class="avatar"> -->
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="name">身份证（反面）</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload5">
+                                <img v-if="img5" :src='img5' class="avatar">
+                                <!-- <img v-if="list.card_images[1] != 0" :src='"http://47.99.180.135:8088/files/" + list.card_images[1]' class="avatar"> -->
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="name">手持身份证（正面）</span>
+                        <div class="wrapper">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://47.99.180.135:8088/files"
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload6">
+                                <img v-if="img6" :src='img6' class="avatar">
+                                <!-- <img v-if="list.card_images[2] != 0" :src='"http://47.99.180.135:8088/files/" + list.card_images[2]' class="avatar"> -->
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="item">
+                        <span class="name">其他资质照片</span>
+                        <div class="wrapper wrapper-other">
+                            <div class="img-wrapper" v-if="img7 && img7 != []" v-for="(imgItem,index) in img7" :key="imgItem">
+                                <img  :src='`${hostName}/files/` + imgItem' class="avatar other-img">
+                                <!-- <img v-if="img7" :src='img7' class="avatar"> -->
+                                <i class="el-icon-circle-close" @click="handleDel(index)"></i>
+                            </div>
+                            <el-upload
+                                class="avatar-uploader el-right"
+                                action="http://47.99.180.135:8088/files"
+                                multiple
+                                :show-file-list="false"
+                                :before-upload="beforeAvatarUpload7">
+                                <i class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,23 +184,25 @@
 </template>
 
 <script>
+import hostName from '../../config/hostName'
 import { loginOut,imgUp,getImg,submitAudit } from '../../config/api'
 import merInfo from './merInfo'
 export default {
     name: 'merAudit',
     data() {
         return{
-            state: localStorage.state,
+            hostName: hostName,
+            state: '',                //审核状态
             active: 1,
             accound: localStorage.nickname,
             code: localStorage.id,
-            imageUrl1: '',
-            imageUrl2: '',
-            imageUrl3: '',
-            imageUrl4: '',
-            imageUrl5: '',
-            imageUrl6: '',
-            imageUrl7: [],
+            img1: '',
+            img2: '',
+            img3: '',
+            img4: '',
+            img5: '',
+            img6: '',
+            img7: [],
             list: {
                 mch_id: localStorage.id,
                 mch_name: null,
@@ -230,14 +241,43 @@ export default {
             this.active--
         },
         next1() {
+            if(this.list.mch_name == null || this.list.mch_name == '') {
+                this.$message.error('请输入商户名称')
+                return false
+            }
+            if(this.list.legal_name == null || this.list.legal_name == '') {
+                this.$message.error('请输入法人姓名')
+                return false
+            }
+            var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/
+            if(!myreg.test(this.list.legal_phone)) {
+                this.$message.error('请输入正确的法人手机号')
+                return false
+            }
+            if(this.list.email == null || this.list.email == '') {
+                this.$message.error('请输入邮箱地址')
+                return false
+            }
+            if(this.list.org_code == null || this.list.org_code == '') {
+                this.$message.error('请输入统一社会信用代码')
+                return false
+            }
             document.documentElement.scrollTop = 0
             this.active++ 
         },
         next2() {
-            document.documentElement.scrollTop = 0
+            if(this.list.license_images.indexOf(0) > -1) {
+                this.$message.error('请上传营业执照相关照片')
+                return false
+            }
+            if(this.list.card_images.indexOf(0) > -1) {
+                this.$message.error('请上身份证相关照片')
+                return false
+            }
             submitAudit(this.list).then( res => {
                 this.active++ 
             })
+            document.documentElement.scrollTop = 0
         },
         beforeAvatarUpload1(file) {
             let fd = new FormData();//通过form数据格式来传
@@ -245,7 +285,8 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.license_images[0] = res.data.id 
-                this.imageUrl1 = 'http://47.99.180.135:8088/files/' + res.data.id
+                this.img1 = `${hostName}/files/` + res.data.id 
+                console.log(this.img1 )
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -259,7 +300,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.license_images[1] = res.data.id 
-                this.imageUrl2 = 'http://47.99.180.135:8088/files/' + res.data.id
+                this.img2 =`${hostName}/files/` + res.data.id 
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -273,7 +314,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.license_images[2] = res.data.id 
-                this.imageUrl3 = 'http://47.99.180.135:8088/files/' + res.data.id
+                this.img3 = `${hostName}/files/` + res.data.id 
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -287,7 +328,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.card_images[0] = res.data.id 
-                this.imageUrl4 = 'http://47.99.180.135:8088/files/' + res.data.id
+                this.img4 = `${hostName}/files/` + res.data.id 
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -302,7 +343,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.card_images[1] = res.data.id 
-                this.imageUrl5 = 'http://47.99.180.135:8088/files/' + res.data.id
+                this.img5 = `${hostName}/files/` + res.data.id 
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -317,7 +358,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.card_images[2] = res.data.id 
-                this.imageUrl6 = 'http://47.99.180.135:8088/files/' + res.data.id
+                this.img6 = `${hostName}/files/` + res.data.id 
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -331,7 +372,7 @@ export default {
             imgUp(fd).then((res) => {
                 console.log(res)
                 this.list.other_images.push(res.data.id)
-                this.imageUrl7 = this.list.other_images
+                this.img7 = this.list.other_images
                 this.$message({
                     message: '上传成功！',
                     type: 'success'
@@ -344,6 +385,21 @@ export default {
             this.imageUrl7 = this.list.other_images
         }
     },
+    mounted() {
+        if(this.$route.query.state == 2) {
+            this.state = 2
+        }else if(this.$route.query.list && this.$route.query.list.license_images){
+            // this.list = this.$route.query.list
+            // this.img1 = `${hostName}/files/` + this.list.license_images[0]
+            // this.img2 = `${hostName}/files/` + this.list.license_images[1]
+            // this.img3 = `${hostName}/files/` + this.list.license_images[2]
+            // this.img4 = `${hostName}/files/` + this.list.card_images[0]
+            // this.img5 = `${hostName}/files/` + this.list.card_images[1]
+            // this.img6 = `${hostName}/files/` + this.list.card_images[2]
+            // this.img7 = this.list.other_images
+            this.active = 3
+        }
+    }
 
 }
 </script>
@@ -367,6 +423,10 @@ export default {
             right: 50px
             font-size: 13px
             color: #fff
+            span
+                cursor: pointer
+    .step-wrapper
+        margin-top: 70px
     .step
         width: 850px
         margin: 0 auto
@@ -375,6 +435,10 @@ export default {
         border-radius: 5px
         background: #fff
         margin-top: 40px
+    .state
+        text-align: center
+        font-size: 15px
+        color: #00BFA6
     .basic-info
         text-align: center
         padding: 30px
@@ -383,7 +447,7 @@ export default {
         border-radius: 5px
         background: #fff
         margin: 10px auto
-        margin-top: 70px
+        
         h2
             font-size: 18px
             font-weight: bold
@@ -407,7 +471,6 @@ export default {
         border-radius: 5px
         background: #fff
         margin: 10px auto
-        margin-top: 70px
         h2
             font-size: 18px
             font-weight: bold
