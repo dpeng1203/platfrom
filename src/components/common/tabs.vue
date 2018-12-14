@@ -67,6 +67,7 @@ export default {
 <style lang="sass" scoped>
     .tac 
         width: 287px
+        // height: 100vh
         flex-shrink: 0
         .el-menu-vertical-demo
             height: 100vh

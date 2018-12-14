@@ -6,6 +6,7 @@ import login from '@/components/login'
 //商家管理
 const merList = resolve => require(['../components/merManagement/merList'], resolve);
 const billDetail = resolve => require(['../components/merManagement/billDetail'], resolve);
+const oneBillDetail = resolve => require(['../components/merManagement/oneBillDetail'], resolve);
 const branchDetail = resolve => require(['../components/merManagement/branchDetail'], resolve);
 const merCloseInfo = resolve => require(['../components/merManagement/merCloseInfo'], resolve);
 const merInfo = resolve => require(['../components/merManagement/merInfo'], resolve);
@@ -32,6 +33,7 @@ export default new Router({
         {path: 'merList', name: 'merList', component: merList},
         {path: 'branchDetail', name: 'branchDetail', component: branchDetail},
         {path: 'billDetail', name: 'billDetail', component: billDetail},
+        {path: 'oneBillDetail', name: 'oneBillDetail', component: oneBillDetail},
         {path: 'merCloseInfo', name: 'merCloseInfo', component: merCloseInfo},
         {path: 'merInfo', name: 'merInfo', component: merInfo},
         {path: 'cashList', name: 'cashList', component: cashList},

@@ -1,6 +1,7 @@
 
 import Vue from 'vue'
 import axios from 'axios'
+import router from '../router'
 import {hex_md5} from '../assets/js/md5.js'
 import hostName from './hostName'
 //引入element 
@@ -51,6 +52,10 @@ export function myPost(url, params) {
     .catch(function (error) {
       if (error.response) {
         Message.error(error.response.data.message);
+        console.log(error.response.data.message == '未登录')
+        if(error.response.data.message == '未登录') {
+          router.push('/')
+        }
       } 
       reject(error)
     })
@@ -65,6 +70,10 @@ export function myGet(url, params) {
     .catch(function (error) {
       if (error.response) {
         Message.error(error.response.data.message);
+        console.log(error.response.data.message == '未登录')
+        if(error.response.data.message == '未登录') {
+          router.push('/')
+        }
       } 
       reject(error)
     })
@@ -79,6 +88,10 @@ export function myDelete(url, params) {
     .catch(function (error) {
       if (error.response) {
         Message.error(error.response.data.message);
+        console.log(error.response.data.message == '未登录')
+        if(error.response.data.message == '未登录') {
+          router.push('/')
+        }
       } 
       reject(error)
     })

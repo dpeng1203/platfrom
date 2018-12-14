@@ -14,6 +14,7 @@ module.exports = {
       '/api': {
         // target:'http://47.99.180.135:8080',    //  正式环境
         target:'http://47.99.180.135:8088',    //  测试环境
+        // target:'http://172.20.10.6:8080',   //本地
 
         // target:'http://172.20.10.6:8080',
         changeOrigin: true,
@@ -28,7 +29,7 @@ module.exports = {
     host: 'localhost', // can be overwritten by process.env.HOST
     // host: '172.20.10.8',
     port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: false,
+    autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-

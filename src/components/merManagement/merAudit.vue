@@ -266,14 +266,14 @@ export default {
             this.active++ 
         },
         next2() {
-            if(this.list.license_images.indexOf(0) > -1) {
-                this.$message.error('请上传营业执照相关照片')
-                return false
-            }
-            if(this.list.card_images.indexOf(0) > -1) {
-                this.$message.error('请上身份证相关照片')
-                return false
-            }
+            // if(this.list.license_images.indexOf(0) > -1) {
+            //     this.$message.error('请上传营业执照相关照片')
+            //     return false
+            // }
+            // if(this.list.card_images.indexOf(0) > -1) {
+            //     this.$message.error('请上身份证相关照片')
+            //     return false
+            // }
             submitAudit(this.list).then( res => {
                 this.active++ 
             })

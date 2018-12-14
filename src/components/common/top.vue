@@ -49,6 +49,7 @@ export default {
 <style lang="sass" scoped>
     .top
         display: flex
+        width: 100vw
         .name
             width: 286px
             flex-shrink: 0

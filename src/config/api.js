@@ -48,5 +48,9 @@ export const merList = p => myGet('/user/base',{params: p})
 // 提现列表
 export const auditList = p => myGet('/cash/list',{params: p})
  
+//  图标数据
+export const chartData = p => myGet('/stats',{params: p})
 
+// 主页数据统计
+export const statsTotal = p => myGet('/stats/total',{params: p})
 

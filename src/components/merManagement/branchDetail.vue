@@ -7,157 +7,105 @@
             <div class="box-wrapper">
                 <div class="box">
                     <div class="box-title">今日成功收款（元）</div>
-                    <ul class="scss"><li>0</li></ul>
+                    <ul class="scss"><li>{{sum.smoney}}</li></ul>
                 </div>
                 <div class="box">
                     <div class="box-title">今日成功订单量</div>
-                    <ul class="scss"><li>0</li></ul>
+                    <ul class="scss"><li>{{sum.scount}}</li></ul>
                 </div>
             </div>
             <div class="box-wrapper">
                 <div class="box">
                     <div class="box-title">今日未成功收款（元）</div>
-                    <ul class="fail"><li>0</li></ul>
+                    <ul class="fail"><li>{{sum.fmoney}}</li></ul>
                 </div>
                 <div class="box">
                     <div class="box-title">今日未成功订单量</div>
-                    <ul class="fail"><li>0</li></ul>
+                    <ul class="fail"><li>{{sum.fcount}}</li></ul>
                 </div>
             </div>
             <div class="box-wrapper small-box-wrapper">
                 <div class="box small-box">
                     <div class="box-title">总收款（元）</div>
-                    <ul class="money"><li>0</li></ul>
+                    <ul class="money"><li>{{sum.tmoney}}</li></ul>
                 </div>
                 <div class="box small-box">
                     <div class="box-title">已出款（元）</div>
-                    <ul class="money"><li>0</li></ul>
+                    <ul class="money"><li>{{sum.cmoney}}</li></ul>
                 </div>
                 <div class="box small-box">
                     <div class="box-title">未出款（元）</div>
-                    <ul class="money"><li>0</li></ul>
+                    <ul class="money"><li>{{sum.rmoney}}</li></ul>
                 </div>
             </div>
         </div>
-        <div class="chart-wrapper">
-            <div class="chart-title">每小时交易数</div>
+        <div class="chart-wrapper" >
+            <div class="chart-title">每小时交易金额</div>
             <div class="chart-ct">
-                
+                <div id="c1"></div>
+            </div>
+        </div>
+        <div class="chart-wrapper" >
+            <div class="chart-title">每小时交易数量</div>
+            <div class="chart-ct">
                 <div id="c2"></div>
             </div>
         </div>
-        
         
     </div>
        
 </template>
 
 <script>
+import { chartData,statsTotal } from '../../config/api'
 import G2 from '@antv/g2';
 export default {
     data() {
         return{
-            serverData: [{
-                "month": "Jan",
-                "city": "Tokyo",
-                "temperature": 7
-                }, {
-                "month": "Jan",
-                "city": "London",
-                "temperature": 3.9
-                }, {
-                "month": "Feb",
-                "city": "Tokyo",
-                "temperature": 6.9
-                }, {
-                "month": "Feb",
-                "city": "London",
-                "temperature": 4.2
-                }, {
-                "month": "Mar",
-                "city": "Tokyo",
-                "temperature": 9.5
-                }, {
-                "month": "Mar",
-                "city": "London",
-                "temperature": 5.7
-                }, {
-                "month": "Apr",
-                "city": "Tokyo",
-                "temperature": 14.5
-                }, {
-                "month": "Apr",
-                "city": "London",
-                "temperature": 8.5
-                }, {
-                "month": "May",
-                "city": "Tokyo",
-                "temperature": 18.4
-                }, {
-                "month": "May",
-                "city": "London",
-                "temperature": 11.9
-                }, {
-                "month": "Jun",
-                "city": "Tokyo",
-                "temperature": 21.5
-                }, {
-                "month": "Jun",
-                "city": "London",
-                "temperature": 15.2
-                }, {
-                "month": "Jul",
-                "city": "Tokyo",
-                "temperature": 25.2
-                }, {
-                "month": "Jul",
-                "city": "London",
-                "temperature": 17
-                }, {
-                "month": "Aug",
-                "city": "Tokyo",
-                "temperature": 26.5
-                }, {
-                "month": "Aug",
-                "city": "London",
-                "temperature": 16.6
-                }, {
-                "month": "Sep",
-                "city": "Tokyo",
-                "temperature": 23.3
-                }, {
-                "month": "Sep",
-                "city": "London",
-                "temperature": 14.2
-                }, {
-                "month": "Oct",
-                "city": "Tokyo",
-                "temperature": 18.3
-                }, {
-                "month": "Oct",
-                "city": "London",
-                "temperature": 10.3
-                }, {
-                "month": "Nov",
-                "city": "Tokyo",
-                "temperature": 13.9
-                }, {
-                "month": "Nov",
-                "city": "London",
-                "temperature": 6.6
-                }, {
-                "month": "Dec",
-                "city": "Tokyo",
-                "temperature": 9.6
-                }, {
-                "month": "Dec",
-                "city": "London",
-                "temperature": 4.8
-                }],
+            serverData: [],
+            sum: {}
         }
     },
     methods:{
-        getChart() {
+        getMoneyChart() {
+            var chart = new G2.Chart({
+                container: 'c1',
+                forceFit: true,
+                height: 300,
+                padding: [ 20, 20, 95, 80 ]
+            });
+            chart.source(this.serverData, {
+                hour: {
+                    range: [0, 1]
+                }                
+            });
+            chart.tooltip({
+                crosshairs: {
+                    type: 'line'
+                }
+            });
+            chart.axis('sum', {
+                label: {
+                    formatter: function formatter(val) {
+                        return val + '万元';
+                    }
+                }
+            });
+            chart.axis('hour', {
+                label: {
+                    formatter: function formatter(val) {
+                        return val + '时';
+                    }
+                }
+            });
+            chart.line().position('hour*sum').color('status');
+            chart.point().position('hour*sum').color('status').size(4).shape('circle').style({
+                stroke: '#fff',
+                lineWidth: 1
+            });
+            chart.render();
+        },
+        getOrderChart() {
             var chart = new G2.Chart({
                 container: 'c2',
                 forceFit: true,
@@ -165,32 +113,68 @@ export default {
                 padding: [ 20, 20, 95, 80 ]
             });
             chart.source(this.serverData, {
-                month: {
+                hour: {
                     range: [0, 1]
-                }
+                }                
             });
             chart.tooltip({
                 crosshairs: {
                     type: 'line'
                 }
             });
-            chart.axis('temperature', {
+            chart.axis('count', {
                 label: {
-                    // formatter: function formatter(val) {
-                    //     return val + '°C';
-                    // }
+                    formatter: function formatter(val) {
+                        return val + '笔';
+                    }
                 }
             });
-            chart.line().position('month*temperature').color('city');
-            chart.point().position('month*temperature').color('city').size(4).shape('circle').style({
+            chart.axis('hour', {
+                label: {
+                    formatter: function formatter(val) {
+                        return val + '时';
+                    }
+                }
+            });
+            chart.line().position('hour*count').color('status');
+            chart.point().position('hour*count').color('status').size(4).shape('circle').style({
                 stroke: '#fff',
                 lineWidth: 1
             });
             chart.render();
+        },
+        getData() {
+            
+            let data = {
+                mch_id: localStorage.id
+            }
+            statsTotal(data).then( res => {
+                this.sum = res.data
+                this.sum.smoney = this.sum.smoney/100
+                this.sum.fmoney = this.sum.fmoney/100
+                this.sum.tmoney = this.sum.tmoney/100
+                this.sum.cmoney = this.sum.cmoney/100
+                this.sum.rmoney = this.sum.rmoney/100
+            })
+            chartData(data).then( res => {
+                this.serverData = res.data
+                this.serverData.forEach( ele => {
+                    ele.sum = ele.sum/100/10000
+                    if(ele.status == 3) {
+                        ele.status = '交易成功'
+                    }else if(ele.status == 1) {
+                        ele.status = '待支付'
+                    }else {
+                        ele.status = '交易失败'
+                    }
+                })
+                this.getMoneyChart()
+                this.getOrderChart()
+            })
         }
     },
     mounted() {
-        this.getChart()
+        this.getData()
     }
 }
 </script>
@@ -245,7 +229,6 @@ export default {
         background: #eee
         box-shadow: 0 1px 2px 0 rgba(0,0,0,.05)
         border-radius: 10px
-        margin-bottom: 100px
         .chart-title
             font-size: 15px
             // font-weight: bold

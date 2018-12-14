@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import changeData from '../../config/formatData'
 import { auditList,auditOk } from '../../config/api'
 export default {
     name: 'cashList',
@@ -114,9 +115,13 @@ export default {
                     }else{
                         ele.state = '未到账'
                     }
+                    if( ele.create_time ) {
+                        ele.create_time = changeData(ele.create_time)
+                    }
                 })
             })
         },
+        
 
         // searchBtn() {
         //     this.getList()
