@@ -59,7 +59,9 @@ export default {
                 secret_key: this.key
             }
             setKey(data).then((res) => {
-                console.log(res)
+                
+                localStorage.key = this.key
+                console.log(localStorage.key)
                 // this.list = res.data
             }, (err) => {
                 console.log(err)

@@ -39,18 +39,23 @@
                 </div>
             </div>
         </div>
-        <div class="chart-wrapper" >
-            <div class="chart-title">每小时交易金额</div>
-            <div class="chart-ct">
-                <div id="c1"></div>
+        <div>
+            <div class="chart-wrapper" >
+                <div class="chart-title">每小时交易金额</div>
+                <div class="chart-ct">
+                    <div id="c1"></div>
+                </div>
             </div>
         </div>
-        <div class="chart-wrapper" >
-            <div class="chart-title">每小时交易数量</div>
-            <div class="chart-ct">
-                <div id="c2"></div>
+        <div>
+            <div class="chart-wrapper" >
+                <div class="chart-title">每小时交易数量</div>
+                <div class="chart-ct">
+                    <div id="c2"></div>
+                </div>
             </div>
         </div>
+        
         
     </div>
        

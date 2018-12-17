@@ -54,3 +54,6 @@ export const chartData = p => myGet('/stats',{params: p})
 // 主页数据统计
 export const statsTotal = p => myGet('/stats/total',{params: p})
 
+//  统一下单
+export const payOrder = p => myPost('/pay/order', p)
+

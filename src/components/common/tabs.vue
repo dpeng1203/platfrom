@@ -38,6 +38,10 @@
                         <el-menu-item index="/home/resetKey">登录密码</el-menu-item>
                         <!-- <el-menu-item index="4-3">交易密码</el-menu-item> -->
                     </el-submenu>
+                    <el-menu-item index="/home/codePay" v-if="showPay">
+                        <i class="el-icon-document"></i>
+                        <span slot="title">个码支付</span>
+                    </el-menu-item>
                 </el-menu>
             </el-col>
         </el-row>
@@ -48,7 +52,7 @@ export default {
     name: 'tabs',
     data() {
         return{
-            
+            showPay: false
         }
     },
     methods: {
@@ -60,6 +64,9 @@ export default {
         }
     },
     mounted() {
+        if(localStorage.id == '1024') {
+            this.showPay = true
+        }
     }
 }
 </script>
