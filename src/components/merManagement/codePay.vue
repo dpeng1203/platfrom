@@ -77,10 +77,8 @@ export default {
                 if(res.data.code == 'A000' && res.data.type == 'form') {
                     this.$refs.formJump.innerHTML = res.data.data
                     document.E_FORM.submit()
-                    // var form = document.getElementById("formJump")
-                    // form.innerHTML = res
-                    // document.E_FORM.submit()
-                    // document.getElementById("formJump").html(res.data.data)
+                } else{
+                    this.$message.error(res.data.message)
                 }
             })
         }
