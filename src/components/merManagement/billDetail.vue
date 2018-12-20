@@ -10,7 +10,7 @@
         <div class="search">
             <div class="search-ct">
                 <div class="search-name">状态</div>
-                <el-select v-model="data.status" placeholder="请选择">
+                <el-select v-model="data.status" placeholder="请选择" class="pay-state">
                     <el-option
                     v-for="item in options1"
                     :key="item.value"
@@ -19,28 +19,27 @@
                     </el-option>
                 </el-select>
             </div>
-            <!-- <div class="search-ct">
+            <div class="search-ct">
                 <div class="search-name">商户订单号</div>
                 <el-input class="inline-input" v-model="data.mch_order_id" placeholder="请输入商户订单号"></el-input>
-            </div> -->
+            </div>
              <div class="search-ct">
                 <div class="search-name">系统订单号</div>
                 <el-input class="inline-input" v-model="data.sys_order_id" placeholder="请输入系统订单号"></el-input>
             </div>
-            <div class="search-ct">
+            <!-- <div class="search-ct">
                 <div class="search-name">交易时间</div>
                 <el-date-picker
                     v-model="date1"
                     type="date"
                     placeholder="选择日期">
                 </el-date-picker>
-            </div>
+            </div> -->
         </div>
         <div class="search">
-           
             <div class="search-ct">
                 <div class="search-name">支付类型</div>
-                <el-select v-model="data.pay_type" placeholder="请选择">
+                <el-select v-model="data.pay_type" placeholder="请选择" class="pay-state">
                     <el-option
                     v-for="item in options2"
                     :key="item.value"
@@ -50,21 +49,22 @@
                 </el-select>
             </div>
             <div class="search-ct">
-                <div class="search-name">开始时间</div>
+                <div class="search-name">选择日期范围</div>
                 <el-date-picker
-                    v-model="date2"
-                    type="date"
-                    placeholder="选择日期">
+                    v-model="value7"
+                    type="daterange"
+                    unlink-panels
+                    range-separator="-"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                   >
                 </el-date-picker>
-                <!-- <div class="search-btn">搜索</div> -->
-            </div>
-            <div class="search-ct">
-                <div class="search-name">结束时间</div>
-                <el-date-picker
-                    v-model="date3"
-                    type="date"
-                    placeholder="选择日期">
-                </el-date-picker>
+                <div class="rapid-btn" @click="searchToday">今日</div>
+                <div class="rapid-btn" @click="searchYest">昨日</div>
+                <div class="rapid-btn" @click="searchWeek">本周</div>
+                <div class="rapid-btn" @click="searchLastWeek">上周</div>
+                <div class="rapid-btn" @click="searchMonth">本月</div>
+                <div class="rapid-btn" @click="searchLastMonth">上月</div>
                 <div class="search-btn" @click="searchBtn">搜索</div>
             </div>
         </div>
@@ -80,13 +80,13 @@
                 <el-table-column
                     prop="mch_name"
                     label="商户名称"
-                    width="180">
+                    width="140">
                 </el-table-column>
                 
                 <el-table-column
                     prop="sys_order_id"
                     label="系统订单号"
-                    width="220">
+                    width="210">
                 </el-table-column>
                 <el-table-column
                     prop="pay_type"
@@ -94,19 +94,24 @@
                     width="100">
                 </el-table-column>
                 <el-table-column
+                    prop="channel"
+                    label="通道"
+                    width="110">
+                </el-table-column>
+                <el-table-column
                     prop="money"
                     label="金额"
-                    width="100">
+                    width="80">
                 </el-table-column>
                 <el-table-column
                     prop="mch_charge"
                     label="手续费"
-                    width="100">
+                    width="80">
                 </el-table-column>
                 <el-table-column
                     prop="create_time"
                     label="创建时间"
-                    width="180">
+                    width="170">
                 </el-table-column>
                 <el-table-column
                     prop="state"
@@ -153,16 +158,19 @@ export default {
                 label: '请选择'
                 },{
                 value: '1',
-                label: '新订单'
+                label: '待支付'
                 }, {
                 value: '2',
-                label: '进行中'
+                label: '交易进行中'
                 }, {
                 value: '3',
                 label: '交易成功'
                 }, {
                 value: '4',
                 label: '交易失败'
+                }, {
+                value: '9',
+                label: '超时关闭'
                 }],
             options2: [{
                 value: '',
@@ -174,19 +182,18 @@ export default {
                 value: 'wx',
                 label: '微信'
                 }],
-            date1: '',
-            date2: '',
-            date3: '',
             data: {
                 status: null,
-                mch_order_id: null,
                 sys_order_id: null,
                 pay_type: null,
+                start_time: null,
+                end_time: null,
                 mch_id: localStorage.id,
                 offset: 0,
                 limit: 10
             },
-            tableData: []
+            tableData: [],
+            value7: null,
         }
     },
     methods: {
@@ -200,15 +207,100 @@ export default {
                 this.count = res.data.count
             })
         },
+        //今日
+        searchToday() {
+            const end = new Date();
+            const start = new Date(new Date().toLocaleDateString())
+            start.setTime(start.getTime())
+            this.value7 = [start,end]
+            this.searchBtn()
+        },
+        // 昨日
+        searchYest() {
+            const start = new Date();
+            const end = new Date(new Date().toLocaleDateString())
+            end.setTime(end.getTime())
+            start.setTime(end.getTime() - 3600 * 1000 * 24 * 1)
+            this.value7 = [start,end]
+            this.searchBtn()
+        },
+        //本周
+        searchWeek() {
+            const end = new Date();
+            const start = new Date(new Date().toLocaleDateString())
+            const nowDayOfWeek = start.getDay()
+            if(nowDayOfWeek == 0) {
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 6)
+            }else{
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * (nowDayOfWeek - 1));
+            }
+            this.value7 = [start,end]
+            this.searchBtn()
+        },
+        //上周
+        searchLastWeek() {
+            const start = new Date()
+            const end = new Date(new Date().toLocaleDateString());
+            const nowDayOfWeek = end.getDay()
+            if(nowDayOfWeek == 0) {
+                end.setTime(end.getTime() - 3600 * 1000 * 24 * 6)
+            }else{
+                end.setTime(end.getTime() - 3600 * 1000 * 24 * (nowDayOfWeek - 1));
+            }
+            start.setTime(end.getTime() - 3600 * 1000 * 24 * 7);
+            this.value7 = [start,end]
+            this.searchBtn()
+        },
+        //本月
+        searchMonth() {
+            const end = new Date();
+            const start = new Date();
+            start.setDate(1);
+            start.setHours(0);
+            start.setSeconds(0);
+            start.setMinutes(0);
+            start.getTime();
+            this.value7 = [start,end]
+            this.searchBtn()
+        },
+        //上月
+        searchLastMonth() {
+            const start = new Date()
+            const end = new Date();
+            start.setDate(1);
+            start.setHours(0);
+            start.setSeconds(0);
+            start.setMinutes(0);
+            end.setDate(1);
+            end.setHours(0);
+            end.setSeconds(0);
+            end.setMinutes(0);
+            end.getTime();
+            const month = start.getMonth()
+            const year = start.getFullYear()
+            if(month == 0) {
+                start.setFullYear(year - 1)
+                start.setMonth(11)
+            }else{
+                start.setMonth(month - 1)
+            }
+            start.getTime()
+            this.value7 = [start,end]
+            this.searchBtn()
+        },
+
         searchBtn() {
-            if(this.date1 != '') {
-                this.data.trade_time  = this.date1
+            if(this.value7 != null) {
+                this.data.start_time = this.value7[0]
+                this.data.end_time = this.value7[1]
+            } else{
+                this.data.start_time = null
+                this.data.end_time = null
             }
-            if(this.date2 != '') {
-                this.data.start_time = this.date2
-            }
-            if(this.date3 != '') {
-                this.data.end_time = this.date3
+            for( var key in this.data) {
+                if(this.data[key] === null || this.data[key] === '') {
+                    delete this.data[key]
+                }
             }
             this.getBillList()
         },
@@ -226,11 +318,23 @@ export default {
                     if( ele.create_time ) {
                         ele.create_time = changeData(ele.create_time)
                     }
+                    if( ele.state == 1 ) {
+                        ele.state = '待支付'
+                    }else if( ele.state == 2 ) {
+                        ele.state = '交易进行中'
+                    }else if( ele.state == 3 ) {
+                        ele.state = '交易成功'
+                    }else if( ele.state == 4 ) {
+                        ele.state = '交易失败'
+                    }else if( ele.state == 9 ) {
+                        ele.state = '超时关闭'
+                    }else{
+                        ele.state = '状态异常'
+                    }
                 })
                 this.total_count = res.data.total_count
             })
         },
-
         handleClick(row) {
             this.$router.push({path: '/home/oneBillDetail',query: {billInfo: row}})
         },
@@ -291,7 +395,20 @@ export default {
                 background: #fff
             .inline-input
                 width: 220px
-
+            .pay-state
+                width: 220px
+            .rapid-btn
+                display: inline-block
+                width: 40px
+                height: 35px
+                line-height: 35px
+                text-align: center
+                border: 1px solid #00DB00
+                color: #00DB00
+                border-radius: 5px;
+                font-size: 14px
+                margin-left: 2px
+                cursor: pointer
             .search-btn
                 display: inline-block
                 width: 100px
@@ -302,13 +419,13 @@ export default {
                 background: #00BFA6;
                 border-radius: 25px;
                 font-size: 14px
-                margin: 0 0 0 60px
+                margin: 0 0 0 30px
         .search-ct:first-child
             margin-left: 0
            
     .table
         margin-top: 40px
-        width: 1130px
+        width: 1160px
         .block
             padding: 30px 0
             text-align: center 

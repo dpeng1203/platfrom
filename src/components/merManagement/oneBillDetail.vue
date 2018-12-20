@@ -26,6 +26,10 @@
                 <span>{{data.pay_type}}</span>
             </div>
             <div class="item">
+                <span class="name">通道：</span>
+                <span>{{data.channel}}</span>
+            </div>
+            <div class="item">
                 <span class="name">金额：</span>
                 <span>{{data.money}}</span>
             </div>

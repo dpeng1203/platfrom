@@ -17,15 +17,15 @@ export const randomKey = p => myPost('/user/secret/random', p);
 // 设置私钥
 export const setKey = p => myPost('/user/secret', p);
 //  查询结算信息
-export const settlement = p => myGet('/user/settlement',{params: p})
+// export const settlement = p => myGet('/user/settlement',{params: p})
 // 修改结算信息
-export const own = p => myPost('/user/settlement/own', p);
+// export const own = p => myPost('/user/settlement/own', p);
 
 // 用户信息
-export const accountList = p => myGet('/admin/user/list',{params: p})
+// export const accountList = p => myGet('/admin/user/list',{params: p})
 
 // 利率设置
-export const accountRate = p => myPost('/user/settlement/charge', p);
+// export const accountRate = p => myPost('/user/settlement/charge', p);
 
 //  登出
 export const loginOut = () => myDelete('/own')
@@ -57,3 +57,5 @@ export const statsTotal = p => myGet('/stats/total',{params: p})
 //  统一下单
 export const payOrder = p => myPost('/pay/order', p)
 
+// 补单
+export const reissue = p => myPost('/bill/reissue', p)

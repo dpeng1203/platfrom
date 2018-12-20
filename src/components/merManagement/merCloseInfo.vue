@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { settlement,own } from '../../config/api'
+// import { settlement,own } from '../../config/api'
 export default {
     name: 'merCloseInfo',
     data() {

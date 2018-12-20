@@ -8,6 +8,10 @@
                 <div class="basic-info">
                     <h2>基本信息</h2>
                     <div class="item">
+                        <span class="name">商户号：</span>
+                        <span>{{list.mch_id}}</span>
+                    </div>
+                    <div class="item">
                         <span class="name">商户名称：</span>
                         <span>{{list.mch_name}}</span>
                     </div>
@@ -46,19 +50,19 @@
             <div class="mer-info">
                 <h2>商户资质</h2>
                 <div class="photo-wrapper" v-if="list.license_images">
-                    <div class="item">
+                    <div class="item"  v-if="list.license_images[0] != 0">
                         <span class="name">营业执照</span>
                         <div class="img-ct">
                             <img :src='`${hostName}/files/` + list.license_images[0]' alt="">
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item" v-if="list.license_images[1] != 0">
                         <span class="name">开户许可证</span>
                         <div class="img-ct">
                             <img :src='`${hostName}/files/` + list.license_images[1]' alt="">
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item" v-if="list.license_images[2] != 0">
                         <span class="name">手持营业执照</span>
                         <div class="img-ct">
                             <img :src='`${hostName}/files/` + list.license_images[2]' alt="">
@@ -68,19 +72,19 @@
                 
 
                 <div class="photo-wrapper" v-if="list.card_images">
-                    <div class="item">
+                    <div class="item" v-if="list.card_images[0] != 0">
                         <span class="name">身份证（正面）</span>
                         <div class="img-ct">
                             <img :src='`${hostName}/files/` + list.card_images[0]' alt="">
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item" v-if="list.card_images[1] != 0">
                         <span class="name">身份证（反面）</span>
                         <div class="img-ct">
                             <img :src='`${hostName}/files/` + list.card_images[1]' alt="">
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item" v-if="list.card_images[2] != 0">
                         <span class="name">手持身份证（正面）</span>
                         <div class="img-ct">
                             <img :src='`${hostName}/files/` + list.card_images[2]' alt="">
