@@ -76,7 +76,7 @@ export default {
 <style lang="sass" scoped>
 .login
     background: #00BFA6
-    width: 100vw
+    min-width: 1500px
     height: 100vh
     display: flex
     align-items: center

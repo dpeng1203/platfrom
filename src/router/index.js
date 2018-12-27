@@ -5,14 +5,19 @@ import login from '@/components/login'
 
 //商家管理
 const merList = resolve => require(['../components/merManagement/merList'], resolve);
-const billDetail = resolve => require(['../components/merManagement/billDetail'], resolve);
-const oneBillDetail = resolve => require(['../components/merManagement/oneBillDetail'], resolve);
-const branchDetail = resolve => require(['../components/merManagement/branchDetail'], resolve);
 const merInfo = resolve => require(['../components/merManagement/merInfo'], resolve);
 const merAudit = resolve => require(['../components/merManagement/merAudit'], resolve);
 const cashList = resolve => require(['../components/merManagement/cashList'], resolve);
-const codePay = resolve => require(['../components/merManagement/codePay'], resolve);
+const merApp = resolve => require(['../components/merManagement/merApp'], resolve);
 
+//测试商户--二维码
+const codePay = resolve => require(['../components/merManagement/codePay'], resolve);
+//主页
+const homeDetail = resolve => require(['../components/homeDetail/homeDetail'], resolve);
+
+//交易管理
+const billDetail = resolve => require(['../components/billManage/billDetail'], resolve);
+const oneBillDetail = resolve => require(['../components/billManage/oneBillDetail'], resolve);
 
 // 密钥管理
 const keyManage = resolve => require(['../components/keyManage/keyManage'], resolve);
@@ -25,17 +30,21 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      redirect: '/home/branchDetail',
       component: home,
+      redirect: '/home/homeDetail',
       children:[
         //商家管理
         {path: 'merList', name: 'merList', component: merList},
-        {path: 'branchDetail', name: 'branchDetail', component: branchDetail},
-        {path: 'billDetail', name: 'billDetail', component: billDetail},
-        {path: 'oneBillDetail', name: 'oneBillDetail', component: oneBillDetail},
         {path: 'merInfo', name: 'merInfo', component: merInfo},
         {path: 'cashList', name: 'cashList', component: cashList},
         {path: 'codePay', name: 'codePay', component: codePay},
+        {path: 'merApp', name: 'merApp', component: merApp},
+        //主页
+        {path: 'homeDetail', name: 'homeDetail', component: homeDetail},
+
+        //交易管理
+        {path: 'billDetail', name: 'billDetail', component: billDetail},
+        {path: 'oneBillDetail', name: 'oneBillDetail', component: oneBillDetail},
 
         //密钥管理
         {path: 'keyManage', name: 'keyManage', component: keyManage},

@@ -49,7 +49,7 @@ export default {
 <style lang="sass" scoped>
     .top
         display: flex
-        width: 100vw
+        min-width: 1500px
         .name
             width: 286px
             flex-shrink: 0
@@ -76,27 +76,5 @@ export default {
             border-bottom: 1px solid #EEE
             span
                 cursor: pointer
-            // .user-name
-            //    margin-top: 16px
-            // .user-code
-            //     margin-top: 5px
-            //     font-size: 13px
-            //     margin-left: 2px
-        // .btn-wrapper
-        //     height: 80px
-        //     border-bottom: 1px solid #EEE
-        //     .btn-out
-        //         display: inline-block
-        //         width: 80px
-        //         height: 30px
-        //         line-height: 30px
-        //         background: #00BFA6;
-        //         border-radius: 5px;
-        //         color: #fff
-        //         font-weight: bold
-        //         font-size: 13px
-        //         text-align: center
-        //         margin: 25px 30px 0 10px 
-
 
 </style>

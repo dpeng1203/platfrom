@@ -3,18 +3,6 @@
         <div class="title">
             <span>提现列表</span>
         </div>  
-        <!-- <div class="search">
-            <div class="search-ct">
-                <div class="search-name">手机号</div>
-                <el-input class="inline-input" v-model="data.phone" placeholder="请输入内容"></el-input>
-            </div>
-             <div class="search-ct">
-                <div class="search-name">商户号</div>
-                <el-input class="inline-input" v-model="data.mch_id" placeholder="请输入内容"></el-input>
-                <div class="search-btn" @click="searchBtn">搜索</div>
-            </div>
-        </div> -->
-
 
         <div class="table">
             <el-table
@@ -60,13 +48,6 @@
                     label="是否到账"
                    >
                 </el-table-column>
-                <!-- <el-table-column
-                label="操作"
-                >
-                <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row)" type="text" size="small">到账</el-button>
-                </template>
-                </el-table-column> -->
             </el-table>
             <div class="block">
                 <el-pagination
@@ -125,19 +106,6 @@ export default {
         },
         
 
-        // searchBtn() {
-        //     this.getList()
-        // },
-
-        // handleClick(row) {
-        //     console.log(row);
-        //     let data = {
-        //         cash_log_id: row.id
-        //     }
-        //     auditOk(data).then(res => {
-        //         this.getList()
-        //     })
-        // },
 
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
@@ -164,31 +132,6 @@ export default {
     .title 
         font-size: 24px
         font-weight: bold
-    .search
-        display: flex
-        margin-top: 20px
-        .search-ct
-            margin-left: 60px
-            .search-name
-                font-size: 14px
-                line-height: 18.2px
-                padding-bottom: 10px
-            .inline-input
-                width: 200px
-            .search-btn
-                display: inline-block
-                width: 100px
-                height: 35px
-                margin-top: 60px
-                line-height: 35px
-                text-align: center
-                color: #fff
-                background: #00BFA6;
-                border-radius: 25px;
-                font-size: 14px
-                margin: 0 0 0 60px
-        .search-ct:first-child
-            margin-left: 0
     .table
         margin-top: 40px
         width: 1100px

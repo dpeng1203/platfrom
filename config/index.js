@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       '/api': {
         // target:'http://47.99.180.135:8080',    //  正式环境
-        target:'http://47.99.180.135:8088',    //  测试环境
+        target:'http://116.62.209.131:8088',    //  测试环境
         // target:'http://172.20.10.6:8080',   //本地
 
         // target:'http://172.20.10.6:8080',

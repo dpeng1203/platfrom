@@ -37,7 +37,7 @@ export default {
                 this.$message.error('两次输入密码不一致');
                 return false
             }
-            this.$confirm('确定修改商户密钥?', '提示', {
+            this.$confirm('确定修改商户密码?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'

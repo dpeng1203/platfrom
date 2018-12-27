@@ -33,13 +33,11 @@ export default {
 <style lang='sass' scoped>
 .ct
     height: 100vh
-    overflow: hidden
+    overflow: auto
     .content-wrapper
-        // display: flex   
         position: relative
         .content
-            // padding: 0 30px
-            // flex: 1
+            min-width: 1200px
             padding-bottom: 200px
             position: absolute
             right: 0

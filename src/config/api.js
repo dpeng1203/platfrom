@@ -45,6 +45,9 @@ export const submitAudit = p => myPost('/user/base', p);
 // 商户基本信息
 export const merList = p => myGet('/user/base',{params: p})
 
+//商户应用信息
+export const merAppRate = p => myGet('/mch/app',{params: p})
+
 // 提现列表
 export const auditList = p => myGet('/cash/list',{params: p})
  

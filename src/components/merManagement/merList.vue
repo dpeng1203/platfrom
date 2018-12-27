@@ -33,7 +33,7 @@
             <div class="box-wrapper" v-if="showBox">
                 <div class="box-title">提现金额（元）</div>
                 <div><input type="text" placeholder="提现金额（元）" v-model="money" class="add_color" ></div>
-                <div><input type="text" placeholder="账户密码" v-model="data.password" class="add_color"></div>
+                <div><input type="password" placeholder="账户密码" v-model="data.password" class="add_color"></div>
                 <div><input type="text" placeholder="开户行（**银行）" v-model="data.open_bank" class="add_color"></div>
                 <div><input type="text" placeholder="开户支行（**省**市**支行）" v-model="data.sub_bank" class="add_color"></div>
                 <div><input type="text" placeholder="银行卡号" v-model="data.bankcard_number" class="add_color"></div>
