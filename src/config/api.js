@@ -50,6 +50,9 @@ export const merAppRate = p => myGet('/mch/app',{params: p})
 
 // 提现列表
 export const auditList = p => myGet('/cash/list',{params: p})
+
+// 转入代付池
+export const converMoney = p => myPost('/wallet/conversion', p);
  
 //  图标数据
 export const chartData = p => myGet('/stats',{params: p})

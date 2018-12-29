@@ -25,9 +25,33 @@
                 <span>{{list.total}}</span>
                 <!-- <input type="text" v-model="list.total" disabled> -->
             </div>
+            <div class="btn" @click="save">提现</div>
         </div>
 
-        <div class="btn" @click="save">提现</div>
+        <div class="wrapper">
+            <div class="item">
+                <span class="name">代付金额（元）:</span>
+                <span>{{list.reservoir}}</span>
+                <!-- <input type="text"  v-model="list.recharge" disabled> -->
+            </div>
+            <div class="item">
+                <span class="name"></span>
+                <span></span>
+                <!-- <input type="text"  v-model="list.bonus" disabled> -->
+            </div>
+            <div class="item">
+                <span class="name"></span>
+                <span></span>
+                <!-- <input type="text"  v-model="list.pending" disabled> -->
+            </div>
+            <div class="item">
+                <span class="name"></span>
+                <span></span>
+                <!-- <input type="text" v-model="list.total" disabled> -->
+            </div>
+            <div class="btn" @click="rollIn">转入</div>
+        </div>
+
         <div class="maks" v-if="showBox"></div>
         <div class="box">
             <div class="box-wrapper" v-if="showBox">
@@ -50,7 +74,7 @@
 </template>
 
 <script>
-import { merInfo,deposit } from '../../config/api'
+import { merInfo,deposit,converMoney } from '../../config/api'
 export default {
     name: 'merList',
     data() {
@@ -81,7 +105,33 @@ export default {
                 this.list.bonus = this.list.bonus/100
                 this.list.total = this.list.total/100
                 this.list.pending = this.list.pending/100
+                this.list.reservoir = this.list.reservoir/100
             })
+        },
+        rollIn() {
+            this.$prompt('请输入需要转入的金额(元)', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+            }).then(({ value }) => {
+                let data = {
+                    mch_id: localStorage.id,
+                    money: value * 100
+                }
+                converMoney(data).then( res => {
+                    this.$message({
+                        type: 'success',
+                        message: '转入成功！ '
+                    });
+                    this.getMerInfo()
+                })
+                
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消！'
+                });       
+            });
+            
         },
         save() {
             this.showBox = true
@@ -152,7 +202,9 @@ export default {
             width: 35px
             height: 35px
     .wrapper
+        display: inline-block
         padding: 40px 0 0 30px
+        width: 400px
         .item 
             margin-top: 30px
             font-size: 14px
@@ -180,7 +232,7 @@ export default {
         font-size: 16px
         text-align: center
         margin-top: 100px
-        margin-left: 30px
+        // margin-left: 30px
     .cancel
         background:  #B1B3C1
     .box-wrapper
