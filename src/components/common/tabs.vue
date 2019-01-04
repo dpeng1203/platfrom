@@ -42,6 +42,10 @@
                         <i class="el-icon-document"></i>
                         <span slot="title">个码支付</span>
                     </el-menu-item>
+                    <el-menu-item index="/home/cnt" v-if="showPay">
+                        <i class="el-icon-document"></i>
+                        <span slot="title">cnt测试</span>
+                    </el-menu-item>
                 </el-menu>
             </el-col>
         </el-row>

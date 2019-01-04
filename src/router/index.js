@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/components/home'
 import login from '@/components/login'
-
 //商家管理
 const merList = resolve => require(['../components/merManagement/merList'], resolve);
 const merInfo = resolve => require(['../components/merManagement/merInfo'], resolve);
@@ -12,6 +11,7 @@ const merApp = resolve => require(['../components/merManagement/merApp'], resolv
 
 //测试商户--二维码
 const codePay = resolve => require(['../components/merManagement/codePay'], resolve);
+const cnt = resolve => require(['../components/cntTest'], resolve);
 //主页
 const homeDetail = resolve => require(['../components/homeDetail/homeDetail'], resolve);
 
@@ -39,6 +39,8 @@ export default new Router({
         {path: 'cashList', name: 'cashList', component: cashList},
         {path: 'codePay', name: 'codePay', component: codePay},
         {path: 'merApp', name: 'merApp', component: merApp},
+        //测试
+        {path: 'cnt', name: 'cnt', component: cnt},
         //主页
         {path: 'homeDetail', name: 'homeDetail', component: homeDetail},
 
@@ -67,6 +69,11 @@ export default new Router({
       path: '/merAudit',
       name: 'merAudit',
       component: merAudit
+    },
+    {
+      path: '/cnt',
+      name: 'cnt',
+      component: cnt
     }
   ]
 })
