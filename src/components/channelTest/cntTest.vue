@@ -4,23 +4,24 @@
       
       <div v-show="check">
         <div class="title">Alian支付</div>
-        <div><input type="number" placeholder="金额" v-model="money"></div>
+        <div><input type="text" placeholder="金额" v-model="money"></div>
         <el-checkbox v-model="form.discount" @change='form.discount2 = !form.discount'>
-          <img src="../assets/img/zfb.jpg" alt="" class="img-logo"> 支付宝
+          <img src="../../assets/img/zfb.jpg" alt="" class="img-logo"> 支付宝
         </el-checkbox>
         <el-checkbox v-model="form.discount2" @change='form.discount = !form.discount2'>
-          <img src="../assets/img/wx.jpg" alt=""  class="wx-logo"> 微信
+          <img src="../../assets/img/wx.jpg" alt=""  class="wx-logo"> 微信
         </el-checkbox>
         <div class="btn" @click="pay">支付</div>
       </div>
 
       <div v-show="!check">
         <div class="title">
-          <img src="../assets/img/zfb.jpg" alt="" class="z-logo" v-if="pType == '支付宝'"> 
-          <img src="../assets/img/wx.jpg" alt="" class="w-logo" v-if="pType == '微信'">
+          <img src="../../assets/img/zfb.jpg" alt="" class="z-logo" v-if="pType == '支付宝'"> 
+          <img src="../../assets/img/wx.jpg" alt="" class="w-logo" v-if="pType == '微信'">
           {{`${pType}支付: ${money}元`}}
         </div>
         <div id="qrcode" ref="qrcode"></div>
+        <div class="tip">请按照实际下单金额付款<p>金额不一致会导致订单失败</p></div>
         <div class="btn2" @click="confirm">确认付款</div>
         <div class="btn2" @click="back">返回</div>
       </div>
@@ -29,8 +30,8 @@
 </template>
 
 <script>
-  import {hex_md5} from '../assets/js/md5.js'
-  import {myPost, myGet, myDelete, myPut} from '../config/axioxLoading'
+  import {hex_md5} from '../../assets/js/md5.js'
+  import {myPost, myGet, myDelete, myPut} from '../../config/axioxLoading'
   import  Qrcode from 'qrcodejs2'
   export default {
     name: 'cnt',
@@ -53,8 +54,39 @@
     },
     methods: {
       back(){
-        this.check=true;
-        document.getElementById('qrcode').innerHTML = '';
+        if(!this.check) {
+          this.$confirm('是否已付款?', '提示', {
+            confirmButtonText: '是',
+            cancelButtonText: '否',
+            type: 'warning'
+          }).then(() => {
+            this.confirm()
+            this.check=true;
+            document.getElementById('qrcode').innerHTML = ''
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消'
+            });          
+          });
+        }
+      },
+      signFigures(num, rank = 6) {
+          if(!num) return(0);
+          const sign = num / Math.abs(num);
+          const number = num * sign;
+          const temp = rank - 1 - Math.floor(Math.log10(number));
+          let ans;
+          if (temp > 0) {
+              ans = parseFloat(number.toFixed(temp));
+          }
+          else if (temp < 0) {
+              ans = Math.round(number / Math.pow(10, temp)) * temp;
+          }
+          else {
+              ans = Math.round(number);
+          }
+          return (ans * sign);
       },
       confirm(){
         let mch_id = 1024;
@@ -69,11 +101,17 @@
 
         myPost("/pay/confirm", param).then(res => {
           console.info(res);
-          if (res.code == 'A000') {
-            alert(res.message);
+          if (res.data.code == 'A000') {
+            this.$message({
+               message: res.data.message,
+              type: 'success'
+            })
             this.check=true;
           } else {
-            alert(res.message)
+            this.$message({
+               message: res.data.message,
+              type: 'error'
+            })
           }
           document.getElementById('qrcode').innerHTML = ''
         })
@@ -94,7 +132,7 @@
         let pay_type = this.form.discount2 ? 'wx' : 'alipay';
         this.pType = pay_type == 'wx' ? '微信': '支付宝'
         console.info(pay_type)
-        let money = this.money * 100;
+        let money = this.signFigures(this.money * 100)
         let mch_id = 1024;
         let mch_order_id = new Date().getTime();
         this.orderId=mch_order_id;
@@ -119,12 +157,39 @@
             console.info(res.data);
             this.check = false;
             this.$nextTick(() => {
-              this.qrcode(res.data);
+              this.qrcode(res.data.data);
             })
           } else {
-            alert(res.message)
+            this.$message({
+               message: res.data.message,
+              type: 'error'
+            })
           }
         })
+      }
+    },
+    beforeRouteLeave(to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+      console.log(this.check)
+      if(!this.check) {
+        this.$confirm('是否已付款?', '提示', {
+            confirmButtonText: '是',
+            cancelButtonText: '否',
+            type: 'warning'
+          }).then(() => {
+            this.confirm()
+            this.check=true;
+            document.getElementById('qrcode').innerHTML = ''
+            next()
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消'
+            });          
+          });
+      }else{
+        next()
       }
     }
   }
@@ -178,7 +243,7 @@
         margin-top: 20px
 
       .btn
-        margin-top: 10px
+        margin-top: 80px
         background: #00BFA6
         border: 1px solid #B1B3C1
         border-radius: 2px
@@ -186,9 +251,13 @@
         height: 40px
         font-size: 16px
         line-height: 40px
-        margin-top: 100px
+        margin-top: 
+      .tip
+        color: red
+        font-size: 16px
+        margin-top: 10px
       .btn2
-        margin-top: 30px
+        margin-top: 20px
         background: #00BFA6
         border: 1px solid #B1B3C1
         border-radius: 2px

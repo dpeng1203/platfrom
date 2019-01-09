@@ -148,7 +148,7 @@
                     <div class="item">
                         <span class="name">其他资质照片</span>
                         <div class="wrapper wrapper-other">
-                            <div class="img-wrapper" v-if="img7 && img7 != []" v-for="(imgItem,index) in img7" :key="imgItem">
+                            <div class="img-wrapper" v-if="img7 && img7.length != 0" v-for="(imgItem,index) in img7" :key="imgItem">
                                 <img  :src='`${hostName}/files/` + imgItem' class="avatar other-img">
                                 <!-- <img v-if="img7" :src='img7' class="avatar"> -->
                                 <i class="el-icon-circle-close" @click="handleDel(index)"></i>

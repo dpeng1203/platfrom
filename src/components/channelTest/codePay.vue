@@ -10,29 +10,9 @@
         <el-input v-model="input" placeholder="请输入金额" class="el-input"></el-input>
         <div class="btn" @click="toPay">支付</div>
         <div ref="formJump"></div>
-        <!-- <div class="show" v-for="(item,index) in result" :key="index">{{item}}</div> -->
         <div>
             <!-- <iframe v-for="item in result1" :id='"if"+item' src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe> -->
-            <!-- <iframe id="if2" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if3" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if4" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if5" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if6" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if7" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if8" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if9" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if10" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if11" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if12" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if13" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if14" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if15" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if16" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if17" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe>
-            <iframe id="if18" src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe> -->
-
         </div>
-         
     </div>    
 </template>
 
@@ -102,36 +82,17 @@ export default {
             data.sign=hex_md5(dataStr).toUpperCase()
             payOrder(data).then( res => {
                 if(res.data.code == 'A000' && res.data.type == 'form') {
-                    console.log(res.data.data)
-                    // console.log(document.body.innerHTML)
-                    // document.body.innerHTML = res,data.data
-                    // this.html = 
-                    // document.body.html(res.data.data)
-                    // this.result.push('ok:'+ res.data.data)
-                    // const code = '<body onLoad="javascript:document.E_FORM.submit()"><form action="https://pay.iexindex.top" method="POST" name="E_FORM"><input type="hidden" name="id" value="2018122117242300002016"></form>'
                     this.$refs.formJump.innerHTML = res.data.data
                     var _form = document.forms['payform']
                     _form.submit()
-                    // console.log(this.$refs.formJump.innerHTML)
-                    // this.$refs.formJump.innerHTML = code
-                    // var iframe = document.getElementById("if"+n);
-                    // var iwindow = iframe.contentWindow
-                    // var idoc = iwindow.document
-                    // idoc.body.innerHTML= res.data.data
-                    // iwindow.go()
-                    // iframe.contentWindow = res.data.data
-                    // idoc.forms['payform'].submit()
                 } else if( res.data.code == 'A000' && res.data.type == 'url' ){
                     window.location.href = res.data.data
+                } else{
+                    this.$message.error(res.data.message)
                 }
             })
         },
 
-        // toPay() {
-        //     for(var i =1 ; i<2 ; i ++) {
-        //         this.pay(i)
-        //     }
-        // }
     }
 
 }

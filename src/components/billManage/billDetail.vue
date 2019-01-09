@@ -82,7 +82,11 @@
                     label="商户名称"
                     width="140">
                 </el-table-column>
-                
+                <el-table-column
+                    prop="mch_order_id"
+                    label="商户订单号"
+                    width="150">
+                </el-table-column>
                 <el-table-column
                     prop="sys_order_id"
                     label="系统订单号"
@@ -93,15 +97,20 @@
                     label="支付类型"
                     width="100">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                     prop="channel"
                     label="通道"
                     width="110">
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                     prop="money"
-                    label="金额"
-                    width="80">
+                    label="下单金额(元)"
+                    width="110">
+                </el-table-column>
+                <el-table-column
+                    prop="msg"
+                    label="付款金额(元)"
+                    width="110">
                 </el-table-column>
                 <el-table-column
                     prop="mch_charge"
@@ -425,7 +434,7 @@ export default {
            
     .table
         margin-top: 40px
-        width: 1160px
+        width: 1350px
         .block
             padding: 30px 0
             text-align: center 

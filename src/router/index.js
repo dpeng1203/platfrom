@@ -10,8 +10,8 @@ const cashList = resolve => require(['../components/merManagement/cashList'], re
 const merApp = resolve => require(['../components/merManagement/merApp'], resolve);
 
 //测试商户--二维码
-const codePay = resolve => require(['../components/merManagement/codePay'], resolve);
-const cnt = resolve => require(['../components/cntTest'], resolve);
+const codePay = resolve => require(['../components/channelTest/codePay'], resolve);
+const cnt = resolve => require(['../components/channelTest/cntTest'], resolve);
 //主页
 const homeDetail = resolve => require(['../components/homeDetail/homeDetail'], resolve);
 
@@ -37,10 +37,11 @@ export default new Router({
         {path: 'merList', name: 'merList', component: merList},
         {path: 'merInfo', name: 'merInfo', component: merInfo},
         {path: 'cashList', name: 'cashList', component: cashList},
-        {path: 'codePay', name: 'codePay', component: codePay},
+        
         {path: 'merApp', name: 'merApp', component: merApp},
         //测试
         {path: 'cnt', name: 'cnt', component: cnt},
+        {path: 'codePay', name: 'codePay', component: codePay},
         //主页
         {path: 'homeDetail', name: 'homeDetail', component: homeDetail},
 

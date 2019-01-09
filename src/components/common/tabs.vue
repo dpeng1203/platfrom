@@ -38,14 +38,20 @@
                         <el-menu-item index="/home/resetKey">登录密码</el-menu-item>
                         <!-- <el-menu-item index="4-3">交易密码</el-menu-item> -->
                     </el-submenu>
-                    <el-menu-item index="/home/codePay" v-if="showPay">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">个码支付</span>
-                    </el-menu-item>
-                    <el-menu-item index="/home/cnt" v-if="showPay">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">cnt测试</span>
-                    </el-menu-item>
+                    <el-submenu index="5">
+                        <template slot="title">
+                            <i class="el-icon-goods"></i>
+                            <span>通道测试</span>
+                        </template>
+                        <el-menu-item index="/home/codePay" v-if="showPay">
+                            <i class="el-icon-document"></i>
+                            <span slot="title">个码支付</span>
+                        </el-menu-item>
+                        <el-menu-item index="/home/cnt" v-if="showPay">
+                            <i class="el-icon-document"></i>
+                            <span slot="title">cnt测试</span>
+                        </el-menu-item>
+                    </el-submenu>
                 </el-menu>
             </el-col>
         </el-row>
