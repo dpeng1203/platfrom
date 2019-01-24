@@ -1,7 +1,7 @@
 <template>
     <div class="code-pay">
         <div class="title">
-            <span>个码支付</span>
+            <span>网众支付</span>
         </div>   
         <p>商品信息</p>
         <div>
@@ -110,7 +110,7 @@ export default {
             }
         },
         channel() {
-            changeChannel(3).then( res => {
+            changeChannel(2).then( res => {
                 this.$message({
                     message: '通道切换成功！！！',
                     type: 'success'

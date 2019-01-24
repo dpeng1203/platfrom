@@ -4,7 +4,7 @@
       
       <div v-show="check">
         <div class="title">Alian支付</div>
-        <div><input type="text" placeholder="金额" v-model="money"></div>
+        <div><input class="input-money" type="text" placeholder="金额" v-model="money"></div>
         <el-checkbox v-model="form.discount" @change='form.discount2 = !form.discount'>
           <img src="../../assets/img/zfb.jpg" alt="" class="img-logo"> 支付宝
         </el-checkbox>
@@ -22,6 +22,10 @@
         </div>
         <div id="qrcode" ref="qrcode"></div>
         <div class="tip">请按照实际下单金额付款<p>金额不一致会导致订单失败</p></div>
+
+        <input type="text" v-model="copyContent"  id="copy_text" style="opacity: 0;display: block;height: 0">    
+        <button ref="copy" class="btn copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">复制</button>
+
         <div class="btn2" @click="confirm">确认付款</div>
         <div class="btn2" @click="back">返回</div>
       </div>
@@ -30,13 +34,18 @@
 </template>
 
 <script>
+  import Clipboard from 'clipboard';
   import {hex_md5} from '../../assets/js/md5.js'
   import {myPost, myGet, myDelete, myPut} from '../../config/axioxLoading'
+  import { login } from '../../config/api'
+  import { changeChannel } from '../../config/api'
   import  Qrcode from 'qrcodejs2'
   export default {
     name: 'cnt',
     data() {
       return {
+        clipboard: '',
+        copyContent: '',
         check: true,
         money: '',
         form: {
@@ -53,6 +62,43 @@
       Qrcode
     },
     methods: {
+      copy(){
+        let _this = this
+        let clipboard = this.clipboard
+        // 如果在内部new会出现点击两次在复制成功的现象所以还请各位多多注意
+        clipboard.on('success', function () {
+          _this.$message({
+            message: '复制成功!!',
+            type: 'success'
+          })
+          clipboard.destroy() //销毁缓存,然后在重新new这样不会出现点击复制上出现之前复制的内容的情况
+          var copybtn = _this.$refs.copy
+          _this.clipboard = new Clipboard(copybtn);
+        })
+        clipboard.on('error', function () {
+          _this.$message.error('复制失败!!')
+          clipboard.destroy()
+          var copybtn = _this.$refs.copy
+          _this.clipboard = new Clipboard(copybtn);
+        })
+      },
+      login() {
+            let data = {
+                phone: '13066668888',
+                password: '123456'
+            }
+            login(data).then((res) => {
+               this.channel()
+            })
+        },
+      channel() {
+            changeChannel(5).then( res => {
+                this.$message({
+                    message: '通道切换成功！！！',
+                    type: 'success'
+                });
+            })
+        },
       back(){
         if(!this.check) {
           this.$confirm('是否已付款?', '提示', {
@@ -71,6 +117,7 @@
           });
         }
       },
+      //解决js算法不精确问题
       signFigures(num, rank = 6) {
           if(!num) return(0);
           const sign = num / Math.abs(num);
@@ -154,10 +201,19 @@
         myPost("/pay/order", param).then(res => {
           console.info(res);
           if (res.data.code == 'A000') {
-            console.info(res.data);
+            this.copyContent = res.data.data
+            let str = res.data.data
+            let arr = str.split('&')
+            let url
+            arr.forEach(element => {
+              if(element.indexOf('link') >= 0) {
+                url = element.replace('link=','')
+              }
+            });
+            console.info(url);
             this.check = false;
             this.$nextTick(() => {
-              this.qrcode(res.data.data);
+              this.qrcode(url);
             })
           } else {
             this.$message({
@@ -191,6 +247,11 @@
       }else{
         next()
       }
+    },
+    mounted() {
+      this.login()
+      var copybtn = this.$refs.copy
+      this.clipboard = new Clipboard(copybtn);
     }
   }
 </script>
@@ -229,7 +290,7 @@
         width: 30px
       .w-logo
         width: 40px
-      input
+      .input-money
         border: 1px solid #B1B3C1;
         border-radius: 2px;
         font-size: 16px
@@ -252,6 +313,10 @@
         font-size: 16px
         line-height: 40px
         margin-top: 
+      .copy
+        margin-top: -4px
+        padding: 0 10px
+        cursor: pointer
       .tip
         color: red
         font-size: 16px

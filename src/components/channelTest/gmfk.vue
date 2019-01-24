@@ -1,13 +1,14 @@
 <template>
     <div class="code-pay">
         <div class="title">
-            <span>个码支付</span>
+            <span>个码风控</span>
         </div>   
         <p>商品信息</p>
         <div>
             <img src="../../assets/img/img_my_idcard_fan.png" alt=""> 
         </div>
         <el-input v-model="input" placeholder="请输入金额" class="el-input"></el-input>
+        <div class="input-color">最低金额300元</div>
         <div class="btn" @click="toPay">支付</div>
         <div ref="formJump"></div>
         <el-button @click="toGo" >点击跳转</el-button>
@@ -110,8 +111,8 @@ export default {
             }
         },
         channel() {
-            changeChannel(3).then( res => {
-                this.$message({
+            changeChannel(4).then( res => {
+               this.$message({
                     message: '通道切换成功！！！',
                     type: 'success'
                 });
@@ -141,6 +142,10 @@ export default {
     .el-input
         width: 220px
         margin-top: 30px
+    .input-color
+        color: red
+        fon-size: 12px
+        margin-top: 10px
     .btn
         display: block
         padding: 0 40px

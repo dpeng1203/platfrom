@@ -1,10 +1,14 @@
 <template>
     <div class="top">
-        <div class="name">
+        <div class="name" >
             <span class="line">-</span>
             <span>AlianPAY</span>
             <span class="line">-</span>
         </div>
+        <!-- <el-radio-group v-model="isCollapse" style="margin: 20px;" @change="opentabs">
+            <el-radio-button :label="false">展开</el-radio-button>
+            <el-radio-button :label="true">收起</el-radio-button>
+        </el-radio-group> -->
         <div class="head-title">后台管理系统</div>
         <div class="userInfo">
             <div class="user-name">您好，{{name}} | <span class="btn-out" @click="out">退出</span></div>
@@ -21,6 +25,7 @@ export default {
     name: 'top',
     data() {
         return{
+            isCollapse: false,
             name: localStorage.name,
             accound: localStorage.nickname,
             code: localStorage.id
@@ -39,6 +44,10 @@ export default {
                 localStorage.clear()
                 this.$router.push('/')
             })
+        },
+        opentabs(e) {
+            console.log(e)
+
         }
     },
     

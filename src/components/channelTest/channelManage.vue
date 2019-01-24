@@ -1,8 +1,11 @@
 <template>
     <div class="code-pay">
         <div class="title">
-            <span>个码支付</span>
+            <span>通道管理</span>
         </div>   
+        <el-row>
+            <el-button v-for="item in butArr" :key="item.id" @click="channel(item.id)" :class="{avtive: active==item.id}">{{item.name}}</el-button>
+        </el-row>
         <p>商品信息</p>
         <div>
             <img src="../../assets/img/img_my_idcard_fan.png" alt=""> 
@@ -24,6 +27,16 @@ import { payOrder,changeChannel } from '../../config/api'
 export default {
     data() {
         return{
+            active: 1,
+            butArr: [
+                {id:2,name:'网众'},
+                {id:3,name:'个码'},
+                {id:4,name:'个码-风控'},
+                {id:6,name:'畅通支付'},
+                {id:7,name:'GPay支付'},
+                {id:8,name:'easyPay'},
+                {id:9,name:'BNT支付'}
+            ],
             input: '',
             result: [],
             result1: [1],
@@ -109,8 +122,9 @@ export default {
                 }
             }
         },
-        channel() {
-            changeChannel(3).then( res => {
+        channel(id) {
+            this.active = id
+            changeChannel(id).then( res => {
                 this.$message({
                     message: '通道切换成功！！！',
                     type: 'success'
@@ -119,7 +133,7 @@ export default {
         }
     },
     mounted() {
-        this.channel()
+        this.channel(2)
     }
 
 }
@@ -131,7 +145,10 @@ export default {
     .title 
         font-size: 24px
         font-weight: bold
-        
+    .avtive
+        color: #fff;
+        background-color: #409eff;
+        border-color: #409eff;
     p
         margin-top: 20px
         font-size: 14px

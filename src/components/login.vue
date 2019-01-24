@@ -7,15 +7,15 @@
             <div class="title">Alian后台管理系统</div>
             <div><input type="text" placeholder="手机号" v-model="account"></div>
             <div class="input-wrap" v-if="eyeOpen">
-                <input type="password" placeholder="密码" v-model="pw">
-                <img src="../assets/img/eye_close.png" alt=""  @click="showPw"> 
+                <input type="password" placeholder="密码" v-model="pw" @keyup.enter="login">
+                <img src="../assets/img/eye_close.png" alt=""  @click="showPw" > 
             </div>
             <div class="input-wrap" v-if="!eyeOpen">
-                <input type="text" placeholder="密码" v-model="pw">
+                <input type="text" placeholder="密码" v-model="pw" @keyup.enter="login">
                 <img src="../assets/img/eye_open.png" alt="" @click="showPw"> 
             </div>
 
-            <div class="slide" >
+            <!-- <div class="slide" >
                 <slide-verify 
                     :l="42"
                     :r="10"
@@ -26,12 +26,12 @@
                     @refresh="onRefresh"
                 >
                 </slide-verify>
-            </div>
+            </div> -->
             
 
-            <!-- <div class="btn-wrapper" v-if="!slideShow">
-                <div class="btn" @click="loginBtn" >登 <span>入</span> </div>
-            </div> -->
+            <div class="btn-wrapper" >
+                <div class="btn" @click="login" >登 <span>入</span> </div>
+            </div>
             <div  @click="out" class="sign">立即注册</div>
         </div>
         <div class="wrapper" v-if="show">
@@ -103,7 +103,6 @@ export default {
 
         },
         login() {
-            localStorage.clear()
             let data = {
                 phone: this.account,
                 password: this.pw
@@ -136,6 +135,9 @@ export default {
             }
             this.login()
         }
+    },
+    mounted() {
+        localStorage.clear()
     }
 }
 </script>

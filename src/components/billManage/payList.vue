@@ -1,12 +1,9 @@
 <template>
-    <div class="bill-detail">
+    <div class="pay-list">
         <div class="title">
-            <span>交易明细</span>
+            <span>代付管理</span>
         </div>
-        <!-- <div class="num-wrapper">
-            <div class="num">今日成交金额：<span>{{ total }}</span> 元</div>
-            <div class="num">今日成交笔数：<span>{{ count }}</span> 笔</div>
-        </div> -->
+        
         <div class="search">
             <div class="search-ct">
                 <div class="search-name">状态</div>
@@ -19,22 +16,27 @@
                     </el-option>
                 </el-select>
             </div>
+            
             <div class="search-ct">
                 <div class="search-name">商户订单号</div>
-                <el-input class="inline-input" v-model="data.mch_order_id" placeholder="请输入商户订单号"></el-input>
+                <!-- <el-autocomplete
+                    class="inline-input"
+                    v-model="state2"
+                    :fetch-suggestions="querySearch"
+                    placeholder="请输入内容"
+                    :trigger-on-focus="false"
+                    @select="handleSelect"
+                ></el-autocomplete> -->
+                <el-input class="inline-input" v-model="data.mch_order_id" placeholder="请输入商户订单号" clearable></el-input>
             </div>
              <div class="search-ct">
                 <div class="search-name">系统订单号</div>
-                <el-input class="inline-input" v-model="data.sys_order_id" placeholder="请输入系统订单号"></el-input>
+                <el-input class="inline-input" v-model="data.sys_order_id" placeholder="请输入系统订单号" clearable></el-input>
             </div>
-            <!-- <div class="search-ct">
-                <div class="search-name">交易时间</div>
-                <el-date-picker
-                    v-model="date1"
-                    type="date"
-                    placeholder="选择日期">
-                </el-date-picker>
-            </div> -->
+            <div class="search-ct">
+                <div class="search-name">收款人</div>
+                <el-input class="inline-input" v-model="data.acc_name" placeholder="请输入收款人" clearable></el-input>
+            </div>
         </div>
         <div class="search">
             <div class="search-ct">
@@ -57,7 +59,7 @@
                     range-separator="-"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
-                   >
+                    >
                 </el-date-picker>
                 <div class="rapid-btn" @click="searchToday">今日</div>
                 <div class="rapid-btn" @click="searchYest">昨日</div>
@@ -66,54 +68,83 @@
                 <div class="rapid-btn" @click="searchMonth">本月</div>
                 <div class="rapid-btn" @click="searchLastMonth">上月</div>
                 <div class="search-btn" @click="searchBtn">搜索</div>
+                <!-- <div class="search-btn" @click="excel">导出</div> -->
             </div>
         </div>
+        <!-- <div class="num-wrapper">
+            <div class="num">成交总金额：<span>{{ total }}</span> 元</div>
+            <div class="num">成交总手续费：<span>{{ mchCharge }}</span> 元</div>
+            <div class="num">成交总笔数：<span>{{ count }}</span> 笔</div>
+        </div> -->
+
+        <div style="margin-top: 20px" v-if="is_agency">
+            <p style="font-size: 16px">商户号：</p>
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+            <div style="margin: 15px 0;"></div>
+            <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+                <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+            </el-checkbox-group>
+        </div>
+
+
+
         <div class="table">
             <el-table
                 :data="tableData"
                 border
-                style="width: 100%">
+                style="width: 100%"
+                >
                 <el-table-column
                     type="index"
                     width="50">
                 </el-table-column>
                 <el-table-column
-                    prop="mch_name"
-                    label="商户名称"
-                    width="140">
+                    prop="mch_id"
+                    label="商户号"
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    prop="acc_name"
+                    label="收款人姓名"
+                    width="100">
                 </el-table-column>
                 <el-table-column
                     prop="mch_order_id"
                     label="商户订单号"
-                    width="150">
+                    width="160">
                 </el-table-column>
                 <el-table-column
                     prop="sys_order_id"
                     label="系统订单号"
-                    width="210">
-                </el-table-column>
-                <el-table-column
-                    prop="pay_type"
-                    label="支付类型"
-                    width="100">
+                    width="150">
                 </el-table-column>
                 <!-- <el-table-column
-                    prop="channel"
-                    label="通道"
-                    width="110">
+                    prop="super_order_id"
+                    label="上游订单号"
+                    width="220">
                 </el-table-column> -->
                 <el-table-column
+                    prop="pay_type"
+                    label="代付类型"
+                    width="100">
+                </el-table-column>
+                <el-table-column
+                    prop="charge_type"
+                    label="结算类型"
+                    width="100">
+                </el-table-column>
+                <el-table-column
+                    prop="bank_payment_id"
+                    label="通道"
+                    width="100">
+                </el-table-column>
+                <el-table-column
                     prop="money"
-                    label="下单金额(元)"
-                    width="110">
+                    label="金额"
+                    width="80">
                 </el-table-column>
                 <el-table-column
-                    prop="msg"
-                    label="付款金额(元)"
-                    width="110">
-                </el-table-column>
-                <el-table-column
-                    prop="mch_charge"
+                    prop="charge_money"
                     label="手续费"
                     width="80">
                 </el-table-column>
@@ -123,7 +154,7 @@
                     width="170">
                 </el-table-column>
                 <el-table-column
-                    prop="state"
+                    prop="status"
                     label="状态"
                     width="100">
                 </el-table-column>
@@ -147,74 +178,111 @@
                 </el-pagination>
             </div>
         </div>
+        <!-- <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="30%"
+            >
+            <span v-if="value7 != null">请在浏览器打开{{excelUrl + 'start_time=' + value7[0] + '&end_time=' + value7[1]}}</span>
+            <span v-else>请在浏览器打开{{excelUrl}}</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
+        <span v-if="value7 != null">{{ `start_time=${value7[0]}` }}</span> -->
         
     </div>
 </template>
 
 <script>
 import changeData from '../../config/formatData'
-import { todayNum,billList } from '../../config/api'
+import hostName from '../../config/hostName'
+import { payList,available } from '../../config/api'
 export default {
     name: "billDetail",
     data() {
         return{
+            state2: '',         //商户模糊
+            mchList: [],         //查询商户列表
             total_count: 0,
             currentPage: 1,
             total: '',
+            mchCharge: '',
             count: '',
             options1: [{
                 value: '',
                 label: '请选择'
                 },{
                 value: '1',
-                label: '待支付'
+                label: '新订单'
                 }, {
                 value: '2',
-                label: '交易进行中'
+                label: '进行中'
                 }, {
                 value: '3',
                 label: '交易成功'
                 }, {
                 value: '4',
                 label: '交易失败'
-                }, {
-                value: '9',
-                label: '超时关闭'
                 }],
             options2: [{
                 value: '',
                 label: '请选择'
                 },{
-                value: 'alipay',
-                label: '支付宝'
+                value: '1',
+                label: '对私'
                 }, {
-                value: 'wx',
-                label: '微信'
+                value: '2',
+                label: '对公'
                 }],
             data: {
+                mch_ids: localStorage.id,
                 status: null,
+                mch_order_id: null,
                 sys_order_id: null,
+                acc_name: null,
                 pay_type: null,
                 start_time: null,
                 end_time: null,
-                mch_id: localStorage.id,
                 offset: 0,
                 limit: 10
             },
             tableData: [],
             value7: null,
+
+            is_agency: false,
+            checkAll: true,
+            checkedCities: [],
+            cities: [],
+            isIndeterminate: false
         }
     },
     methods: {
-        getTodayNum() {
-            let data = {
-                mch_id: localStorage.id
-            }
-            todayNum(data).then((res) => {
-                console.log(res)
-                this.total = Number(res.data.total)/100
-                this.count = res.data.count
+        getSum() {
+            moneySum(this.data).then((res) => {
+                this.total = Number(res.data.sum)/100 || 0
+                this.mchCharge = Number(res.data.mch_charge)/100 || 0
+                this.count = res.data.count || 0
             })
+        },
+        //商户收搜
+        handleSelect(item) {
+            this.data.mch_name = item.value
+            this.getList()
+            // this.getSum()
+        },
+        //关键字查询
+        querySearch(queryString, cb) {
+            this.mchList = []
+            getMch(queryString).then( res => {
+                let list = res.data
+                list.forEach( ele => {
+                    let obj = {}
+                    obj.value = ele
+                    this.mchList.push(obj)
+                })
+            })
+            cb(this.mchList)
         },
         //今日
         searchToday() {
@@ -284,7 +352,6 @@ export default {
             end.setHours(0);
             end.setSeconds(0);
             end.setMinutes(0);
-            end.getTime();
             const month = start.getMonth()
             const year = start.getFullYear()
             if(month == 0) {
@@ -293,11 +360,10 @@ export default {
             }else{
                 start.setMonth(month - 1)
             }
-            start.getTime()
             this.value7 = [start,end]
             this.searchBtn()
         },
-
+        //搜索
         searchBtn() {
             if(this.value7 != null) {
                 this.data.start_time = this.value7[0]
@@ -311,65 +377,112 @@ export default {
                     delete this.data[key]
                 }
             }
-            this.getBillList()
+            this.data.offset = 0
+            this.getList()
+            // this.getSum()
         },
-        getBillList() {
-            billList(this.data).then((res) => {
-                console.log(res)
+        //交易列表
+        getList() {
+            if(this.checkedCities.length > 0) {
+                this.data.mch_ids = this.checkedCities.join(',')
+            }else{
+                this.data.mch_ids = localStorage.id
+            }
+            payList(this.data).then((res) => {
+                this.total_count = res.data.total_count
                 this.tableData = res.data.data_list
                 this.tableData.forEach( ele => {
                     if(ele.money && ele.money != '') {
                         ele.money = ele.money/100
                     }
-                    if(ele.mch_charge && ele.mch_charge != '') {
-                        ele.mch_charge = ele.mch_charge/100
+                    if(ele.charge_money && ele.charge_money != '') {
+                        ele.charge_money = ele.charge_money/100
                     }
                     if( ele.create_time ) {
                         ele.create_time = changeData(ele.create_time)
                     }
-                    if( ele.state == 1 ) {
-                        ele.state = '待支付'
-                    }else if( ele.state == 2 ) {
-                        ele.state = '交易进行中'
-                    }else if( ele.state == 3 ) {
-                        ele.state = '交易成功'
-                    }else if( ele.state == 4 ) {
-                        ele.state = '交易失败'
-                    }else if( ele.state == 9 ) {
-                        ele.state = '超时关闭'
+                    if(ele.status == 1) {
+                        ele.status = '新订单'
+                    }else if(ele.status == 2) {
+                        ele.status = '进行中'
+                    }else if(ele.status == 3) {
+                        ele.status = '交易成功'
+                    }else if(ele.status == 4) {
+                        ele.status = '交易失败'
                     }else{
-                        ele.state = '状态异常'
+                        ele.status = '状态异常'
+                    }
+                    if(ele.pay_type && ele.pay_type == 1) {
+                        ele.pay_type = '对私'
+                    } else if(ele.pay_type == 2) {
+                        ele.pay_type = '对公'
+                    }
+                    if(ele.charge_type && ele.charge_type == 1) {
+                        ele.charge_type = '定额'
+                    } else if(ele.charge_type == 2) {
+                        ele.charge_type = '百分比'
+                    }
+                    if(ele.bank_payment_id && ele.bank_payment_id == 1) {
+                        ele.bank_payment_id = '平安'
+                    }else if(ele.bank_payment_id == 2) {
+                        ele.bank_payment_id = '先锋'
                     }
                 })
-                this.total_count = res.data.total_count
+               
             })
         },
+        //详情
         handleClick(row) {
-            this.$router.push({path: '/home/oneBillDetail',query: {billInfo: row}})
+            this.$router.push({path: '/home/payDetail',query:{row: row}})
         },
-        
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
             this.data.limit = val
-            this.getBillList()
+            this.getList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
             this.data.offset = (val -1) * this.data.limit
-            this.getBillList()
+            this.getList()
+        },
+
+
+        getAvailable() {
+            let data = {
+                type: 2
+            }
+            available(data).then( res => {
+                this.is_agency = res.data.is_agency
+                if(res.data.is_agency) {
+                    let arr = res.data.sub_ids
+                    arr.push(localStorage.id)
+                    this.cities = arr
+                    this.checkedCities = arr
+                }
+
+                this.getList()
+            })
+        },
+
+        handleCheckAllChange(val) {
+            this.checkedCities = val ? this.cities : [];
+            this.isIndeterminate = false;
+        },
+        handleCheckedCitiesChange(value) {
+            let checkedCount = value.length;
+            this.checkAll = checkedCount === this.cities.length;
+            this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+            console.log(this.checkedCities)
         }
     },
     mounted() {
-        console.log(this.currentPage)
-        // this.getTodayNum()
-        this.getBillList()
+        // this.getSum()
+        this.getAvailable()
     }
 
 }
 </script>
 
 <style lang='sass' scoped>
-.bill-detail
+.pay-list
     color: #3D4060;
     padding-left: 30px
     .title 
@@ -379,6 +492,8 @@ export default {
         margin-top: 30px
         font-size: 18px
         .num
+            display: inline-block
+            margin-right: 50px
             margin-top: 15px
             font-size: 14px
             span
@@ -392,16 +507,6 @@ export default {
                 font-size: 12px
                 line-height: 18.2px
                 padding-bottom: 10px
-            input
-                margin-top: 10px
-                border: 1px solid #B1B3C1
-                border-radius: 2px
-                width: 200px
-                height: 40px
-                line-height: 40px
-                padding: 20px
-                font-size: 14px
-                background: #fff
             .inline-input
                 width: 220px
             .pay-state
@@ -420,7 +525,7 @@ export default {
                 cursor: pointer
             .search-btn
                 display: inline-block
-                width: 100px
+                width: 80px
                 height: 35px
                 line-height: 35px
                 text-align: center
@@ -428,14 +533,15 @@ export default {
                 background: #00BFA6;
                 border-radius: 25px;
                 font-size: 14px
-                margin: 0 0 0 30px
+                margin: 0 0 0 10px
         .search-ct:first-child
             margin-left: 0
            
     .table
         margin-top: 40px
-        width: 1350px
+        width: 1380px
         .block
             padding: 30px 0
             text-align: center 
+  
 </style>

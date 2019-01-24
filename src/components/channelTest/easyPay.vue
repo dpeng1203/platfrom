@@ -1,7 +1,7 @@
 <template>
     <div class="code-pay">
         <div class="title">
-            <span>个码支付</span>
+            <span>easyPay支付</span>
         </div>   
         <p>商品信息</p>
         <div>
@@ -11,9 +11,6 @@
         <div class="btn" @click="toPay">支付</div>
         <div ref="formJump"></div>
         <el-button @click="toGo" >点击跳转</el-button>
-        <div>
-            <!-- <iframe v-for="item in result1" :id='"if"+item' src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe> -->
-        </div>
     </div>    
 </template>
 
@@ -110,7 +107,7 @@ export default {
             }
         },
         channel() {
-            changeChannel(3).then( res => {
+            changeChannel(8).then( res => {
                 this.$message({
                     message: '通道切换成功！！！',
                     type: 'success'

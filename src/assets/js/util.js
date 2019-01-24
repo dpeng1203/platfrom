@@ -106,5 +106,23 @@ export default {
 },
 // Usage
 
+  //  ASCII字典序排序
+  sort_ASCII(obj){
+    var arr = new Array();
+    var num = 0;
+    for (var i in obj) {
+        arr[num] = i;
+        num++;
+    }
+    var sortArr = arr.sort();
+    var sortObj = {};
+    for (var i in sortArr) {
+        sortObj[sortArr[i]] = obj[sortArr[i]];
+    }
+    return sortObj;
+},
+
+
+
 
 }

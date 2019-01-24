@@ -65,3 +65,30 @@ export const payOrder = p => myPost('/pay/order', p)
 
 // 补单
 export const reissue = p => myPost('/bill/reissue', p)
+
+//切换通道
+export const changeChannel = p => myPost('/channel/mch/' + p)
+
+//  代付明细
+export const payList = p => myGet('/bankpay',{params: p})
+
+//发起代付
+export const sentPay = p => myPost('/bankpay/order', p)
+
+
+
+//代理商列表
+export const agentList = p => myGet('/mch/agency',{params: p})
+
+
+//关联两个商户
+export const lineAgent = p => myPost('/mch/agency',p)
+
+//删除子账户
+export const delChildAgent = p => myDelete('/mch/agency/'+ p)
+
+// 查询子账户
+export const available = p => myGet('/mch/agency/available',{params: p})
+
+// 查询银行卡列表
+export const cashList = () => myGet('/cash')

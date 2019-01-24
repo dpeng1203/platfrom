@@ -1,7 +1,7 @@
 <template>
     <div class="reset-key">
         <div class="title">
-            <span>密钥信息</span>
+            <span>修改密码</span>
         </div>
         <div class="wrapper">
             <div class="item">

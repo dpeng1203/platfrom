@@ -8,6 +8,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/styles/reset.css'
 // import axios from './config/axioxLoading'
 import qs from 'qs'
+// 兼容360浏览器
+import 'babel-polyfill'
 
 Vue.use(ElementUI)
 
