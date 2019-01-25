@@ -66,6 +66,7 @@
                 <div class="rapid-btn" @click="searchMonth">本月</div>
                 <div class="rapid-btn" @click="searchLastMonth">上月</div>
                 <div class="search-btn" @click="searchBtn">搜索</div>
+                <div class="search-btn" @click="excel">导出</div>
             </div>
         </div>
 
@@ -170,6 +171,7 @@
 
 <script>
 import changeData from '../../config/formatData'
+import hostName from '../../config/hostName'
 import { todayNum,billList,available } from '../../config/api'
 export default {
     name: "billDetail",
@@ -356,6 +358,9 @@ export default {
                     if( ele.create_time ) {
                         ele.create_time = changeData(ele.create_time)
                     }
+                    if( ele.trade_time ) {
+                        ele.trade_time = changeData(ele.trade_time)
+                    }
                     if( ele.state == 1 ) {
                         ele.state = '待支付'
                     }else if( ele.state == 2 ) {
@@ -372,6 +377,35 @@ export default {
                 })
                 this.total_count = res.data.total_count
             })
+        },
+
+        //导出excel
+        excel() {
+            if(this.value7 != null) {
+                this.data.start_time = this.value7[0]
+                this.data.end_time = this.value7[1]
+                var dateee = new Date(this.data.start_time).toJSON();
+                this.data.start_time = new Date(+new Date(dateee)+8*3600*1000).toISOString()
+                var dateee1 = new Date(this.data.end_time).toJSON();
+                this.data.end_time = new Date(+new Date(dateee1)+8*3600*1000).toISOString()
+            } else{
+                this.data.start_time = null
+                this.data.end_time = null
+            }
+            for( var key in this.data) {
+                if(this.data[key] === null || this.data[key] === '') {
+                    delete this.data[key]
+                }
+            }
+            delete this.data.offset
+            delete this.data.limit
+            this.excelUrl = hostName + '/bill/export?'
+            Object.keys(this.data).map((key)=>{
+                this.excelUrl += key + '=' + this.data[key] +'&';    
+            })
+            console.log(this.excelUrl)
+            window.location.href = this.excelUrl
+
         },
         handleClick(row) {
             this.$router.push({path: '/home/oneBillDetail',query: {billInfo: row}})
@@ -478,7 +512,7 @@ export default {
                 cursor: pointer
             .search-btn
                 display: inline-block
-                width: 100px
+                width: 80px
                 height: 35px
                 line-height: 35px
                 text-align: center
@@ -486,7 +520,7 @@ export default {
                 background: #00BFA6;
                 border-radius: 25px;
                 font-size: 14px
-                margin: 0 0 0 30px
+                margin: 0 0 0 20px
         .search-ct:first-child
             margin-left: 0
            

@@ -178,18 +178,6 @@
                 </el-pagination>
             </div>
         </div>
-        <!-- <el-dialog
-            title="提示"
-            :visible.sync="dialogVisible"
-            width="30%"
-            >
-            <span v-if="value7 != null">请在浏览器打开{{excelUrl + 'start_time=' + value7[0] + '&end_time=' + value7[1]}}</span>
-            <span v-else>请在浏览器打开{{excelUrl}}</span>
-            <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-            </span>
-        </el-dialog>
-        <span v-if="value7 != null">{{ `start_time=${value7[0]}` }}</span> -->
         
     </div>
 </template>
@@ -400,6 +388,9 @@ export default {
                     }
                     if( ele.create_time ) {
                         ele.create_time = changeData(ele.create_time)
+                    }
+                    if( ele.trade_time ) {
+                        ele.trade_time = changeData(ele.trade_time)
                     }
                     if(ele.status == 1) {
                         ele.status = '新订单'

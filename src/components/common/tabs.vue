@@ -24,7 +24,7 @@
                         <el-menu-item index="/home/merList">账户查询</el-menu-item>
                         <el-menu-item index="/home/merInfo">基本信息</el-menu-item>
                         <el-menu-item index="/home/cashList">提现列表</el-menu-item>
-                        <el-menu-item index="/home/merApp">应用信息</el-menu-item>
+                        <el-menu-item index="/home/merApp">费率信息</el-menu-item>
                     </el-submenu>
                     <el-submenu index="3">
                         <template slot="title">
