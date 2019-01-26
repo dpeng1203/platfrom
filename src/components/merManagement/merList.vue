@@ -183,8 +183,9 @@ export default {
         changeBank(item) {
             console.log(item)
             let bankItem = this.cities.filter(ele => {
-                return ele.bankcard_number = item
+                return ele.bankcard_number === item
             })
+            console.log(bankItem)
             this.data.open_bank = bankItem[0].open_bank
             this.data.bankcard_number = bankItem[0].bankcard_number
             this.data.name = bankItem[0].name
