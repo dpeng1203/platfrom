@@ -16,18 +16,56 @@
                 <span class="name">在途金额（元）:</span>
                 <span>{{list.pending}}</span>
             </div>
+        </div>
+        <div class="wrapper">
             <div class="item">
                 <span class="name">账户余额（元）:</span>
                 <span>{{list.total}}</span>
             </div>
+            <div class="btn" @click="save">提现</div>
+            
             <div class="item">
                 <span class="name">代付金额（元）:</span>
                 <span>{{list.reservoir}}</span>
             </div>
-            <div class="btn" @click="save">提现</div>
             <div class="btn" @click="sentPay" v-if="id == 1067 || id == 1091">发起代付</div>
+            <div class="btn" @click="showEnterBox = true">代付充值录入</div>
         </div>
-
+        <!-- 代付充值录入 -->
+        <div class="enter-wrapper">
+            <!-- <div class="btn" @click="showEnterBox = true">代付充值录入</div> -->
+            <div class="list-title">充值列表:</div>
+            <div class="table">
+                <el-table :data="tableData" border style="width: 100%">
+                    <el-table-column type="index" width="50"></el-table-column>
+                    <el-table-column property="account_name" label="姓名" width="80"></el-table-column>
+                    <el-table-column property="account_no" label="银行卡号" width="160"></el-table-column>
+                    <el-table-column property="recevie_bank" label="备付金账户标识" width="120"></el-table-column>
+                    <el-table-column property="money" label="金额" width="120"></el-table-column>
+                    <el-table-column property="type" label="类型" width="120"></el-table-column>
+                    <el-table-column property="status" label="状态" width="120"></el-table-column>
+                    <el-table-column property="create_time" label="创建时间" width="170"></el-table-column>
+                    <el-table-column
+                        label="操作"
+                        >
+                        <template slot-scope="scope">
+                            <el-button @click="handleCheck(scope.row)" type="text" size="small" v-if="scope.row.status == '进行中'">进度查询</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="block">
+                    <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[10,20,50,100, 200, 300, 400]"
+                        :page-size="data.limit"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                    </el-pagination>
+                </div>
+            </div>
+        </div>
         <!-- <div class="wrapper">
             <div class="item">
                 <span class="name">代付金额（元）:</span>
@@ -53,10 +91,9 @@
             </el-tooltip>
         </div> -->
 
-        <div class="maks" v-if="showBox"></div>
+        <div class="maks" v-if="showBox || showEnterBox"></div>
         <div class="box">
             <div class="box-wrapper" v-if="showBox">
-
                 <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
                     <el-tab-pane label="到银行卡" name="first">
                         <el-select v-model="value6" placeholder="请选择" style="width: 100%" @change="changeBank">
@@ -93,23 +130,49 @@
                     <div class="box-btn" @click="out">取消</div>
                 </div>
             </div>
+            <div class="box-wrapper" v-if="showEnterBox">
+                <el-tabs v-model="activeName1" type="card" >
+                    <el-tab-pane label="代付充值录入" name="first">
+                        <div>
+                            <el-select v-model="enterDate.recevie_bank" placeholder="请选择备付金账户标识" style="width: 100%">
+                                <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                        <div><input type="text" placeholder="姓名" v-model="enterDate.account_name" class="add_color"></div>
+                        <div><input type="text" placeholder="金额" v-model="enterDateMoney" class="add_color"></div>
+                        <div><input type="text" placeholder="银行卡号" v-model="enterDate.account_no" class="add_color"></div>
+                    </el-tab-pane>
+                </el-tabs>
+                <div class="btn-wrapper" >
+                    <div class="box-btn" @click="sureEnter" >确定</div>
+                    <div class="box-btn" @click="showEnterBox = false">取消</div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { merInfo,deposit,converMoney,cashList } from '../../config/api'
+import formatDate from '../../config/formatData'
+import { merInfo,deposit,converMoney,cashList,rechargeEnter,rechargeList,checkState } from '../../config/api'
 export default {
     name: 'merList',
     data() {
         return{
             id: localStorage.id,
             activeName: 'first',
+            activeName1: 'first',
             list: {},
             money: '',
             rollMoney: '',      //转入金额
             rollPw: '',         //转入密码
             showBox: false,
+            showEnterBox: false,
             data: {
                 password: '',
                 open_bank: '',
@@ -119,7 +182,29 @@ export default {
                 identity_card: '',
                 reserve_phone: ''
             },
-
+            options: [{
+                value: 'UPOPJS',
+                label: '银联'
+                }, {
+                value: 'NUCC',
+                label: '网联'
+            }],
+            enterDateMoney: '',
+            enterDate: {
+                mch_id: localStorage.id,
+                account_name: '',
+                money: '',
+                account_no: '',
+                recevie_bank: '',
+            },
+            tableData: [],
+            rechargeData: {         //列表请求参数
+                mch_id: localStorage.id,
+                offset: 0,
+                limit: 10
+            },
+            currentPage: 1,
+            total: 0,
             cities: [],
             value6: ''
         }
@@ -128,6 +213,61 @@ export default {
         handleClick(tab, event) {
             // console.log(tab, event);
             // console.log(this.activeName)
+        },
+        //表格分页
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+            this.rechargeData.limit = val
+            this.getList()
+        },
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
+            this.rechargeData.offset = (val - 1) * this.rechargeData.limit
+            this.getList()
+        },
+        //表格列表
+        getList() {
+            rechargeList(this.rechargeData).then( res => {
+                this.tableData = res.data.data_list
+                this.total = res.data.total_count
+                this.tableData.forEach( ele => {
+                    if(ele.money) {
+                        ele.money = ele.money/100
+                    }
+                    ele.create_time = formatDate(ele.create_time)
+                    if(ele.type == 1) {
+                        if(ele.recevie_bank&&ele.recevie_bank!='') {
+                            ele.type = '线下充值-商户'
+                        }else{
+                            ele.type = '线下充值-系统'
+                        }
+                    }else if(ele.type == 2) {
+                        ele.type = '余额转换'
+                    }
+                    if(ele.status == 1) {
+                        ele.status = '进行中'
+                    }else if(ele.status == 2) {
+                        ele.status = '充值失败'
+                    }else if(ele.status == 3) {
+                        ele.status = '充值成功'
+                    }
+                    if(ele.recevie_bank === 'UPOPJS') {
+                        ele.recevie_bank = '银联'
+                    }else if(ele.recevie_bank === 'NUCC') {
+                        ele.recevie_bank = '网联'
+                    }
+                })
+            })
+        },
+        //进度查询
+        handleCheck(row) {
+            let data = {
+                id: row.id
+            }
+            checkState(data).then(res => {
+                this.$message.success('成功！！')
+                this.getList()
+            })
         },
         getMerInfo() {
             let data = {
@@ -179,7 +319,7 @@ export default {
                 this.cities = res.data.list
             })
         },
-
+        
         changeBank(item) {
             console.log(item)
             let bankItem = this.cities.filter(ele => {
@@ -202,6 +342,24 @@ export default {
             }else if(this.activeName == 'second') {
                 this.rollIn()
             }
+        },
+        //代付充值录入确认
+        sureEnter() {
+            this.enterDate.money = this.enterDateMoney * 100
+            for(var key in this.enterDate) {
+                if(this.enterDate[key] === '') {
+                    this.$message.error('请将信息填写完整')
+                    return false
+                }
+            }
+            rechargeEnter(this.enterDate).then(res => {
+                if(res.data.resCode === '00000') {
+                    this.$message.success('成功！！')
+                    this.showEnterBox = false
+                    this.rechargeData.offset = 0
+                    this.getList()
+                }
+            })
         },
         //到银行卡
         getDeposit() {
@@ -243,6 +401,7 @@ export default {
     },
     mounted() {
         this.getMerInfo()
+        this.getList()
     }
 }
 </script>
@@ -266,11 +425,14 @@ export default {
             width: 35px
             height: 35px
     .wrapper
-        display: inline-block
-        padding: 40px 0 0 30px
-        width: 400px
+        display: flex
+        align-items: center
+        margin-left: -20px
+        // padding: 40px 0 0 30px
+        // width: 600px
         .item 
             margin-top: 30px
+            margin-left: 50px
             font-size: 14px
             .name
                 display: inline-block
@@ -284,19 +446,36 @@ export default {
                 height: 40px
                 line-height: 40px
                 padding-left: 20px 
+    
     .btn
         display: inline-block
-        width: 150px
-        height: 40px
-        line-height: 40px
+        // width: 80px
+        padding: 0 20px
+        height: 30px
+        line-height: 30px
         background: #00BFA6;
-        border-radius: 25px;
+        border-radius: 15px;
         color: #fff
-        font-weight: bold
-        font-size: 16px
+        // font-weight: bold
+        font-size: 14px
         text-align: center
-        margin-top: 80px
-        margin-right: 30px
+        margin-top: 30px
+        margin-left: 30px
+    .enter-wrapper
+        padding-left: 30px
+        margin-top: 30px
+        .list-title
+            font-size: 16px
+            font-weight: bold
+        .btn
+            margin-top: 30px
+        .table
+            margin-top: 10px
+            width: 1050px
+            .block
+                padding: 30px 0
+                text-align: center 
+
     .cancel
         background:  #B1B3C1
     .box-wrapper
@@ -307,9 +486,7 @@ export default {
         margin-left: -150px
         z-index: 2
         width: 500px
-        // height: 350px
         background: #fff
-        // margin-right: 250px
         border-radius: 5px
         padding: 50px 30px
         text-align: center

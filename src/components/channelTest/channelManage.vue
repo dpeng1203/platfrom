@@ -30,12 +30,14 @@ export default {
             active: 1,
             butArr: [
                 {id:2,name:'网众'},
-                {id:3,name:'个码'},
+                // {id:3,name:'个码'},
                 {id:4,name:'个码-风控'},
                 {id:6,name:'畅通支付'},
                 {id:7,name:'GPay支付'},
                 {id:8,name:'easyPay'},
-                {id:9,name:'BNT支付'}
+                // {id:9,name:'BNT支付'},
+                {id:10,name:'诚信通'},
+                {id:11,name:'支付宝红包'},
             ],
             input: '',
             result: [],
@@ -133,7 +135,7 @@ export default {
         }
     },
     mounted() {
-        this.channel(2)
+        // this.channel(2)
     }
 
 }

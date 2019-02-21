@@ -68,7 +68,7 @@
                 <div class="rapid-btn" @click="searchMonth">本月</div>
                 <div class="rapid-btn" @click="searchLastMonth">上月</div>
                 <div class="search-btn" @click="searchBtn">搜索</div>
-                <!-- <div class="search-btn" @click="excel">导出</div> -->
+                <div class="search-btn" @click="excel">导出</div>
             </div>
         </div>
         <!-- <div class="num-wrapper">
@@ -368,6 +368,32 @@ export default {
             this.data.offset = 0
             this.getList()
             // this.getSum()
+        },
+        //导出excel
+        excel() {
+            if(this.value7 != null) {
+                this.data.start_time = this.value7[0]
+                this.data.end_time = this.value7[1]
+                var dateee = new Date(this.data.start_time).toJSON();
+                this.data.start_time = new Date(+new Date(dateee)).toISOString()
+                var dateee1 = new Date(this.data.end_time).toJSON();
+                this.data.end_time = new Date(+new Date(dateee1)).toISOString()
+            } else{
+                this.data.start_time = null
+                this.data.end_time = null
+            }
+            for( var key in this.data) {
+                if(this.data[key] === null || this.data[key] === '') {
+                    delete this.data[key]
+                }
+            }
+            this.excelUrl = hostName + '/bankpay/export?'
+            Object.keys(this.data).map((key)=>{
+                this.excelUrl += key + '=' + this.data[key] +'&';    
+            })
+            console.log(this.excelUrl)
+            window.location.href = this.excelUrl
+
         },
         //交易列表
         getList() {

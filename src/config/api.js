@@ -56,12 +56,25 @@ export const auditList = p => myGet('/cash/list',{params: p})
 
 // 转入代付池
 export const converMoney = p => myPost('/wallet/conversion', p);
+
+// 代付充值录入
+export const rechargeEnter = p => myPost('/wallet/recharge/mch', p);
+
+// 查询进度
+export const checkState = p => myGet('/wallet/recharge/mch',{params: p})
+
+// 充值记录
+export const rechargeList = p => myGet('/wallet/recharge/log',{params: p})
+
  
 //  图标数据
 export const chartData = p => myGet('/stats',{params: p})
 
 // 主页数据统计
 export const statsTotal = p => myGet('/stats/total',{params: p})
+
+//分润统计
+export const bonusStat = (p,n) => myGet('/stats/bonus/' + p, {params: n})
 
 //  统一下单
 export const payOrder = p => myPost('/pay/order', p)
