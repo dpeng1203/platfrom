@@ -192,6 +192,14 @@ export default {
             chart.render();
         },
 
+        //精确js加法运算
+        add(num1, num2) {
+            const num1Digits = (num1.toString().split('.')[1] || '').length;
+            const num2Digits = (num2.toString().split('.')[1] || '').length;
+            const baseNum = Math.pow(10, Math.max(num1Digits, num2Digits));
+            return (num1 * baseNum + num2 * baseNum) / baseNum;
+        },
+
         //分润统计
         bonusDate() {
             let data = {
@@ -207,17 +215,14 @@ export default {
                     if(ele.zhifu.length!==0) {
                         ele.zhifu[0].money = ele.zhifu[0].money/100
                         this.zhifuBonus.push(ele.zhifu[0])
-                        this.zhifuTotal += ele.zhifu[0].money
+                        this.zhifuTotal = this.add(this.zhifuTotal,ele.zhifu[0].money) 
                     }
                     if(ele.daifu.length!==0) {
                         ele.daifu[0].money = ele.daifu[0].money/100
                         this.daifuBonus.push(ele.daifu[0])
-                        this.daifuTotal += ele.daifu[0].money
+                        this.daifuTotal = this.add(this.daifuTotal,ele.daifu[0].money) 
                     }
                 })
-                this.zhifuTotal = this.zhifuTotal*100/100
-                this.daifuTotal = this.daifuTotal*100/100
-                console.log(this.zhifuBonus,this.daifuBonus)
             })
         },
         //最新统计
