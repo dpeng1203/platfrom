@@ -23,7 +23,7 @@
 <script>
 import hostName from '../../config/hostName'
 import {hex_md5} from '../../assets/js/md5.js'
-import { payOrder,changeChannel } from '../../config/api'
+import { payOrder,changeChannel,channelList } from '../../config/api'
 export default {
     data() {
         return{
@@ -132,10 +132,24 @@ export default {
                     type: 'success'
                 });
             })
+        },
+
+        getChannelList() {
+            let data = {
+                offset: 0,
+                limit: 200
+            }
+            channelList(data).then( res => {
+                let arr = res.data.data_list
+                this.butArr = arr.filter(ele => {
+                    return ele.state
+                })
+            })
         }
+        
     },
     mounted() {
-        // this.channel(2)
+        this.getChannelList()
     }
 
 }

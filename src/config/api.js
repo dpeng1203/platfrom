@@ -108,3 +108,6 @@ export const available = p => myGet('/mch/agency/available',{params: p})
 
 // 查询银行卡列表
 export const cashList = () => myGet('/cash')
+
+//通道列表
+export const channelList = p => myGet('/channel/sys',{params: p})
