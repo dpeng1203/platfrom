@@ -7,6 +7,7 @@
         @close="handleClose"
         background-color="#34395D"
         text-color="#fff"
+        unique-opened
         router
         active-text-color="#00B7AD">
         <el-menu-item index="/home/homeDetail">

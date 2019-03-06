@@ -69,7 +69,50 @@
                 <div class="rapid-btn" @click="searchLastMonth">上月</div>
                 <div class="search-btn" @click="searchBtn">搜索</div>
                 <div class="search-btn" @click="excel">导出</div>
+                <div class="search-btn" @click="sentPay" v-if="rolesId == 41002">发起代付</div>
             </div>
+        </div>
+        <!-- 蒙层 -->
+        <div class="maks" v-if="showPayBox"></div>
+
+        <!-- 发起代付 -->
+        <div class="box-wrapper" v-if="showPayBox">
+            <el-tabs v-model="activeName2" type="card" @tab-click="handleClick2">
+                <el-tab-pane label="批量导入" name="first">
+                    <div class="btn-wrapper" >
+                        <input type="file" class="input-file" accept=".csv, 
+                        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        ref="file"
+                        @change="getFile">
+                        <div class="box-btn" @click="down">模板下载</div>
+                        <div class="box-btn" >导入Excel</div>
+                        <div class="box-btn" @click="showPayBox = false">取消</div>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="发起代付" name="second">
+                    <div>
+                        <el-radio v-model="parms.pay_type" label="1">对私</el-radio>
+                        <el-radio v-model="parms.pay_type" label="2">对公</el-radio>
+                    </div>
+                    <div><input type="text" v-model="parms.acc_name" placeholder="请输入姓名" class="add_color"></div>
+                    <div><input type="text"  v-model="parms.money" placeholder="请输入金额" class="add_color"></div>
+                    <div v-if="parms.pay_type == 2"><input type="text" v-model="parms.issuer" placeholder="请输入联行号" class="add_color"></div>
+                    <div><input type="text"  v-model="parms.acc_no" placeholder="请输入收款卡号" class="add_color"></div>
+                    <div><input type="text" v-model="parms.mobile" placeholder="请输入手机号"></div>
+                    <div><input type="text" v-model="parms.bank_name" placeholder="请输入银行名称"></div>
+                    <div><input type="text" v-model="parms.bank_no" placeholder="请输入银行编码"></div>
+                    <div class="btn-wrapper" >
+                        <div class="box-btn" @click="saveSentPay" >确定</div>
+                        <div class="box-btn" @click="showPayBox = false">取消</div>
+                    </div>
+                    <!-- <div><input type="text" placeholder="提现金额（元）" v-model="money" class="add_color" ></div> -->
+                    <!-- <div><input type="password" placeholder="账户密码" v-model="data.password" class="add_color"></div> -->
+                    <!-- <div><input type="text" placeholder="身份证（选填）" v-model="data.identity_card"></div>
+                    <div><input type="text" placeholder="预留手机（选填）" v-model="data.reserve_phone"></div> -->
+                </el-tab-pane>      
+                
+            </el-tabs>
+            
         </div>
         <!-- <div class="num-wrapper">
             <div class="num">成交总金额：<span>{{ total }}</span> 元</div>
@@ -185,11 +228,29 @@
 <script>
 import changeData from '../../config/formatData'
 import hostName from '../../config/hostName'
-import { payList,available } from '../../config/api'
+import utils from '../../assets/js/util'
+import md5 from '../../assets/js/md5China.js'
+import { payList,available,key,sentPay,downExcel,importExcel } from '../../config/api'
 export default {
     name: "billDetail",
     data() {
         return{
+            rolesId: localStorage.rolesId,
+            showPayBox: false,
+            activeName2: 'first',
+            key: '',                //私钥
+            parms: {                //发起代付数据
+                acc_name: '',
+                money: '',
+                acc_no: '',
+                pay_type: '1',
+                issuer: '',
+                mobile: '',
+                bank_name: '',
+                bank_no: ''
+            },
+
+
             state2: '',         //商户模糊
             mchList: [],         //查询商户列表
             total_count: 0,
@@ -246,6 +307,16 @@ export default {
         }
     },
     methods: {
+        handleClick2(tab, event) {
+            // console.log(tab, event);
+            // console.log(this.activeName)
+            if(this.activeName2 == 'second') {
+                if(this.key == '') {
+                    this.getKey()
+                }
+            }
+        },
+
         getSum() {
             moneySum(this.data).then((res) => {
                 this.total = Number(res.data.sum)/100 || 0
@@ -488,6 +559,86 @@ export default {
             this.checkAll = checkedCount === this.cities.length;
             this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
             console.log(this.checkedCities)
+        },
+
+        //发起代付
+        sentPay() {
+            this.showPayBox = true
+        },
+        //获取密钥
+        getKey() {
+            let data = {
+                user_id: localStorage.id,
+            }
+            key(data).then((res) => {
+                if(res.data.key) {
+                    this.key = res.data.key
+                } else{
+                    this.$message.error('请先设置密钥！！')
+                }
+            })
+        },
+        //发起代付
+        saveSentPay() {
+            if(this.parms.acc_name == '') {
+                this.$message.error('请输入姓名！！')
+                return
+            }
+            if(this.parms.money == '') {
+                this.$message.error('请输入金额！！')
+                return
+            }
+            if(this.parms.acc_no == '') {
+                this.$message.error('请输入银行卡号！！')
+                return
+            }
+            let data = JSON.parse(JSON.stringify(this.parms))
+            data.money = this.parms.money * 100
+            data.mch_id = localStorage.id
+            data.mch_order_id = localStorage.id + new Date().getTime()
+            for(var key in data) {
+                if(data[key] === '') {
+                    delete data[key]
+                }
+            }
+            //  ASCII字典序排序
+            let sortData = utils.sort_ASCII(data)
+            let dataStr = ''
+            Object.keys(sortData).map((key)=>{
+                dataStr += key + '=' + sortData[key] +'&';    
+            })
+            dataStr += 'key=' + this.key
+            // console.log(dataStr)
+            //签名
+            data.sign=md5(dataStr).toUpperCase()
+            sentPay(data).then( res => {
+                // console.log(res)
+                if(res.data.code == 'A000') {
+                    this.$message.success('请求成功！')
+                }else {
+                    this.$message.error(res.data.message)
+                }
+            })
+        },
+        //上传文件
+        // uploadFile($event){
+        //     console.log($event.target.files[0])
+        // },
+        getFile() {
+            // console.log(this.$refs.file.files[0])
+            let file = this.$refs.file.files[0]
+            let param = new FormData()   // 创建form对象
+            param.append('file', file)   // 通过append向form对象添加数据
+            importExcel(param).then(res => {
+                this.$message.success('导入成功！！')
+            })
+        },
+        down() {
+            window.location.href = hostName + '/bankpay/excel/export'
+            // downExcel().then(res => {
+            //     this.$message.success('下载成功！！')
+            //     window.location.href = hostName + '/bankpay/excel/export'
+            // })
         }
     },
     mounted() {
@@ -502,6 +653,14 @@ export default {
 .pay-list
     color: #3D4060;
     padding-left: 30px
+    .maks
+        position: fixed
+        left: 0
+        top: 0
+        background: rgba(0, 0, 0, .3)
+        width: 100%
+        z-index: 1
+        height: 100%
     .title 
         font-size: 24px
         font-weight: bold
@@ -549,7 +708,7 @@ export default {
                 color: #fff
                 background: #00BFA6;
                 border-radius: 25px;
-                font-size: 14px
+                font-size: 13px
                 margin: 0 0 0 10px
         .search-ct:first-child
             margin-left: 0
@@ -560,5 +719,49 @@ export default {
         .block
             padding: 30px 0
             text-align: center 
-  
+
+    .box-wrapper
+        position: fixed
+        top: 30%
+        left: 50%
+        margin-top: -175px
+        margin-left: -150px
+        z-index: 2
+        width: 500px
+        background: #fff
+        border-radius: 5px
+        padding: 40px 30px 60px
+        text-align: center
+        input
+            border: 1px solid #B1B3C1;
+            border-radius: 2px;
+            font-size: 16px
+            width: 100%
+            height: 40px
+            line-height: 40px
+            margin-top: 10px
+            padding-left: 20px
+        .add_color
+            border: 1px solid #00BFA6;
+            background: #fff
+        .btn-wrapper
+            display: flex
+            align-items: center
+            justify-content: center
+            position: relative
+            .input-file 
+                position: absolute
+                top: 40px
+                width: 100px
+                opacity: 0
+            .box-btn
+                width: 100px
+                margin: 50px 20px 0 20px
+                background: #00BFA6
+                border: 1px solid #B1B3C1;
+                border-radius: 2px;
+                color: #fff
+                height: 40px
+                font-size: 16px
+                line-height: 38px
 </style>

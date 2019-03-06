@@ -87,8 +87,6 @@ export default new Router({
     {
       path: '/',
       redirect: '/login',
-      name: 'login',
-      component: login
     },
     {
       path: '/login',
@@ -100,11 +98,11 @@ export default new Router({
       name: 'merAudit',
       component: merAudit
     },
-    {
-      path: '/cnt',
-      name: 'cnt',
-      component: cnt
-    }
+    // {
+    //   path: '/cnt',
+    //   name: 'cnt',
+    //   component: cnt
+    // }
   ]
 })
 

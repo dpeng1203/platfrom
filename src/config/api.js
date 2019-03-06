@@ -91,6 +91,12 @@ export const payList = p => myGet('/bankpay',{params: p})
 //发起代付
 export const sentPay = p => myPost('/bankpay/order', p)
 
+//模板下载
+export const downExcel = () => myGet('/bankpay/excel/export')
+
+//导入excel
+export const importExcel = p => myPost('/bankpay/excel/import', p)
+
 
 
 //代理商列表

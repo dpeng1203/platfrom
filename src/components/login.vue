@@ -115,6 +115,26 @@ export default {
                 if(res.data.audit_state === 1) {
                     this.$router.push('/home')
                     localStorage.name = res.data.base.mch_name
+                    if(res.data.roles && res.data.roles.length != 0) {
+                        // res.data.roles.forEach(ele => {
+                        //     if(ele.id == 1004) {
+                        //         localStorage.rolesId = 1002
+                        //     }
+                        // })
+                        let arr = res.data.roles.filter(ele => {
+                            return ele.id == 1004
+                        })
+                        if(arr.length!=0) {
+                            if(arr[0].permissions && arr[0].permissions.length!=0) {
+                                arr[0].permissions.forEach(element => {
+                                    if(element.id == 41002) {
+                                        localStorage.rolesId = 41002
+                                    }
+                                })
+                            }
+                        }
+                        
+                    }
                 }else if( res.data.audit_state === 0 ){
                     this.$router.push({ path: '/merAudit', query: {list: res.data.base}})
                 }else{

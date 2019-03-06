@@ -28,8 +28,8 @@
                 <span class="name">代付金额（元）:</span>
                 <span>{{list.reservoir}}</span>
             </div>
-            <div class="btn" @click="sentPay" v-if="id == 1067 || id == 1091">发起代付</div>
             <div class="btn" @click="showEnterBox = true">代付充值录入</div>
+            <!-- <div class="btn" @click="sentPay" v-if="rolesId == 41002">发起代付</div> -->
         </div>
         <!-- 代付充值录入 -->
         <div class="enter-wrapper">
@@ -91,8 +91,9 @@
             </el-tooltip>
         </div> -->
 
-        <div class="maks" v-if="showBox || showEnterBox"></div>
+        <div class="maks" v-if="showBox || showEnterBox || showPayBox"></div>
         <div class="box">
+            <!-- 提现 -->
             <div class="box-wrapper" v-if="showBox">
                 <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
                     <el-tab-pane label="到银行卡" name="first">
@@ -122,7 +123,6 @@
                         <div><input type="text" value="先锋支付有限公司备付金"  disabled></div>
                         <div><input type="text" value="0000300000000236"  disabled></div>
                         <div><input type="text" value="中国银联股份有限公司"  disabled></div>
-                        
                     </el-tab-pane>
                 </el-tabs>
                 <div class="btn-wrapper" >
@@ -130,6 +130,40 @@
                     <div class="box-btn" @click="out">取消</div>
                 </div>
             </div>
+            <!-- 发起代付 -->
+            <!-- <div class="box-wrapper" v-if="showPayBox">
+                <el-tabs v-model="activeName2" type="card" @tab-click="handleClick2">
+                    <el-tab-pane label="批量导入" name="first">
+                        <div class="btn-wrapper" >
+                            <input type="file" class="input-file" accept=".csv, 
+                            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                            ref="file"
+                            @change="getFile">
+                            <div class="box-btn" @click="down">模板下载</div>
+                            <div class="box-btn" >导入Excel</div>
+                            <div class="box-btn" @click="showPayBox = false">取消</div>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="发起代付" name="second">
+                        <div>
+                            <el-radio v-model="parms.pay_type" label="1">对私</el-radio>
+                            <el-radio v-model="parms.pay_type" label="2">对公</el-radio>
+                        </div>
+                        <div><input type="text" v-model="parms.acc_name" placeholder="请输入姓名" class="add_color"></div>
+                        <div><input type="text"  v-model="parms.money" placeholder="请输入金额" class="add_color"></div>
+                        <div v-if="parms.pay_type == 2"><input type="text" v-model="parms.issuer" placeholder="请输入联行号" class="add_color"></div>
+                        <div><input type="text"  v-model="parms.acc_no" placeholder="请输入收款卡号" class="add_color"></div>
+                        <div><input type="text" v-model="parms.mobile" placeholder="请输入手机号"></div>
+                        <div><input type="text" v-model="parms.bank_name" placeholder="请输入银行名称"></div>
+                        <div><input type="text" v-model="parms.bank_no" placeholder="请输入银行编码"></div>
+                        <div class="btn-wrapper" >
+                            <div class="box-btn" @click="saveSentPay" >确定</div>
+                            <div class="box-btn" @click="showPayBox = false">取消</div>
+                        </div>
+                    </el-tab-pane>      
+                </el-tabs>
+            </div> -->
+            <!-- 代付充值录入 -->
             <div class="box-wrapper" v-if="showEnterBox">
                 <el-tabs v-model="activeName1" type="card" >
                     <el-tab-pane label="代付充值录入" name="first">
@@ -159,20 +193,26 @@
 
 <script>
 import formatDate from '../../config/formatData'
-import { merInfo,deposit,converMoney,cashList,rechargeEnter,rechargeList,checkState } from '../../config/api'
+import utils from '../../assets/js/util'
+import md5 from '../../assets/js/md5China.js'
+import hostName from '../../config/hostName'
+import { merInfo,deposit,converMoney,cashList,rechargeEnter,rechargeList,checkState,key,sentPay,downExcel,importExcel } from '../../config/api'
 export default {
     name: 'merList',
     data() {
         return{
             id: localStorage.id,
+            // rolesId: localStorage.rolesId,
             activeName: 'first',
             activeName1: 'first',
+            // activeName2: 'first',
             list: {},
             money: '',
             rollMoney: '',      //转入金额
             rollPw: '',         //转入密码
             showBox: false,
             showEnterBox: false,
+            showPayBox: false,
             data: {
                 password: '',
                 open_bank: '',
@@ -206,7 +246,19 @@ export default {
             currentPage: 1,
             total: 0,
             cities: [],
-            value6: ''
+            value6: '',
+
+            // key: '',                //私钥
+            // parms: {                //发起代付数据
+            //     acc_name: '',
+            //     money: '',
+            //     acc_no: '',
+            //     pay_type: '1',
+            //     issuer: '',
+            //     mobile: '',
+            //     bank_name: '',
+            //     bank_no: ''
+            // }
         }
     },
     methods: {
@@ -214,6 +266,13 @@ export default {
             // console.log(tab, event);
             // console.log(this.activeName)
         },
+        // handleClick2(tab, event) {
+        //     if(this.activeName2 == 'second') {
+        //         if(this.key == '') {
+        //             this.getKey()
+        //         }
+        //     }
+        // },
         //表格分页
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
@@ -310,9 +369,10 @@ export default {
             })
         },
         //发起代付
-        sentPay() {
-            this.$router.push('/home/sentPay')
-        },
+        // sentPay() {
+        //     // this.$router.push('/home/sentPay')
+        //     this.showPayBox = true
+        // },
         save() {
             this.showBox = true
             cashList().then( res => {
@@ -398,6 +458,81 @@ export default {
                 this.showBox = false
             })
         },
+        //获取密钥
+        // getKey() {
+        //     let data = {
+        //         user_id: localStorage.id,
+        //     }
+        //     key(data).then((res) => {
+        //         if(res.data.key) {
+        //             this.key = res.data.key
+        //         } else{
+        //             this.$message.error('请先设置密钥！！')
+        //         }
+        //     })
+        // },
+        //发起代付
+        // saveSentPay() {
+        //     if(this.parms.acc_name == '') {
+        //         this.$message.error('请输入姓名！！')
+        //         return
+        //     }
+        //     if(this.parms.money == '') {
+        //         this.$message.error('请输入金额！！')
+        //         return
+        //     }
+        //     if(this.parms.acc_no == '') {
+        //         this.$message.error('请输入银行卡号！！')
+        //         return
+        //     }
+        //     let data = JSON.parse(JSON.stringify(this.parms))
+        //     data.money = this.parms.money * 100
+        //     data.mch_id = localStorage.id
+        //     data.mch_order_id = localStorage.id + new Date().getTime()
+        //     for(var key in data) {
+        //         if(data[key] === '') {
+        //             delete data[key]
+        //         }
+        //     }
+        //     //  ASCII字典序排序
+        //     let sortData = utils.sort_ASCII(data)
+        //     let dataStr = ''
+        //     Object.keys(sortData).map((key)=>{
+        //         dataStr += key + '=' + sortData[key] +'&';    
+        //     })
+        //     dataStr += 'key=' + this.key
+        //     console.log(dataStr)
+        //     //签名
+        //     data.sign=md5(dataStr).toUpperCase()
+        //     sentPay(data).then( res => {
+        //         console.log(res)
+        //         if(res.data.code == 'A000') {
+        //             this.$message.success('请求成功！')
+        //         }else {
+        //             this.$message.error(res.data.message)
+        //         }
+        //     })
+        // },
+        //上传文件
+        // uploadFile($event){
+        //     console.log($event.target.files[0])
+        // },
+        // getFile() {
+        //     // console.log(this.$refs.file.files[0])
+        //     let file = this.$refs.file.files[0]
+        //     let param = new FormData()   // 创建form对象
+        //     param.append('file', file)   // 通过append向form对象添加数据
+        //     importExcel(param).then(res => {
+        //         this.$message.success('导入成功！！')
+        //     })
+        // },
+        // down() {
+        //     window.location.href = hostName + '/bankpay/excel/export'
+        //     // downExcel().then(res => {
+        //     //     this.$message.success('下载成功！！')
+        //     //     window.location.href = hostName + '/bankpay/excel/export'
+        //     // })
+        // }
     },
     mounted() {
         this.getMerInfo()
@@ -488,7 +623,7 @@ export default {
         width: 500px
         background: #fff
         border-radius: 5px
-        padding: 50px 30px
+        padding: 40px 30px 60px
         text-align: center
         .box-title 
             font-size: 20px
@@ -510,6 +645,12 @@ export default {
             display: flex
             align-items: center
             justify-content: center
+            position: relative
+            .input-file 
+                position: absolute
+                top: 40px
+                width: 100px
+                opacity: 0
             .box-btn
                 width: 100px
                 margin: 50px 20px 0 20px
@@ -519,5 +660,5 @@ export default {
                 color: #fff
                 height: 40px
                 font-size: 16px
-                line-height: 40px
+                line-height: 38px
 </style>

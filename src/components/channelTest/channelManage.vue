@@ -12,7 +12,7 @@
         </div>
         <el-input v-model="input" placeholder="请输入金额" class="el-input"></el-input>
         <div class="btn" @click="toPay">支付</div>
-        <div ref="formJump"></div>
+        <div ref="formJump" class="url"></div>
         <el-button @click="toGo" >点击跳转</el-button>
         <div>
             <!-- <iframe v-for="item in result1" :id='"if"+item' src="../../../static/test.html"  height="300" width="30%" scrolling="auto"></iframe> -->
@@ -187,6 +187,8 @@ export default {
         font-size: 16px
         text-align: center
         margin: 50px 0  
+    .url
+        width: 200px
     .show
         border: 1px solid red
         margin-top: 20px
