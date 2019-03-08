@@ -76,6 +76,15 @@ export const statsTotal = p => myGet('/stats/total',{params: p})
 //分润统计
 export const bonusStat = (p,n) => myGet('/stats/bonus/' + p, {params: n})
 
+
+//首页支付数据统计
+export const enterDate = (p,n) => myGet('/stats/bill/'+p,{params: n})
+
+//首页支付数据统计
+export const outDate = (p,n) => myGet('/stats/order/'+p,{params: n})
+
+
+
 //  统一下单
 export const payOrder = p => myPost('/pay/order', p)
 
