@@ -75,7 +75,7 @@ export default {
 .add-peopel
     color: #3D4060;
     .title 
-        font-size: 24px
+        font-size: 20px
         font-weight: bold
         margin-left: 25px
         img
@@ -83,7 +83,7 @@ export default {
             height: 35px
             cursor: pointer
     .wrapper
-        padding: 40px 0 0 30px
+        padding: 20px 0 0 30px
         .item 
             margin-top: 20px
             font-size: 14px

@@ -10,7 +10,7 @@
         <div class="search">
             <div class="search-ct">
                 <div class="search-name">状态</div>
-                <el-select v-model="data.status" placeholder="请选择" class="pay-state">
+                <el-select v-model="data.status" placeholder="请选择状态" class="pay-state">
                     <el-option
                     v-for="item in options1"
                     :key="item.value"
@@ -27,16 +27,6 @@
                 <div class="search-name">系统订单号</div>
                 <el-input class="inline-input" v-model="data.sys_order_id" placeholder="请输入系统订单号"></el-input>
             </div>
-            <!-- <div class="search-ct">
-                <div class="search-name">交易时间</div>
-                <el-date-picker
-                    v-model="date1"
-                    type="date"
-                    placeholder="选择日期">
-                </el-date-picker>
-            </div> -->
-        </div>
-        <div class="search">
             <div class="search-ct">
                 <div class="search-name">支付类型</div>
                 <el-select v-model="data.pay_type" placeholder="请选择" class="pay-state">
@@ -48,6 +38,17 @@
                     </el-option>
                 </el-select>
             </div>
+            <!-- <div class="search-ct">
+                <div class="search-name">交易时间</div>
+                <el-date-picker
+                    v-model="date1"
+                    type="date"
+                    placeholder="选择日期">
+                </el-date-picker>
+            </div> -->
+        </div>
+        <div class="search">
+            
             <div class="search-ct">
                 <div class="search-name">选择日期范围</div>
                 <el-date-picker
@@ -85,6 +86,7 @@
             <el-table
                 :data="tableData"
                 border
+                size="small"
                 style="width: 100%">
                 <el-table-column
                     type="index"
@@ -98,22 +100,25 @@
                 <el-table-column
                     prop="mch_name"
                     label="商户名称"
-                    width="140">
+                    show-overflow-tooltip
+                    width="100">
                 </el-table-column>
                 <el-table-column
                     prop="mch_order_id"
                     label="商户订单号"
+                    show-overflow-tooltip
                     width="150">
                 </el-table-column>
                 <el-table-column
                     prop="sys_order_id"
                     label="系统订单号"
-                    width="210">
+                    show-overflow-tooltip
+                    width="150">
                 </el-table-column>
                 <el-table-column
                     prop="pay_type"
                     label="支付类型"
-                    width="100">
+                    width="90">
                 </el-table-column>
                 <!-- <el-table-column
                     prop="channel"
@@ -123,12 +128,12 @@
                 <el-table-column
                     prop="money"
                     label="下单金额(元)"
-                    width="110">
+                    width="100">
                 </el-table-column>
                 <el-table-column
                     prop="msg"
                     label="付款金额(元)"
-                    width="110">
+                    width="100">
                 </el-table-column>
                 <el-table-column
                     prop="mch_charge"
@@ -138,12 +143,12 @@
                 <el-table-column
                     prop="create_time"
                     label="创建时间"
-                    width="170">
+                    width="150">
                 </el-table-column>
                 <el-table-column
                     prop="state"
                     label="状态"
-                    width="100">
+                    width="90">
                 </el-table-column>
                 <el-table-column
                 label="操作"
@@ -463,7 +468,7 @@ export default {
     color: #3D4060;
     padding-left: 30px
     .title 
-        font-size: 24px
+        font-size: 20px
         font-weight: bold
     .num-wrapper
         margin-top: 30px
@@ -475,9 +480,9 @@ export default {
                 color: red
     .search
         display: flex
-        margin-top: 20px
+        margin-top: 10px
         .search-ct
-            margin-left: 60px
+            margin-left: 30px
             .search-name
                 font-size: 12px
                 line-height: 18.2px
@@ -493,9 +498,9 @@ export default {
                 font-size: 14px
                 background: #fff
             .inline-input
-                width: 220px
+                width: 180px
             .pay-state
-                width: 220px
+                width: 180px
             .rapid-btn
                 display: inline-block
                 width: 40px
@@ -524,7 +529,7 @@ export default {
            
     .table
         margin-top: 40px
-        width: 1430px
+        width: 1250px
         .block
             padding: 30px 0
             text-align: center 

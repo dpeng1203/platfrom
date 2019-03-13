@@ -8,6 +8,7 @@
             <el-table
                 :data="tableData"
                 border
+                size="small"
                 style="width: 100%">
                 <el-table-column
                     type="index"
@@ -57,6 +58,7 @@
             <el-table
                 :data="tableData1"
                 border
+                size="small"
                 style="width: 100%">
                 <el-table-column
                     type="index"
@@ -178,14 +180,14 @@ export default {
     color: #3D4060;
     padding-left: 30px
     .title 
-        font-size: 24px
+        font-size: 20px
         font-weight: bold
     .table
         margin-top: 30px
         width: 900px
         .table-title
             margin-bottom: 10px
-            font-size: 16px
+            font-size: 15px
             font-weight: bold
         .block
             padding: 30px 0

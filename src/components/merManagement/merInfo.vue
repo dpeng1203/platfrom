@@ -142,7 +142,7 @@ export default {
         width: 850px
         .title 
             text-align: left
-            font-size: 24px
+            font-size: 20px
             font-weight: bold
             margin-left: 30px
             padding-bottom: 30px
@@ -156,12 +156,12 @@ export default {
                 margin-right: 70px
                 margin-top: 30px
                 h2
-                    font-size: 18px
+                    font-size: 16px
                     font-weight: bold
                     margin-bottom: 10px
                 .item 
                     margin-top: 20px
-                    font-size: 16px
+                    font-size: 14px
                     .name
                         color: #7E8196
                         display: inline-block
@@ -171,13 +171,13 @@ export default {
         .mer-info
             margin: 30px 0 0 30px
             h2
-                font-size: 18px
+                font-size: 16px
                 font-weight: bold
             .photo-wrapper
                 display: flex
                 .item 
                     margin-top: 20px
-                    font-size: 16px
+                    font-size: 14px
                     .name
                         color: #7E8196
                         display: inline-block

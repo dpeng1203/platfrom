@@ -96,7 +96,7 @@ export default {
     color: #3D4060;
     padding-left: 30px
     .title 
-        font-size: 24px
+        font-size: 20px
         font-weight: bold
     .wrapper
         padding-top: 40px 
@@ -108,6 +108,7 @@ export default {
                 width: 120px
                 font-size: 14px
                 font-weight: bold
+                text-align: center
             input
                 border: 1px solid #B1B3C1;
                 border-radius: 2px;

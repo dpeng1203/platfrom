@@ -31,6 +31,7 @@
             <el-table
                 :data="tableData"
                 border
+                size="small"
                 :row-class-name="tableRowClassName"
                 style="width: 100%">
                 <el-table-column
@@ -45,6 +46,7 @@
                 <el-table-column
                     prop="mch_name"
                     label="商户名称"
+                    show-overflow-tooltip
                     width="180">
                 </el-table-column>
                 <el-table-column
@@ -55,6 +57,7 @@
                 <el-table-column
                     prop="sub_name"
                     label="子商户名称"
+                    show-overflow-tooltip
                     width="180">
                 </el-table-column>
                 <el-table-column
@@ -239,7 +242,7 @@ export default {
     color: #3D4060;
     padding-left: 30px
     .title 
-        font-size: 24px
+        font-size: 20px
         font-weight: bold
     .search
         display: flex
@@ -278,7 +281,7 @@ export default {
         margin-top: 30px 
     .table
         margin-top: 40px
-        max-width: 1000px
+        width: 950px
         .block
             padding: 30px 0
             text-align: center 

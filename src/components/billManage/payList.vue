@@ -37,8 +37,6 @@
                 <div class="search-name">收款人</div>
                 <el-input class="inline-input" v-model="data.acc_name" placeholder="请输入收款人" clearable></el-input>
             </div>
-        </div>
-        <div class="search">
             <div class="search-ct">
                 <div class="search-name">支付类型</div>
                 <el-select v-model="data.pay_type" placeholder="请选择" class="pay-state">
@@ -50,6 +48,8 @@
                     </el-option>
                 </el-select>
             </div>
+        </div>
+        <div class="search">
             <div class="search-ct">
                 <div class="search-name">选择日期范围</div>
                 <el-date-picker
@@ -135,6 +135,7 @@
             <el-table
                 :data="tableData"
                 border
+                size="small"
                 style="width: 100%"
                 >
                 <el-table-column
@@ -149,17 +150,20 @@
                 <el-table-column
                     prop="acc_name"
                     label="收款人姓名"
+                    show-overflow-tooltip
                     width="100">
                 </el-table-column>
                 <el-table-column
                     prop="mch_order_id"
+                    show-overflow-tooltip
                     label="商户订单号"
-                    width="160">
+                    width="150">
                 </el-table-column>
                 <el-table-column
                     prop="sys_order_id"
                     label="系统订单号"
-                    width="150">
+                    show-overflow-tooltip
+                    width="130">
                 </el-table-column>
                 <!-- <el-table-column
                     prop="super_order_id"
@@ -169,17 +173,20 @@
                 <el-table-column
                     prop="pay_type"
                     label="代付类型"
-                    width="100">
+                    show-overflow-tooltip
+                    width="80">
                 </el-table-column>
                 <el-table-column
                     prop="charge_type"
                     label="结算类型"
-                    width="100">
+                    show-overflow-tooltip
+                    width="80">
                 </el-table-column>
                 <el-table-column
                     prop="bank_payment_id"
                     label="通道"
-                    width="100">
+                    show-overflow-tooltip
+                    width="80">
                 </el-table-column>
                 <el-table-column
                     prop="money"
@@ -194,12 +201,12 @@
                 <el-table-column
                     prop="create_time"
                     label="创建时间"
-                    width="170">
+                    width="150">
                 </el-table-column>
                 <el-table-column
                     prop="status"
                     label="状态"
-                    width="100">
+                    width="90">
                 </el-table-column>
                 <el-table-column
                 label="操作"
@@ -662,7 +669,7 @@ export default {
         z-index: 1
         height: 100%
     .title 
-        font-size: 24px
+        font-size: 20px
         font-weight: bold
     .num-wrapper
         margin-top: 30px
@@ -676,17 +683,17 @@ export default {
                 color: red
     .search
         display: flex
-        margin-top: 20px
+        margin-top: 10px
         .search-ct
-            margin-left: 60px
+            margin-left: 20px
             .search-name
                 font-size: 12px
                 line-height: 18.2px
                 padding-bottom: 10px
             .inline-input
-                width: 220px
+                width: 180px
             .pay-state
-                width: 220px
+                width: 180px
             .rapid-btn
                 display: inline-block
                 width: 40px
@@ -715,7 +722,7 @@ export default {
            
     .table
         margin-top: 40px
-        width: 1380px
+        width: 1250px
         .block
             padding: 30px 0
             text-align: center 

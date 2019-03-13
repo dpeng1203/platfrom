@@ -36,7 +36,7 @@
             <!-- <div class="btn" @click="showEnterBox = true">代付充值录入</div> -->
             <div class="list-title">充值列表:</div>
             <div class="table">
-                <el-table :data="tableData" border style="width: 100%">
+                <el-table :data="tableData" border style="width: 100%" size="small">
                     <el-table-column type="index" width="50"></el-table-column>
                     <el-table-column property="account_name" label="姓名" width="80"></el-table-column>
                     <el-table-column property="account_no" label="银行卡号" width="160"></el-table-column>
@@ -553,7 +553,7 @@ export default {
         z-index: 1
         height: 100%
     .title 
-        font-size: 24px
+        font-size: 20px
         font-weight: bold
         padding-left: 30px
         img
@@ -572,7 +572,7 @@ export default {
             .name
                 display: inline-block
                 width: 120px
-                font-size: 14px
+                font-size: 13px
                 font-weight: bold
             input
                 border: 1px solid #B1B3C1;

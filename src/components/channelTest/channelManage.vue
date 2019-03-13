@@ -159,7 +159,7 @@ export default {
 .code-pay
     padding-left: 30px
     .title 
-        font-size: 24px
+        font-size: 20px
         font-weight: bold
     .avtive
         color: #fff;

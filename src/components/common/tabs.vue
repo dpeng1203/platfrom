@@ -127,7 +127,7 @@ export default {
 
     },
     mounted() {
-        if(localStorage.id == '1024') {
+        if(localStorage.nickname == "13066668888") {
             this.showPay = true
         }
         Bus.$on('log', content => { 
