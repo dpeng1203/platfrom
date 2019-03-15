@@ -1,11 +1,12 @@
 <template>
     <div class="ct">
         <top></top>
+        <tabs></tabs>
         <div class="content-wrapper">
             <!-- <div class="tab">
                 <tabs></tabs>
             </div> -->
-            <tabs></tabs>
+            
             <div class="content">
                 <router-view/>
             </div>
@@ -49,7 +50,8 @@ export default {
     //         top: 0
     //         overflow: auto
     .content-wrapper
-        display: flex
+        padding: 20px 0
+        overflow: auto
         .content
-            padding-left: 15px
+            padding: 0 15px
 </style>

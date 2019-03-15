@@ -331,6 +331,7 @@ export default {
     padding-left: 20px
     .stat-wrapper
         .data-wrapper
+            width: 90%
             padding: 20px
             background: #eee
             box-shadow: 0 1px 2px 0 rgba(0,0,0,.05)

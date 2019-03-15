@@ -2,6 +2,11 @@ import { myPost,myGet,myDelete } from './axioxLoading'
 
 //  登录
 export const login = p => myPost('/login/phone', p);
+
+//获取code
+export const code = p => myPost('/login/phone/verify_code', p);
+
+
 //  账户明细
 export const merInfo = p => myGet('/wallet',{params: p})
 //  提现

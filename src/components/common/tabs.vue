@@ -1,13 +1,12 @@
 <template>
     <el-menu
+        mode="horizontal"
         :default-active="$route.path"
         class="el-menu-vertical-demo"
-        :collapse="isCollapse"
         @open="handleOpen"
         @close="handleClose"
         background-color="#34395D"
         text-color="#fff"
-        unique-opened
         router
         active-text-color="#00B7AD">
         <el-menu-item index="/home/homeDetail">
@@ -143,8 +142,8 @@ export default {
         // flex-shrink: 0
         // .el-menu-vertical-demo
         //     height: calc(100vh - 111px)
-    .el-menu-vertical-demo:not(.el-menu--collapse) 
-        width: 220px;
-        min-height: calc(100vh - 111px)
-        flex-shrink: 0
+    // .el-menu-vertical-demo:not(.el-menu--collapse) 
+    //     width: 220px;
+    //     min-height: calc(100vh - 111px)
+    //     flex-shrink: 0
 </style>
