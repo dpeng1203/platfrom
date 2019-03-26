@@ -16,11 +16,23 @@
                 <span class="name">在途金额（元）:</span>
                 <span>{{list.pending}}</span>
             </div>
+            <div class="item">
+                <span class="name">入账中金额（元）:</span>
+                <span>{{list.entering}}</span>
+            </div>
+            <div class="item">
+                <span class="name">冻结金额（元）:</span>
+                <span>{{list.freeze}}</span>
+            </div>
         </div>
         <div class="wrapper">
             <div class="item">
                 <span class="name">账户余额（元）:</span>
                 <span>{{list.total}}</span>
+            </div>
+            <div class="item">
+                <span class="name">可用余额（元）:</span>
+                <span>{{list.available}}</span>
             </div>
             <div class="btn" @click="save">提现</div>
             
@@ -339,6 +351,9 @@ export default {
                 this.list.total = this.list.total/100
                 this.list.pending = this.list.pending/100
                 this.list.reservoir = this.list.reservoir/100
+                this.list.entering = this.list.entering/100
+                this.list.freeze = this.list.freeze/100
+                this.list.available = this.list.available/100
             })
         },
         //转入代付

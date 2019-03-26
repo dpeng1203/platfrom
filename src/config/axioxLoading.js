@@ -11,7 +11,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(Loading)
 
 // 配置axios请求头与baseUrl
-axios.defaults.timeout=5000;
+axios.defaults.timeout=8000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
 axios.defaults.withCredentials = true;
